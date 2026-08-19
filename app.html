@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קרן ברלוביץ׳ — מערכת ניהול אימפקט</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#2B2D42; --ink-2:#3a3c56; --warm:#C4B89B; --warm-d:#8B7D5E;
+  --light:#F0EDED; --lighter:#FAF9F7; --alt:#F7F5F3; --border:#8D8D8D;
+  --white:#fff; --green:#2e7d32; --blue:#1565c0; --orange:#e65100;
+  --purple:#7b1fa2; --red:#c62828;
+}
+body{font-family:'Heebo','Inter',sans-serif;background:var(--light);color:var(--ink);line-height:1.6;min-height:100vh}
+a{color:inherit}
+.hidden{display:none!important}
+
+/* ===== Header ===== */
+.header{background:var(--ink);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.header-right{display:flex;align-items:center;gap:16px}
+.header-logo{height:44px;border-radius:6px;background:#fff;padding:5px 9px;object-fit:contain}
+.header h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:26px;color:var(--white);letter-spacing:1px}
+.header h1 em{color:var(--warm);font-style:italic;font-weight:400}
+.header .subtitle{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:1px}
+.header-actions{display:flex;gap:10px;align-items:center}
+.hbtn{padding:9px 16px;border:1px solid rgba(196,184,155,.4);border-radius:9px;background:rgba(196,184,155,.12);cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;color:var(--warm);transition:all .25s;white-space:nowrap}
+.hbtn:hover{background:var(--warm);color:var(--ink)}
+
+/* ===== Tabs ===== */
+.tabs{background:var(--ink);padding:0 40px;display:flex;gap:4px;border-top:1px solid rgba(255,255,255,.08);position:sticky;top:84px;z-index:99;overflow-x:auto}
+.tab{padding:14px 22px;border:none;background:transparent;color:rgba(255,255,255,.55);cursor:pointer;font-family:'Heebo',sans-serif;font-size:14px;font-weight:500;border-bottom:3px solid transparent;transition:all .25s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab:hover{color:#fff}
+.tab.active{color:var(--warm);border-bottom-color:var(--warm)}
+.tab .badge{background:rgba(196,184,155,.2);color:var(--warm);font-size:11px;padding:1px 8px;border-radius:10px;font-weight:600}
+
+/* ===== Page container ===== */
+.page{padding:28px 40px;max-width:1400px;margin:0 auto}
+.page-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;letter-spacing:1px;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--border);margin-bottom:24px}
+
+/* ===== Loading / status ===== */
+.notice{background:var(--white);border:1px solid #e6e0d8;border-right:4px solid var(--warm);border-radius:12px;padding:22px 26px;margin:20px 0;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.notice h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px}
+.notice p{font-size:14px;color:#555;margin-bottom:6px}
+.notice code{background:var(--alt);padding:2px 8px;border-radius:5px;font-size:12px;direction:ltr;display:inline-block}
+.notice .n-actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.notice a.btn,.notice button.btn{padding:10px 18px;border-radius:9px;border:none;background:var(--ink);color:#fff;font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:all .25s}
+.notice a.btn:hover,.notice button.btn:hover{background:var(--ink-2)}
+.spinner{width:34px;height:34px;border:3px solid var(--light);border-top-color:var(--warm);border-radius:50%;animation:spin .8s linear infinite;margin:30px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== Dashboard stat cards ===== */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:26px}
+.stat-card{background:var(--ink);border-radius:14px;padding:22px 24px;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(43,45,66,.18)}
+.stat-card::after{content:'';position:absolute;top:14px;left:14px;width:34px;height:34px;border-top:1px solid rgba(196,184,155,.35);border-left:1px solid rgba(196,184,155,.35)}
+.stat-card .sc-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500}
+.stat-card .sc-num{font-size:38px;font-weight:800;color:var(--warm);line-height:1.1;margin-top:8px;font-family:'Heebo',sans-serif}
+.stat-card .sc-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px}
+.stat-card.light{background:var(--white);box-shadow:0 3px 14px rgba(0,0,0,.07);border:1px solid #ece7df}
+.stat-card.light .sc-label{color:var(--border)}
+.stat-card.light .sc-num{color:var(--ink)}
+.stat-card.light .sc-sub{color:#999}
+.stat-card.light::after{border-color:rgba(196,184,155,.5)}
+
+/* ===== Dashboard panels ===== */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.panels{grid-template-columns:1fr}}
+.panel{background:var(--white);border-radius:14px;padding:22px 24px;box-shadow:0 3px 14px rgba(0,0,0,.06);border:1px solid #ece7df}
+.panel h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-d);font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--light)}
+.track-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.track-row .t-name{font-size:14px;font-weight:500;min-width:100px}
+.track-row .t-bar{flex:1;height:22px;background:var(--light);border-radius:6px;overflow:hidden;position:relative}
+.track-row .t-fill{height:100%;background:linear-gradient(90deg,var(--warm),var(--warm-d));border-radius:6px;display:flex;align-items:center;justify-content:flex-start;padding-right:8px;color:#fff;font-size:11px;font-weight:600;min-width:24px}
+.track-row .t-count{font-size:13px;font-weight:700;color:var(--ink);min-width:26px;text-align:left}
+.status-tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.status-tile{background:var(--lighter);border-radius:10px;padding:16px;text-align:center;border:1px solid #eee}
+.status-tile .st-num{font-size:26px;font-weight:800}
+.status-tile .st-label{font-size:11px;color:#888;margin-top:2px}
+.st-num.green{color:var(--green)} .st-num.orange{color:var(--orange)} .st-num.blue{color:var(--blue)}
+
+/* ===== Controls ===== */
+.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.search-box{flex:1;min-width:220px;position:relative}
+.search-box input{width:100%;padding:12px 16px;border:2px solid #e0d9cf;border-radius:10px;font-size:15px;font-family:'Heebo',sans-serif;background:var(--white);transition:all .25s}
+.search-box input:focus{outline:none;border-color:var(--warm);box-shadow:0 0 0 3px rgba(196,184,155,.18)}
+.filter-btn{padding:9px 16px;border:2px solid #e0d9cf;border-radius:9px;background:var(--white);cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;transition:all .25s;color:var(--ink)}
+.filter-btn:hover,.filter-btn.active{border-color:var(--warm);background:var(--ink);color:#fff}
+.count-badge{font-size:13px;color:var(--border)}
+
+/* ===== Cards ===== */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.card{background:var(--white);border-radius:12px;padding:20px;cursor:pointer;transition:all .25s;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card:hover{border-color:var(--warm);box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px)}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.card-org{font-size:16px;font-weight:700;line-height:1.4}
+.card-amount{font-size:14px;font-weight:700;white-space:nowrap;background:var(--lighter);padding:4px 12px;border-radius:8px}
+.card-track{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:500;margin-bottom:8px}
+.track-kalvia{background:#e8f5e9;color:#2e7d32}
+.track-shaagat{background:#fff3e0;color:#e65100}
+.track-kolkore{background:#e3f2fd;color:#1565c0}
+.track-doch{background:#fce4ec;color:#c62828}
+.track-hashlama{background:#f3e5f5;color:#7b1fa2}
+.track-default{background:#eee;color:#666}
+.card-what{font-size:13px;color:#666;line-height:1.6;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{display:flex;gap:14px;margin-top:12px;font-size:12px;color:#999;flex-wrap:wrap}
+.card-status{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.pill{padding:2px 9px;border-radius:10px;font-size:10px;font-weight:600}
+.pill.ok{background:#e8f5e9;color:#2e7d32}
+.pill.no{background:#fce4ec;color:#c62828}
+.pill.wait{background:#fff3e0;color:#e65100}
+
+/* ===== Table ===== */
+.table-wrap{overflow-x:auto;background:var(--white);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+table.data thead{background:var(--ink);color:#fff}
+table.data th{padding:13px 12px;text-align:right;font-weight:500;font-size:12px;white-space:nowrap;cursor:pointer;user-select:none}
+table.data th:hover{background:var(--ink-2)}
+table.data td{padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;max-width:280px}
+table.data tr{cursor:pointer}
+table.data tr:hover td{background:#f9f7f4}
+.td-org{font-weight:700;white-space:nowrap}
+.td-trunc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:240px}
+
+/* ===== Modal ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:16px;max-width:820px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-header{background:var(--ink);padding:26px 30px;border-radius:16px 16px 0 0;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.modal-header h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;color:#fff;letter-spacing:1px}
+.modal-close{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0}
+.modal-close:hover{background:rgba(255,255,255,.1)}
+.modal-body{padding:26px 30px}
+.mfield{margin-bottom:18px}
+.mfield-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--warm-d);font-weight:700;margin-bottom:6px}
+.mfield-value{font-size:14px;color:#333;line-height:1.7;white-space:pre-wrap}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ===== Form (admin) ===== */
+.form-row{margin-bottom:16px}
+.form-row label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:6px}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:10px 13px;border:1px solid #ddd;border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;background:#fff}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--warm);box-shadow:0 0 0 3px rgba(196,184,155,.15)}
+.form-row textarea{min-height:70px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.form-grid,.mgrid{grid-template-columns:1fr}}
+.form-actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn-primary{padding:12px 26px;border:none;border-radius:9px;background:var(--warm);color:var(--ink);font-family:'Heebo',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .25s}
+.btn-primary:hover{background:#d3c8ae}
+.btn-secondary{padding:12px 22px;border:1px solid #ddd;border-radius:9px;background:#fff;color:#555;font-family:'Heebo',sans-serif;font-weight:500;font-size:14px;cursor:pointer}
+.btn-secondary:hover{background:#f5f5f5}
+.btn-danger{padding:12px 22px;border:1px solid var(--red);border-radius:9px;background:#fff;color:var(--red);font-family:'Heebo',sans-serif;font-weight:500;font-size:14px;cursor:pointer}
+.btn-danger:hover{background:var(--red);color:#fff}
+
+/* ===== Admin cards ===== */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:26px}
+.admin-card{background:var(--white);border-radius:12px;padding:22px;box-shadow:0 3px 14px rgba(0,0,0,.06);border:1px solid #ece7df;cursor:pointer;transition:all .25s}
+.admin-card:hover{border-color:var(--warm);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.admin-card .ac-icon{font-size:28px;margin-bottom:10px}
+.admin-card .ac-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.admin-card .ac-desc{font-size:12px;color:#888}
+
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:#fff;padding:14px 26px;border-radius:10px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:300;transition:transform .35s;border:1px solid rgba(196,184,155,.3)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:var(--green)}
+.toast.err{border-color:var(--red)}
+
+.empty{text-align:center;padding:60px 20px;color:#999}
+.empty .e-icon{font-size:40px;margin-bottom:12px;opacity:.5}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-right">
+    <img src="logo-berelovitz.jpg" alt="קרן ברלוביץ׳" class="header-logo">
+    <div>
+      <h1>קרן משפחת ברלוביץ׳ <em>מערכת ניהול אימפקט</em></h1>
+      <div class="subtitle">מאגר העמותות ומדידת ההשפעה 2024–2025</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="hbtn" onclick="refreshData()">↻ רענון</button>
+    <button class="hbtn" onclick="exportCSV()">⬇ ייצוא CSV</button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 דשבורד</button>
+  <button class="tab" data-tab="list" onclick="switchTab('list')">📋 רשימת עמותות <span class="badge" id="tabCount">–</span></button>
+  <button class="tab" data-tab="contacts" onclick="switchTab('contacts')">👥 אנשי קשר</button>
+  <button class="tab" data-tab="admin" onclick="switchTab('admin')">⚙️ ניהול</button>
+</div>
+
+<!-- Status / loading -->
+<div id="statusZone" class="page"></div>
+
+<!-- Dashboard -->
+<div id="tab-dashboard" class="page tab-page">
+  <div class="page-title">תמונת מצב</div>
+  <div class="page-sub">סיכום ההשפעה של הקרן על פני כל המסלולים</div>
+  <div class="stat-grid" id="statGrid"></div>
+  <div class="panels">
+    <div class="panel">
+      <h3>פילוח לפי מסלול</h3>
+      <div id="trackChart"></div>
+    </div>
+    <div class="panel">
+      <h3>סטטוס טיפול</h3>
+      <div class="status-tiles" id="statusTiles"></div>
+      <h3 style="margin-top:22px">עדכונים אחרונים</h3>
+      <div id="recentLog" style="font-size:13px;color:#666"></div>
+    </div>
+  </div>
+</div>
+
+<!-- List -->
+<div id="tab-list" class="page tab-page hidden">
+  <div class="page-title">רשימת העמותות</div>
+  <div class="page-sub">כל העמותות שנתמכו ומדדי ההשפעה שלהן</div>
+  <div class="controls">
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 חיפוש לפי שם עמותה, פרויקט, איש קשר..." oninput="renderList()"></div>
+    <div id="filterButtons"></div>
+    <div class="count-badge" id="listCount"></div>
+  </div>
+  <div id="cardsView" class="cards-grid"></div>
+</div>
+
+<!-- Contacts -->
+<div id="tab-contacts" class="page tab-page hidden">
+  <div class="page-title">אנשי קשר</div>
+  <div class="page-sub">אנשי הקשר בכל העמותות</div>
+  <div class="controls">
+    <div class="search-box"><input type="text" id="contactSearch" placeholder="🔍 חיפוש איש קשר, עמותה, מייל, טלפון..." oninput="renderContacts()"></div>
+    <div class="count-badge" id="contactCount"></div>
+  </div>
+  <div class="table-wrap"><table class="data" id="contactsTable"></table></div>
+</div>
+
+<!-- Admin -->
+<div id="tab-admin" class="page tab-page hidden">
+  <div class="page-title">ניהול המערכת</div>
+  <div class="page-sub">הוספה, עריכה, מחיקה וייצוא של עמותות</div>
+  <div class="admin-grid">
+    <div class="admin-card" onclick="openAddForm()">
+      <div class="ac-icon">➕</div><div class="ac-title">הוספת עמותה</div>
+      <div class="ac-desc">הוספת עמותה חדשה למאגר</div>
+    </div>
+    <div class="admin-card" onclick="switchTab('list')">
+      <div class="ac-icon">✏️</div><div class="ac-title">עריכת עמותה</div>
+      <div class="ac-desc">לחיצה על כרטיס ברשימה ← עריכה</div>
+    </div>
+    <div class="admin-card" onclick="exportCSV()">
+      <div class="ac-icon">⬇️</div><div class="ac-title">ייצוא לאקסל</div>
+      <div class="ac-desc">הורדת כל המאגר כקובץ CSV</div>
+    </div>
+    <div class="admin-card" onclick="openSheet()">
+      <div class="ac-icon">📄</div><div class="ac-title">פתיחת הגיליון</div>
+      <div class="ac-desc">עריכה ישירה ב-Google Sheets</div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>סטטוס המערכת</h3>
+    <div id="adminStatus" style="font-size:13px;color:#666"></div>
+  </div>
+</div>
+
+<!-- Detail / edit modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">עמותה</h2>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ CONFIG ============ */
+var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0JGp-JLQ5NQExopmbZ7rT6EfYODfKZmAfnPPj-p0jA/exec";
+var SHEET_URL = "https://docs.google.com/spreadsheets/d/1kGjCardDU9b5vcJjCJ6s8mGkkniXM32-Xxk_UDFrrWE/edit";
+var USD_RATE = 3.7; // הערכה; ניתן לעדכן
+
+/* ============ STATE ============ */
+var DATA = [];
+var STATS = null;
+var activeFilter = "all";
+var currentTab = "dashboard";
+
+/* ============ track styling ============ */
+function trackClass(t){
+  if(t==="עם כלביא")return"track-kalvia";
+  if(t==="שאגת הארי")return"track-shaagat";
+  if(t==="קול קורא 25")return"track-kolkore";
+  if(t==="דוח מענק 25")return"track-doch";
+  if(t==="השלמת פרטים")return"track-hashlama";
+  return"track-default";
+}
+function num(v){var n=parseFloat(String(v==null?"":v).replace(/[^\d.]/g,""));return isNaN(n)?0:n;}
+function fmt(n){return n.toLocaleString("he-IL");}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+/* ============ data load ============ */
+function refreshData(){ loadData(); }
+function loadData(){
+  showStatus('<div class="spinner"></div><p style="text-align:center;color:#888">טוען נתונים מהמאגר...</p>');
+  fetch(API + "?action=list&t=" + Date.now())
+    .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+    .then(function(d){
+      if(!d || !d.ok) throw new Error("bad response");
+      DATA = d.rows || [];
+      STATS = d.stats || null;
+      clearStatus();
+      renderAll();
+    })
+    .catch(function(err){ showAuthNotice(err); });
+}
+
+function showStatus(html){ document.getElementById("statusZone").innerHTML = html; }
+function clearStatus(){ document.getElementById("statusZone").innerHTML = ""; }
+
+function showAuthNotice(err){
+  showStatus(
+    '<div class="notice">' +
+    '<h3>⏳ המאגר עדיין לא מחובר</h3>' +
+    '<p>לא הצלחתי לקרוא נתונים מה-API. אם זו הפעם הראשונה — צריך לאשר את הסקריפט פעם אחת:</p>' +
+    '<p>1. פתחי את <a href="https://script.google.com/d/1xap35g--BRJQT2tUBUVk4hKEfDz4zSLKYY9nhublDHKFWxXk1UJ4VU_1/edit" target="_blank">עורך הסקריפט</a></p>' +
+    '<p>2. לחצי <b>Run</b> על הפונקציה <code>doGet</code> ← <b>Review permissions</b> ← <b>Allow</b></p>' +
+    '<p>3. חזרי לכאן ולחצי רענון.</p>' +
+    '<div class="n-actions">' +
+    '<button class="btn" onclick="loadData()">↻ נסה שוב</button>' +
+    '<a class="btn" href="' + SHEET_URL + '" target="_blank">פתיחת הגיליון</a>' +
+    '</div><p style="margin-top:10px;font-size:12px;color:#aaa">שגיאה: ' + esc(err && err.message) + '</p></div>'
+  );
+}
+
+/* ============ render ============ */
+function renderAll(){
+  renderDashboard();
+  renderList();
+  renderContacts();
+  renderAdmin();
+  document.getElementById("tabCount").textContent = DATA.length;
+  buildFilters();
+}
+
+function renderDashboard(){
+  var s = STATS || {};
+  var total = s.totalAmount || 0;
+  var usd = total / USD_RATE;
+  var grid = document.getElementById("statGrid");
+  grid.innerHTML =
+    statCard("עמותות שנתמכו", fmt(s.count||DATA.length), "מ-"+(s.trackCount||0)+" מסלולים", false) +
+    statCard("סך התרומות", "₪"+fmt(Math.round(total)), "≈ $"+fmt(Math.round(usd)), false) +
+    statCard("מוטבים (מוערך)", fmt(Math.round(s.totalBeneficiaries||0)), "נהנים ישירים", true) +
+    statCard("קולות קוראים", fmt(s.trackCount||0), "מסלולי תמיכה", true);
+
+  // track chart
+  var tracks = (s.tracks)|| {};
+  var maxC = 0; for(var k in tracks){ if(tracks[k]>maxC) maxC=tracks[k]; }
+  var order = ["עם כלביא","שאגת הארי","קול קורא 25","דוח מענק 25","השלמת פרטים"];
+  var keys = Object.keys(tracks).sort(function(a,b){var ia=order.indexOf(a),ib=order.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
+  document.getElementById("trackChart").innerHTML = keys.map(function(k){
+    var c=tracks[k], pct=maxC?Math.round(c/maxC*100):0;
+    return '<div class="track-row"><div class="t-name">'+esc(k)+'</div>'+
+      '<div class="t-bar"><div class="t-fill" style="width:'+pct+'%">'+c+'</div></div>'+
+      '<div class="t-count">'+c+'</div></div>';
+  }).join("") || '<p style="color:#999">אין נתונים</p>';
+
+  // status tiles
+  var st = s.status || {approved:0,sent:0,pending:0};
+  document.getElementById("statusTiles").innerHTML =
+    '<div class="status-tile"><div class="st-num green">'+(st.approved||0)+'</div><div class="st-label">אושרו</div></div>'+
+    '<div class="status-tile"><div class="st-num blue">'+(st.sent||0)+'</div><div class="st-label">תרומה נשלחה</div></div>'+
+    '<div class="status-tile"><div class="st-num orange">'+(st.pending||0)+'</div><div class="st-label">ממתינים</div></div>';
+
+  document.getElementById("recentLog").innerHTML =
+    '<p style="color:#aaa">רשומות אחרונות שנוספו/עודכנו יופיעו כאן.</p>';
+}
+function statCard(label,numv,sub,light){
+  return '<div class="stat-card'+(light?' light':'')+'"><div class="sc-label">'+esc(label)+'</div>'+
+    '<div class="sc-num">'+numv+'</div><div class="sc-sub">'+esc(sub)+'</div></div>';
+}
+
+function buildFilters(){
+  var tracks = ["all"];
+  DATA.forEach(function(r){ if(r.track && tracks.indexOf(r.track)<0) tracks.push(r.track); });
+  document.getElementById("filterButtons").innerHTML = tracks.map(function(t){
+    var label = t==="all"?"הכל":t;
+    return '<button class="filter-btn'+(activeFilter===t?' active':'')+'" onclick="setFilter(\''+esc(t).replace(/'/g,"\\'")+'\')">'+esc(label)+'</button>';
+  }).join("");
+}
+function setFilter(t){ activeFilter=t; buildFilters(); renderList(); }
+
+function filteredData(){
+  var q = (document.getElementById("searchInput")||{}).value || "";
+  q = q.trim().toLowerCase();
+  return DATA.filter(function(r){
+    if(activeFilter!=="all" && r.track!==activeFilter) return false;
+    if(!q) return true;
+    return Object.keys(r).some(function(k){ return String(r[k]||"").toLowerCase().indexOf(q)>=0; });
+  });
+}
+
+function renderList(){
+  var rows = filteredData();
+  document.getElementById("listCount").textContent = rows.length + " עמותות";
+  var el = document.getElementById("cardsView");
+  if(!rows.length){ el.innerHTML='<div class="empty"><div class="e-icon">🔍</div>לא נמצאו עמותות</div>'; return; }
+  el.innerHTML = rows.map(function(r){
+    var statusPills = "";
+    if(r.approval_status==="אושר") statusPills+='<span class="pill ok">אושר</span>';
+    if(r.donation_sent==="כן") statusPills+='<span class="pill ok">תרומה נשלחה</span>';
+    if(r.email_sent==="כן") statusPills+='<span class="pill ok">מייל נשלח</span>';
+    return '<div class="card" onclick="openDetail('+r.id+')">'+
+      '<div class="card-header"><div class="card-org">'+esc(r.org)+'</div>'+
+      (num(r.amount)?'<div class="card-amount">₪'+fmt(num(r.amount))+'</div>':'')+'</div>'+
+      '<span class="card-track '+trackClass(r.track)+'">'+esc(r.track||"")+'</span>'+
+      (r.project?'<div style="font-size:13px;font-weight:600;color:#555;margin-top:2px">'+esc(r.project)+'</div>':'')+
+      (r.what_for?'<div class="card-what">'+esc(r.what_for)+'</div>':'')+
+      '<div class="card-meta">'+
+        (r.contact?'<span>👤 '+esc(r.contact)+'</span>':'')+
+        (r.beneficiaries?'<span>🎯 '+esc(String(r.beneficiaries).slice(0,30))+'</span>':'')+
+      '</div>'+
+      (statusPills?'<div class="card-status">'+statusPills+'</div>':'')+
+    '</div>';
+  }).join("");
+}
+
+function renderContacts(){
+  var q = (document.getElementById("contactSearch")||{}).value || "";
+  q=q.trim().toLowerCase();
+  var rows = DATA.filter(function(r){
+    if(!q) return true;
+    return [r.org,r.contact,r.email,r.phone].some(function(x){return String(x||"").toLowerCase().indexOf(q)>=0;});
+  });
+  document.getElementById("contactCount").textContent = rows.length + " אנשי קשר";
+  var html = '<thead><tr><th>עמותה</th><th>איש קשר</th><th>מייל</th><th>טלפון</th><th>מסלול</th></tr></thead><tbody>';
+  html += rows.map(function(r){
+    return '<tr onclick="openDetail('+r.id+')"><td class="td-org">'+esc(r.org)+'</td>'+
+      '<td>'+esc(r.contact||"—")+'</td>'+
+      '<td style="direction:ltr;text-align:right">'+(r.email?'<a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>':"—")+'</td>'+
+      '<td style="direction:ltr;text-align:right">'+esc(r.phone||"—")+'</td>'+
+      '<td><span class="card-track '+trackClass(r.track)+'">'+esc(r.track||"")+'</span></td></tr>';
+  }).join("");
+  html += '</tbody>';
+  document.getElementById("contactsTable").innerHTML = html;
+}
+
+function renderAdmin(){
+  document.getElementById("adminStatus").innerHTML =
+    '<p>✅ מחובר למאגר · '+DATA.length+' עמותות</p>'+
+    '<p style="margin-top:6px">מקור הנתונים: <a href="'+SHEET_URL+'" target="_blank">Google Sheets</a></p>'+
+    '<p style="margin-top:6px;color:#aaa;font-size:12px">כל שינוי במערכת נשמר אוטומטית בגיליון בענן.</p>';
+}
+
+/* ============ detail + edit ============ */
+var FIELDS = [
+  ["org","שם העמותה"],["track","מסלול"],["project","פרויקט"],["contact","איש קשר"],
+  ["email","מייל"],["phone","טלפון"],["amount","סכום המענק"],["beneficiaries","מוטבים"],
+  ["what_for","למה שימש המענק"],["problem","הבעיה"],["results","תוצאות ומדדים"],
+  ["measurement","שיטת מדידה"],["budget_use","שימוש בתקציב"],["notes","הערות"]
+];
+var MGMT = [
+  ["approval_status","סטטוס אישור",["","ממתין לאישור","אושר","לא אושר"]],
+  ["donation_sent","תרומה נשלחה",["","כן","לא","חלקית"]],
+  ["donation_date","תאריך שליחת תרומה","date"],
+  ["email_sent","מייל אישור נשלח",["","כן","לא"]],
+  ["email_date","תאריך מייל","date"],
+  ["team_status","סטטוס צוות",["","ממתין","בטיפול","מייל נשלח","דורש מעקב","טופל"]],
+  ["team_notes","הערות צוות","textarea"]
+];
+
+function openDetail(id){
+  var r = DATA.filter(function(x){return String(x.id)===String(id);})[0];
+  if(!r) return;
+  document.getElementById("modalTitle").textContent = r.org;
+  var html = '<span class="card-track '+trackClass(r.track)+'">'+esc(r.track||"")+'</span>';
+  if(num(r.amount)) html+='<div style="font-size:26px;font-weight:800;text-align:center;padding:14px;background:var(--lighter);border-radius:12px;margin:14px 0">₪'+fmt(num(r.amount))+'</div>';
+  FIELDS.forEach(function(f){
+    if(f[0]==="org"||f[0]==="track"||f[0]==="amount") return;
+    var v=r[f[0]]; if(!v) return;
+    html+='<div class="mfield"><div class="mfield-label">'+esc(f[1])+'</div><div class="mfield-value">'+esc(v)+'</div></div>';
+  });
+  html += '<div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">'+
+    '<button class="btn-primary" onclick="openEditForm('+r.id+')">✏️ עריכה</button>'+
+    '<button class="btn-danger" onclick="deleteOrg('+r.id+')">🗑️ מחיקה</button></div>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
+}
+
+function openEditForm(id){
+  var r = DATA.filter(function(x){return String(x.id)===String(id);})[0] || {};
+  buildForm(r, "עריכת עמותה", "update");
+}
+function openAddForm(){
+  buildForm({}, "הוספת עמותה חדשה", "add");
+}
+function buildForm(r, title, action){
+  document.getElementById("modalTitle").textContent = title;
+  var html = '<form onsubmit="return submitForm(event,\''+action+'\','+(r.id||"null")+')">';
+  html += '<div class="form-grid">';
+  FIELDS.forEach(function(f,i){
+    var wide = ["what_for","problem","results","measurement","budget_use","notes"].indexOf(f[0])>=0;
+    var val = esc(r[f[0]]||"");
+    var input = wide
+      ? '<textarea name="'+f[0]+'">'+val+'</textarea>'
+      : (f[0]==="track"
+          ? '<select name="track">'+["","עם כלביא","שאגת הארי","קול קורא 25","דוח מענק 25","השלמת פרטים"].map(function(t){return '<option'+(r.track===t?' selected':'')+'>'+esc(t)+'</option>';}).join("")+'</select>'
+          : '<input name="'+f[0]+'" value="'+val+'">');
+    html += '<div class="form-row'+(wide?'" style="grid-column:1/-1':'')+'"><label>'+esc(f[1])+'</label>'+input+'</div>';
+  });
+  html += '</div>';
+  html += '<h3 style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-d);font-weight:700;margin:22px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--light)">ניהול ומעקב</h3>';
+  html += '<div class="form-grid">';
+  MGMT.forEach(function(m){
+    var val = esc(r[m[0]]||"");
+    var input;
+    if(Array.isArray(m[2])) input='<select name="'+m[0]+'">'+m[2].map(function(o){return '<option'+(r[m[0]]===o?' selected':'')+'>'+esc(o)+'</option>';}).join("")+'</select>';
+    else if(m[2]==="date") input='<input type="date" name="'+m[0]+'" value="'+val+'">';
+    else if(m[2]==="textarea") input='<textarea name="'+m[0]+'">'+val+'</textarea>';
+    else input='<input name="'+m[0]+'" value="'+val+'">';
+    var wide = m[2]==="textarea";
+    html += '<div class="form-row'+(wide?'" style="grid-column:1/-1':'')+'"><label>'+esc(m[1])+'</label>'+input+'</div>';
+  });
+  html += '</div>';
+  html += '<div class="form-actions"><button type="submit" class="btn-primary">💾 שמירה</button>'+
+    '<button type="button" class="btn-secondary" onclick="closeModal()">ביטול</button></div></form>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
+}
+
+function submitForm(ev, action, id){
+  ev.preventDefault();
+  var form = ev.target;
+  var row = {};
+  Array.prototype.forEach.call(form.elements, function(el){ if(el.name) row[el.name]=el.value; });
+  var body = action==="add" ? {action:"add", row:row} : {action:"update", id:id, row:row};
+  toast("שומר...");
+  fetch(API, { method:"POST", body: JSON.stringify(body) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.ok){ toast(action==="add"?"העמותה נוספה ✓":"נשמר ✓","ok"); closeModal(); setTimeout(loadData,600); }
+      else throw new Error(d && d.error || "שגיאה");
+    })
+    .catch(function(e){ toast("שגיאה בשמירה: "+e.message,"err"); });
+  return false;
+}
+
+function deleteOrg(id){
+  var r = DATA.filter(function(x){return String(x.id)===String(id);})[0];
+  if(!r) return;
+  if(!confirm('למחוק את "'+r.org+'"? פעולה זו אינה הפיכה.')) return;
+  toast("מוחק...");
+  fetch(API, { method:"POST", body: JSON.stringify({action:"delete", id:id}) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.ok){ toast("נמחק ✓","ok"); closeModal(); setTimeout(loadData,600); }
+      else throw new Error(d && d.error || "שגיאה");
+    })
+    .catch(function(e){ toast("שגיאה במחיקה: "+e.message,"err"); });
+}
+
+function closeModal(){ document.getElementById("modal").classList.remove("open"); }
+
+/* ============ tabs ============ */
+function switchTab(t){
+  currentTab=t;
+  document.querySelectorAll(".tab").forEach(function(el){ el.classList.toggle("active", el.dataset.tab===t); });
+  document.querySelectorAll(".tab-page").forEach(function(el){ el.classList.add("hidden"); });
+  document.getElementById("tab-"+t).classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+
+/* ============ utils ============ */
+function exportCSV(){
+  if(!DATA.length){ toast("אין נתונים לייצוא","err"); return; }
+  var cols = ["id","track","org","project","contact","email","phone","amount","beneficiaries","what_for","problem","results","measurement","budget_use","notes","approval_status","donation_sent","donation_date","email_sent","email_date","team_status","team_notes"];
+  var lines = [cols.join(",")];
+  DATA.forEach(function(r){
+    lines.push(cols.map(function(c){ var v=String(r[c]==null?"":r[c]).replace(/"/g,'""'); return '"'+v+'"'; }).join(","));
+  });
+  var blob = new Blob(["﻿"+lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="berelovitz-orgs-"+new Date().toISOString().slice(0,10)+".csv"; a.click();
+  toast("הקובץ יורד ✓","ok");
+}
+function openSheet(){ window.open(SHEET_URL, "_blank"); }
+
+var toastTimer;
+function toast(msg, kind){
+  var t=document.getElementById("toast");
+  t.textContent=msg; t.className="toast show"+(kind?" "+kind:"");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ t.className="toast"+(kind?" "+kind:""); }, 3000);
+}
+
+/* ============ init ============ */
+loadData();
+</script>
+</body>
+</html>
