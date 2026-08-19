@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berelowitz Family Foundation · Vision 2036</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #2B2D42;
+  --ink-2: #3A3D5A;
+  --ink-deep: #212336;
+  --warm: #C4B89B;
+  --warm-deep: #A89778;
+  --warm-dark: #7C6F55;
+  --light: #F0EDED;
+  --alt: #F7F5F3;
+  --cream: #F7F2E9;
+  --border: #8D8D8D;
+  --white: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+body { font-family: 'Heebo', 'Inter', sans-serif; background: var(--light); color: var(--ink); }
+.font-heading { font-family: 'Cormorant Garamond', serif; }
+.font-serif-he { font-family: 'Frank Ruhl Libre', serif; }
+
+/* ===== Slides ===== */
+.slide {
+  height: 100vh; min-height: 100vh;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.slide.dark { background: radial-gradient(ellipse at 28% 18%, #34374f 0%, #2B2D42 52%, #212336 100%); }
+.slide.light { background: var(--light); }
+.slide.warmwash { background: linear-gradient(140deg, #F0EDED 0%, #F7F2E9 60%, #F1E9DB 100%); }
+
+/* ===== Geometric background shapes ===== */
+.bg-shapes { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.shape { position: absolute; opacity: 0.5; }
+.blob {
+  border-radius: 42% 58% 63% 37% / 42% 45% 55% 58%;
+  filter: blur(2px);
+}
+.ring { border-radius: 50%; border: 1.5px solid var(--warm); opacity: 0.10; }
+.sq { border: 1.5px solid var(--warm); opacity: 0.10; border-radius: 12px; }
+.dotgrid {
+  position: absolute; width: 160px; height: 120px; opacity: 0.5;
+  background-image: radial-gradient(var(--warm) 1.4px, transparent 1.4px);
+  background-size: 18px 18px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent);
+          mask-image: radial-gradient(closest-side, #000 60%, transparent);
+}
+.float-slow { animation: floaty 9s ease-in-out infinite; }
+.float-mid  { animation: floaty 7s ease-in-out infinite; }
+.float-rev  { animation: floaty 8s ease-in-out infinite reverse; }
+.spin-slow  { animation: spin 40s linear infinite; }
+@keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-22px) } }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* ===== Header ===== */
+.slide-header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+}
+@media (min-width: 768px) { .slide-header { padding: 20px 56px; } }
+.slide-header.on-light { border-bottom: 1px solid rgba(43,45,66,0.08); }
+.slide-header.on-dark { border-bottom: 1px solid rgba(196,184,155,0.14); }
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo-box { width: 34px; height: 34px; border-radius: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.header-logo-box.on-light { background: #fff; border: 1px solid rgba(43,45,66,0.08); }
+.header-logo-box.on-dark { background: #fff; border: 1px solid rgba(196,184,155,0.25); }
+.header-logo-box img { width: 26px; height: 26px; object-fit: contain; }
+.header-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--border); font-family: 'Inter', sans-serif; }
+.header-num { font-size: 11px; letter-spacing: 2px; font-family: 'Heebo', sans-serif; font-weight: 300; }
+.header-num.on-light { color: var(--border); }
+.header-num.on-dark { color: rgba(196,184,155,0.55); }
+
+/* ===== Animations ===== */
+.anim { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1); }
+.anim.visible { opacity: 1; transform: translateY(0); }
+.anim-x { opacity: 0; transform: translateX(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.anim-x.visible { opacity: 1; transform: translateX(0); }
+.anim-photo { opacity: 0; transform: scale(0.92); transition: opacity 0.9s ease, transform 0.9s ease; }
+.anim-photo.visible { opacity: 1; transform: scale(1); }
+.anim-grow { opacity: 0; transition: opacity 1s ease; }
+.anim-grow.visible { opacity: 1; }
+
+/* ===== Decorative corners ===== */
+.corner { position: absolute; width: 58px; height: 58px; opacity: 0.3; z-index: 3; }
+.corner.tl { top: 28px; left: 28px; border-top: 1px solid var(--warm); border-left: 1px solid var(--warm); }
+.corner.tr { top: 28px; right: 28px; border-top: 1px solid var(--warm); border-right: 1px solid var(--warm); }
+.corner.bl { bottom: 28px; left: 28px; border-bottom: 1px solid var(--warm); border-left: 1px solid var(--warm); }
+.corner.br { bottom: 28px; right: 28px; border-bottom: 1px solid var(--warm); border-right: 1px solid var(--warm); }
+
+/* ===== Dot nav + progress ===== */
+.dot-nav { position: fixed; left: 18px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 11px; }
+.dot-nav button { width: 7px; height: 7px; border-radius: 50%; border: none; cursor: pointer; background: rgba(141,141,141,0.35); transition: all 0.3s; padding: 0; }
+.dot-nav button:hover { background: var(--warm-deep); }
+.dot-nav button.active { background: var(--warm); height: 20px; border-radius: 4px; }
+@media print { .dot-nav { display: none; } }
+.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--warm-dark), var(--warm)); z-index: 60; width: 0; transition: width 0.3s ease; }
+
+/* ===== Content shell ===== */
+.content { max-width: 1180px; margin: 0 auto; width: 100%; position: relative; z-index: 10; padding: 0 24px; }
+.kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 5px; color: var(--warm-deep); margin-bottom: 16px; }
+.kicker::before { content: ''; width: 30px; height: 1px; background: var(--warm); }
+.kicker.on-dark { color: var(--warm); }
+.title { font-family: 'Frank Ruhl Libre', serif; font-weight: 300; font-size: 40px; color: var(--ink); line-height: 1.18; letter-spacing: -0.5px; }
+.title.on-dark { color: var(--light); }
+.title b, .title .accent { font-weight: 700; color: var(--warm-dark); }
+.title.on-dark b, .title.on-dark .accent { color: var(--warm); }
+.rule { width: 62px; height: 3px; background: linear-gradient(90deg,var(--warm),var(--warm-deep)); margin: 18px 0 34px; border-radius: 3px; }
+.rule.centered { margin-inline: auto; }
+
+/* ===== Chapter divider (fully centered) ===== */
+.chapter { max-width: 860px; margin: 0 auto; width: 100%; position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 24px; }
+.chapter .kicker { margin-inline: auto; }
+.chapter .rule { margin-inline: auto; }
+.chapter .title { text-align: center; }
+
+/* ===== Two circles (orbit) ===== */
+.circles-wrap { display: flex; justify-content: center; align-items: center; gap: 200px; margin-top: 30px; flex-wrap: wrap; }
+.orbit { position: relative; width: 300px; height: 300px; flex-shrink: 0; }
+.orbit-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 178px; height: 178px; border-radius: 50%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 6px; padding: 18px;
+  box-shadow: 0 10px 34px rgba(43,45,66,0.18); z-index: 3; }
+.orbit-kicker { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+.orbit-title { font-family: 'Frank Ruhl Libre', serif; font-weight: 500; font-size: 18px; line-height: 1.3; }
+.orbit::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1.5px dashed rgba(196,184,155,0.55); }
+.petal { position: absolute; background: #fff; border: 1px solid rgba(43,45,66,0.08);
+  box-shadow: 0 3px 12px rgba(43,45,66,0.08); border-radius: 22px; padding: 7px 14px;
+  font-family: 'Heebo', sans-serif; font-weight: 400; font-size: 13px; color: var(--ink);
+  white-space: nowrap; transform: translate(-50%,-50%); transition: transform 0.3s ease, box-shadow 0.3s ease; z-index: 4; }
+.petal:hover { box-shadow: 0 8px 20px rgba(43,45,66,0.16); z-index: 6; }
+/* 5-petal ring positions (top, then clockwise) */
+.p1 { top: 0%;  left: 50%; } .p2 { top: 30%; left: 100%; } .p3 { top: 85%; left: 82%; }
+.p4 { top: 85%; left: 18%; } .p5 { top: 30%; left: 0%; }
+/* 6-petal ring positions */
+.q1 { top: -2%; left: 50%; } .q2 { top: 24%; left: 100%; } .q3 { top: 76%; left: 100%; }
+.q4 { top: 100%; left: 50%; } .q5 { top: 76%; left: 0%; }  .q6 { top: 24%; left: 0%; }
+@media (max-width: 1100px) { .circles-wrap { gap: 90px; } }
+@media (max-width: 760px) { .circles-wrap { gap: 40px; } .orbit { transform: scale(0.8); } }
+
+/* ===== Cards / grids ===== */
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2,1fr); }
+.g3 { grid-template-columns: repeat(3,1fr); }
+.g4 { grid-template-columns: repeat(4,1fr); }
+.g5 { grid-template-columns: repeat(5,1fr); }
+
+.fcard { background: var(--white); border-radius: 14px; padding: 24px 22px; border: 1px solid rgba(43,45,66,0.06); box-shadow: 0 2px 6px rgba(43,45,66,0.05); transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease, border-color 0.35s ease; position: relative; overflow: hidden; }
+.fcard::after { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: linear-gradient(var(--warm),var(--warm-deep)); transform: scaleY(0); transform-origin: top; transition: transform 0.4s ease; }
+.fcard:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(43,45,66,0.14); border-color: rgba(196,184,155,0.6); }
+.fcard:hover::after { transform: scaleY(1); }
+.fcard .ic { width: 48px; height: 48px; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(196,184,155,0.28), rgba(196,184,155,0.10)); color: var(--warm-dark); }
+.actcard { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; }
+.actcard .ic-sm { width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--ink), var(--ink-2)); color: var(--warm); }
+.actcard .ic-sm svg { width: 22px; height: 22px; }
+.actcard h4 { font-family: 'Heebo', sans-serif; font-weight: 600; font-size: 15.5px; color: var(--ink); margin-bottom: 4px; }
+.actcard p { font-family: 'Heebo', sans-serif; font-weight: 300; font-size: 13.5px; line-height: 1.55; color: #5A5C70; }
+.fcard .ic svg { width: 25px; height: 25px; }
+.fcard h4 { font-family: 'Heebo', sans-serif; font-weight: 600; font-size: 17px; color: var(--ink); margin-bottom: 7px; line-height: 1.4; }
+.fcard p { font-family: 'Heebo', sans-serif; font-weight: 300; font-size: 14px; line-height: 1.62; color: #5A5C70; }
+
+.listcard { background: var(--white); border-radius: 16px; padding: 28px 30px; border: 1px solid rgba(43,45,66,0.06); box-shadow: 0 3px 12px rgba(43,45,66,0.06); position: relative; overflow: hidden; }
+.listcard .lc-head { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+.listcard .lc-ic { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--warm); flex-shrink: 0; }
+.listcard .lc-ic svg { width: 23px; height: 23px; }
+.listcard h4 { font-family: 'Frank Ruhl Libre', serif; font-weight: 700; font-size: 22px; color: var(--ink); }
+.chip { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(43,45,66,0.06); }
+.chip:last-child { border-bottom: none; }
+.chip .dot { width: 7px; height: 7px; background: var(--warm); border-radius: 2px; transform: rotate(45deg); margin-top: 8px; flex-shrink: 0; }
+.chip span { font-family: 'Heebo', sans-serif; font-weight: 300; font-size: 15.5px; line-height: 1.55; color: var(--ink); }
+
+/* ===== Statement (dark chapter) ===== */
+.statement { font-family: 'Frank Ruhl Libre', serif; font-weight: 300; font-size: 30px; line-height: 1.7; color: var(--light); }
+.statement b { font-weight: 700; color: #fff; }
+.statement.warm { color: var(--warm); }
+.chapter-sub { font-family: 'Heebo', sans-serif; font-weight: 300; font-size: 20px; color: var(--warm); }
+
+/* ===== Metric ===== */
+.metric .n { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 62px; color: var(--warm-dark); line-height: 1; }
+.metric.on-dark .n { color: var(--warm); }
+.metric .lbl { font-family: 'Heebo', sans-serif; font-weight: 400; font-size: 14.5px; color: var(--ink); margin-top: 6px; line-height: 1.45; }
+
+/* ===== Print ===== */
+@media print {
+  html { scroll-snap-type: none; }
+  .slide { height: 100vh; min-height: 100vh; max-height: 100vh; overflow: hidden; scroll-snap-align: none; page-break-after: always; page-break-inside: avoid; }
+  .slide:last-child { page-break-after: auto; }
+  .dot-nav, .progress-bar, .float-slow, .float-mid, .float-rev, .spin-slow { animation: none !important; }
+  .anim, .anim-x, .anim-photo, .anim-grow { opacity: 1 !important; transform: none !important; }
+  @page { size: landscape; margin: 0; }
+}
+@media (max-width: 960px) {
+  .g2,.g3,.g4,.g5 { grid-template-columns: 1fr 1fr !important; }
+  .slide { height: auto; min-height: 100vh; padding-bottom: 40px; }
+  .slide-header { padding: 12px 16px !important; }
+  .header-label { display: none; }
+  .title { font-size: 28px; }
+}
+</style>
+
+<style>
+  .lang-toggle { position: fixed; top: 14px; right: 16px; z-index: 200; display: flex; gap: 0; background: rgba(43,45,66,0.9); border-radius: 20px; padding: 3px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+  .lang-toggle button { border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 7px 16px; border-radius: 18px; background: transparent; color: #C4B89B; transition: all 0.25s; }
+  .lang-toggle button.active { background: #C4B89B; color: #2B2D42; }
+  #pane-en { display: none; }
+  body.show-en #pane-he { display: none; }
+  body.show-en #pane-en { display: block; }
+  @media print { .lang-toggle { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle" id="langToggle">
+  <button id="btn-he" class="active" onclick="setLang('he')">עברית</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<div id="pane-he" dir="rtl">
+
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="dot-nav" id="dotNav"></div>
+
+<!-- ========== 1 · COVER ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:420px;height:420px;top:-120px;right:-120px;background:radial-gradient(circle,#C4B89B 0%,transparent 70%);opacity:0.14;"></div>
+    <div class="shape blob float-rev" style="width:340px;height:340px;bottom:-120px;left:-100px;background:radial-gradient(circle,#C4B89B 0%,transparent 70%);opacity:0.10;"></div>
+    <div class="shape ring float-mid" style="width:220px;height:220px;top:12%;left:8%;"></div>
+    <div class="shape sq spin-slow" style="width:120px;height:120px;bottom:16%;right:12%;"></div>
+    <div class="dotgrid float-slow" style="top:20%;right:22%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div style="position:relative;z-index:10;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 16px;">
+    <div class="anim-photo" data-delay="200" style="width:100px;height:100px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.3);">
+      <img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation" style="height:80px;width:80px;object-fit:contain;">
+    </div>
+    <p class="anim" data-delay="400" style="font-family:'Cormorant Garamond',serif;font-size:15px;text-transform:uppercase;letter-spacing:7px;color:var(--warm);">Berelowitz Family Foundation</p>
+    <div class="anim" data-delay="500" style="width:170px;height:1px;background:var(--warm);opacity:0.4;"></div>
+    <div class="anim-photo" data-delay="650" style="width:150px;height:150px;border-radius:50%;overflow:hidden;border:3px solid var(--warm);box-shadow:0 0 48px rgba(196,184,155,0.2);">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <p class="font-heading anim" data-delay="900" style="font-style:italic;font-size:16px;letter-spacing:1px;color:var(--warm);">In memory of Beri Berelovitz z"l</p>
+    <div style="height:6px;"></div>
+    <h1 class="anim" data-delay="1100" dir="rtl" style="font-family:'Frank Ruhl Libre',serif;font-size:60px;font-weight:300;color:var(--light);line-height:1.05;">הקרן שלנו <span style="color:var(--warm);font-weight:700;">2036</span></h1>
+    <p class="anim" data-delay="1300" dir="rtl" style="font-family:'Frank Ruhl Libre',serif;font-weight:400;font-size:24px;color:var(--warm);letter-spacing:1px;">מצמיחים השפעה לדורות</p>
+    <p class="anim" data-delay="1450" dir="rtl" style="font-family:'Heebo',sans-serif;font-weight:200;font-size:18px;letter-spacing:3px;color:#9A9CB0;">חזון עשר שנים קדימה</p>
+  </div>
+</div>
+
+<!-- ========== 2 · CHAPTER ONE ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape ring float-slow" style="width:280px;height:280px;top:-80px;right:-60px;"></div>
+    <div class="shape blob float-rev" style="width:300px;height:300px;bottom:-100px;left:-80px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.10;"></div>
+    <div class="dotgrid float-mid" style="bottom:14%;right:16%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">01 · חזון</span></div>
+  <div class="chapter" dir="rtl">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter One</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:48px;">מה מנחה אותנו</h2>
+    <div class="rule centered anim" data-delay="300"></div>
+    <p class="statement anim" data-delay="500">ביחד עם שותפים, <b>לחזק אנשים וארגונים</b></p>
+    <p class="statement anim" data-delay="700">ליצירת שינוי חברתי</p>
+    <p class="statement warm anim" data-delay="900">למען שינוי שנשאר לאורך זמן</p>
+  </div>
+</div>
+
+<!-- ========== 3 · איך זה מרגיש + מי איתנו ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:360px;height:360px;top:-120px;left:-120px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.16;"></div>
+    <div class="shape ring float-rev" style="width:180px;height:180px;bottom:8%;right:5%;"></div>
+    <div class="shape sq float-mid" style="width:80px;height:80px;top:22%;right:14%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · חזון</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">The Foundation, ten years from now</p>
+    <h2 class="title anim" data-delay="100">הקרן, <b>עשר שנים</b> מהיום</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g2" style="gap:28px;">
+      <div class="listcard anim" data-delay="300">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><h4>איך זה מרגיש?</h4></div>
+        <div class="chip"><div class="dot"></div><span>משמעות וגאווה</span></div>
+        <div class="chip"><div class="dot"></div><span>צוות מחובר ומקצועי</span></div>
+        <div class="chip"><div class="dot"></div><span>איזון בעשייה</span></div>
+        <div class="chip"><div class="dot"></div><span>ביטחון בדרך ובתוצאות</span></div>
+      </div>
+      <div class="listcard anim" data-delay="450">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 20c0-2.2 1.4-3.7 3.5-3.7s3 1.5 3 3.7"/></svg></div><h4>מי איתנו בדרך?</h4></div>
+        <div class="chip"><div class="dot"></div><span>ארגונים חברתיים חזקים</span></div>
+        <div class="chip"><div class="dot"></div><span>שותפים פילנתרופיים</span></div>
+        <div class="chip"><div class="dot"></div><span>קהילות מקומיות</span></div>
+        <div class="chip"><div class="dot"></div><span>מדינה ורשויות</span></div>
+        <div class="chip"><div class="dot"></div><span>מומחים ומובילי דעה</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 4 · מה יש לנו + מה אנחנו עושים ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape ring float-slow" style="width:240px;height:240px;top:-60px;right:-40px;"></div>
+    <div class="dotgrid float-rev" style="bottom:10%;left:6%;"></div>
+    <div class="shape sq spin-slow" style="width:100px;height:100px;top:30%;left:10%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · חזון</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">Our starting point</p>
+    <h2 class="title anim" data-delay="100">נקודת <b>הפתיחה</b> שלנו</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g2" style="gap:28px;">
+      <div class="listcard anim" data-delay="300">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div><h4>מה יש לנו?</h4></div>
+        <div class="chip"><div class="dot"></div><span>צוות מקצועי וקטן</span></div>
+        <div class="chip"><div class="dot"></div><span>תהליכים ברורים</span></div>
+        <div class="chip"><div class="dot"></div><span>ידע עמוק והבנה של השדה, עם יכולת הסתגלות מהירה למצבי קיצון</span></div>
+        <div class="chip"><div class="dot"></div><span>רשת קשרים ענפה</span></div>
+        <div class="chip"><div class="dot"></div><span>תרבות למידה</span></div>
+        <div class="chip"><div class="dot"></div><span>בורד ומשפחה מעורבת ומובילה</span></div>
+      </div>
+      <div class="listcard anim" data-delay="450">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div><h4>מה אנחנו עושים?</h4></div>
+        <div class="chip"><div class="dot"></div><span>מעניקים מענקים אסטרטגיים</span></div>
+        <div class="chip"><div class="dot"></div><span>מייצרים ידע וכלים לצמיחה</span></div>
+        <div class="chip"><div class="dot"></div><span>בונים תשתיות ארוכות טווח</span></div>
+        <div class="chip"><div class="dot"></div><span>מאפשרים חדשנות וניסיונות</span></div>
+        <div class="chip"><div class="dot"></div><span>מקדמים מדידה ולמידה</span></div>
+        <div class="chip"><div class="dot"></div><span>מחברים בין אנשים</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 5 · איך נמדוד הצלחה ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:340px;height:340px;bottom:-120px;right:-100px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.15;"></div>
+    <div class="shape ring float-mid" style="width:160px;height:160px;top:14%;left:6%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · חזון</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">How we measure success</p>
+    <h2 class="title anim" data-delay="100">איך נמדוד <b>הצלחה?</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g4" style="gap:20px;">
+      <div class="fcard anim" data-delay="300"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><h4>שינויים בחיי אנשים וקהילות</h4></div>
+      <div class="fcard anim" data-delay="420"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg></div><h4>חיזוק ארגונים ותשתיות</h4></div>
+      <div class="fcard anim" data-delay="540"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></div><h4>השפעה מערכתית</h4></div>
+      <div class="fcard anim" data-delay="660"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M21 3l-9 9"/><path d="M16 3h5v5"/></svg></div><h4>למידה מתמדת ושינוי</h4></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 6 · CHAPTER TWO ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:380px;height:380px;top:-140px;left:-100px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.12;"></div>
+    <div class="shape ring float-rev" style="width:240px;height:240px;bottom:6%;right:8%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">02 · עץ הצמיחה</span></div>
+  <div class="chapter" dir="rtl">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter Two</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:46px;">בניית הקרן <b>כמוסד פילנתרופי</b></h2>
+    <div class="rule centered anim" data-delay="300"></div>
+    <p class="chapter-sub anim" data-delay="500">עץ הצמיחה של הקרן</p>
+  </div>
+</div>
+
+<!-- ========== 7 · THE TREE ========== -->
+<div class="slide warmwash" style="padding:70px 40px 20px;">
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">02 · עץ הצמיחה</span></div>
+  <div class="content" dir="rtl" style="max-width:1180px;">
+    <div class="text-center" style="margin-bottom:2px;">
+      <h2 class="title anim" data-delay="100" style="font-size:28px;">עץ הצמיחה של הקרן <span style="color:#8D8D8D;font-weight:300;font-size:18px;">· מה אנחנו צריכים לראות</span></h2>
+    </div>
+    <div class="anim-grow" data-delay="250" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 1240 720" style="width:100%;max-width:1180px;height:auto;max-height:80vh;" xmlns="http://www.w3.org/2000/svg" font-family="Heebo, sans-serif">
+    <defs>
+      <linearGradient id="bark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C8A68"/><stop offset="1" stop-color="#6E6047"/></linearGradient>
+      <linearGradient id="leafg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D8CCAC"/><stop offset="1" stop-color="#A8976F"/></linearGradient>
+      <linearGradient id="leafg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9BC97"/><stop offset="1" stop-color="#9C8B63"/></linearGradient>
+      <radialGradient id="fruitg" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#D8C8A2"/><stop offset="0.5" stop-color="#C4B89B"/><stop offset="1" stop-color="#9E8C68"/></radialGradient>
+      <!-- a single leaf shape, reused -->
+      <g id="leaf"><path d="M0 0 C 7 -7 16 -8 22 0 C 16 8 7 7 0 0 Z"/><path d="M2 0 H 19" stroke="#877655" stroke-width="0.8" fill="none" opacity="0.5"/></g>
+    </defs>
+
+    <!-- ================= TRUNK (center vertical, tapered) ================= -->
+    <path d="M600 250 C 592 360 590 460 592 566 L 648 566 C 650 460 648 360 640 250 C 628 242 612 242 600 250 Z" fill="url(#bark)"/>
+    <path d="M614 268 C 612 360 611 460 611 560" stroke="#574B36" stroke-width="1.6" fill="none" opacity="0.35"/>
+    <path d="M628 268 C 630 360 631 460 631 560" stroke="#574B36" stroke-width="1.6" fill="none" opacity="0.3"/>
+
+    <!-- ================= CANOPY: two horizontal branch fans ================= -->
+    <g stroke="url(#bark)" fill="none" stroke-linecap="round">
+      <!-- right fan -->
+      <path d="M620 260 C 660 210 720 195 800 190" stroke-width="9"/>
+      <path d="M800 190 C 860 187 910 182 965 178" stroke-width="6"/>
+      <path d="M710 200 C 740 175 770 165 800 158" stroke-width="4"/>
+      <path d="M840 186 C 865 168 890 160 915 155" stroke-width="4"/>
+      <!-- left fan -->
+      <path d="M620 260 C 580 210 520 195 440 190" stroke-width="9"/>
+      <path d="M440 190 C 380 187 330 182 275 178" stroke-width="6"/>
+      <path d="M530 200 C 500 175 470 165 440 158" stroke-width="4"/>
+      <path d="M400 186 C 375 168 350 160 325 155" stroke-width="4"/>
+    </g>
+    <!-- ===== LEAVES: dense, varied clusters along the fans ===== -->
+    <g>
+      <!-- right fan leaves -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(700,196) rotate(-8)  scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(730,182) rotate(-30) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(760,200) rotate(0)   scale(1.05)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(788,178) rotate(-24) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(820,192) rotate(-6)  scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(842,170) rotate(-34) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(872,186) rotate(-12) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(898,164) rotate(-30) scale(0.88)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(926,180) rotate(-6)  scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(950,166) rotate(-22) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(806,150) rotate(-48) scale(0.85)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(878,146) rotate(-52) scale(0.8)"/>
+      <!-- left fan leaves (mirrored) -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(540,196) rotate(188) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(510,182) rotate(210) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(480,200) rotate(180) scale(1.05)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(452,178) rotate(204) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(420,192) rotate(186) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(398,170) rotate(214) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(368,186) rotate(192) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(342,164) rotate(210) scale(0.88)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(314,180) rotate(186) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(290,166) rotate(202) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(434,150) rotate(228) scale(0.85)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(362,146) rotate(232) scale(0.8)"/>
+      <!-- === extra fill layer: upward + gap-filling leaves === -->
+      <!-- right -->
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(716,168) rotate(-62) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(748,158) rotate(-70) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(784,150) rotate(-64) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(826,140) rotate(-72) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(862,134) rotate(-66) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(902,132) rotate(-58) scale(0.76)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(938,138) rotate(-46) scale(0.74)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(772,210) rotate(14)  scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(830,206) rotate(10)  scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(888,200) rotate(6)   scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(700,178) rotate(-42) scale(0.76)"/>
+      <!-- left (mirrored) -->
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(524,168) rotate(242) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(492,158) rotate(250) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(456,150) rotate(244) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(414,140) rotate(252) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(378,134) rotate(246) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(338,132) rotate(238) scale(0.76)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(302,138) rotate(226) scale(0.74)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(468,210) rotate(166) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(410,206) rotate(170) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(352,200) rotate(174) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(540,178) rotate(222) scale(0.76)"/>
+      <!-- crown top leaves over the center -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(600,150) rotate(-84) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(632,150) rotate(-96) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(612,132) rotate(-90) scale(0.72)"/>
+    </g>
+    <!-- ===== FRUITS: round gold berries at the branch tips ===== -->
+    <g stroke="#8F7F5E" stroke-width="1.2">
+      <circle cx="800" cy="190" r="8" fill="url(#fruitg)"/>
+      <circle cx="880" cy="176" r="7" fill="url(#fruitg)"/>
+      <circle cx="940" cy="172" r="8" fill="url(#fruitg)"/>
+      <circle cx="852" cy="152" r="6" fill="url(#fruitg)"/>
+      <circle cx="440" cy="190" r="8" fill="url(#fruitg)"/>
+      <circle cx="360" cy="176" r="7" fill="url(#fruitg)"/>
+      <circle cx="300" cy="172" r="8" fill="url(#fruitg)"/>
+      <circle cx="388" cy="152" r="6" fill="url(#fruitg)"/>
+    </g>
+    <g fill="#fff" opacity="0.55">
+      <circle cx="797" cy="187" r="2"/><circle cx="877" cy="173" r="1.8"/><circle cx="937" cy="169" r="2"/>
+      <circle cx="437" cy="187" r="2"/><circle cx="357" cy="173" r="1.8"/><circle cx="297" cy="169" r="2"/>
+    </g>
+
+    <!-- ================= ROOTS: two horizontal root fans ================= -->
+    <g stroke="url(#bark)" fill="none" stroke-linecap="round">
+      <path d="M620 560 C 660 610 720 625 800 630" stroke-width="8"/>
+      <path d="M800 630 C 860 633 910 636 965 640" stroke-width="5"/>
+      <path d="M715 618 C 745 640 775 650 805 658" stroke-width="3"/>
+      <path d="M620 560 C 580 610 520 625 440 630" stroke-width="8"/>
+      <path d="M440 630 C 380 633 330 636 275 640" stroke-width="5"/>
+      <path d="M525 618 C 495 640 465 650 435 658" stroke-width="3"/>
+      <path d="M625 560 C 625 615 625 655 625 690" stroke-width="4"/>
+    </g>
+
+    <!-- ================= BANNER: FRUITS ================= -->
+    <g>
+      <rect x="502" y="118" width="236" height="34" rx="17" fill="#2B2D42"/>
+      <text x="620" y="140" text-anchor="middle" font-size="16" font-weight="600" fill="#C4B89B">הפירות · ההשפעה</text>
+    </g>
+
+    <!-- FRUIT icons row (y ~ 300) -->
+    <g text-anchor="middle">
+      <!-- 1 ארגונים חזקים -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(330,285)"><circle cx="-6" cy="-3" r="4"/><circle cx="6" cy="-3" r="4"/><path d="M-13 10c0-4 3-6 7-6s7 2 7 6M1 10c0-4 3-6 7-6s5 2 5 6"/></g>
+      <text x="330" y="322" font-size="14" font-weight="600" fill="#2B2D42">ארגונים חזקים</text>
+      <text x="330" y="342" font-size="13" font-weight="300" fill="#7A7C90">וקהילות מתפתחות</text>
+      <!-- 2 סיפורי הצלחה -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(470,285)"><path d="M0 -10s7 4 7 10-7 12-7 12-7-6-7-12 7-10 7-10z"/></g>
+      <text x="470" y="322" font-size="14" font-weight="600" fill="#2B2D42">סיפורי הצלחה</text>
+      <text x="470" y="342" font-size="13" font-weight="300" fill="#7A7C90">שממשיכים הלאה</text>
+      <!-- 3 חדשנות ולמידה -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(770,285)"><path d="M-4 -9l1 3M4 -9l-1 3M-9 -2l3 2M9 -2l-3 2M0 -11v3"/><path d="M0 -6a6 6 0 0 1 3 11c0 1 0 2-.5 3h-5c-.5-1-.5-2-.5-3a6 6 0 0 1 3-11zM-2 10h4"/></g>
+      <text x="770" y="322" font-size="14" font-weight="600" fill="#2B2D42">חדשנות ולמידה</text>
+      <text x="770" y="342" font-size="13" font-weight="300" fill="#7A7C90">משותפת</text>
+      <!-- 4 השפעה מערכתית -->
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" transform="translate(910,285)"><circle cx="0" cy="0" r="9"/><path d="M-9 0h18M0 -9c3 3 3 15 0 18M0 -9c-3 3-3 15 0 18"/></g>
+      <text x="910" y="322" font-size="14" font-weight="600" fill="#2B2D42">השפעה מערכתית</text>
+      <text x="910" y="342" font-size="13" font-weight="300" fill="#7A7C90">רחבה</text>
+    </g>
+
+    <!-- ================= BANNER: TRUNK ================= -->
+    <g>
+      <rect x="470" y="392" width="300" height="34" rx="17" fill="#C4B89B"/>
+      <text x="620" y="414" text-anchor="middle" font-size="15" font-weight="700" fill="#2B2D42">הגזע · התשתיות שמחזיקות את הקרן</text>
+    </g>
+    <!-- TRUNK icons row (y ~ 470) -->
+    <g text-anchor="middle">
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(300,465)"><rect x="-6" y="-9" width="12" height="18" rx="2"/><path d="M-3 -4h6M-3 0h6M-3 4h4"/></g>
+      <text x="300" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">מדיניות ותקנון</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(450,465)"><circle cx="-5" cy="-4" r="3"/><circle cx="5" cy="-4" r="3"/><path d="M-11 8c0-3 2.5-5 6-5M11 8c0-3-2.5-5-6-5"/></g>
+      <text x="450" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">בורד (Board)</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(620,463)"><circle cx="0" cy="0" r="4"/><path d="M0 -9v3M0 9v-3M-9 0h3M9 0h-3M-6 -6l2 2M6 6l-2-2M6 -6l-2 2M-6 6l2-2"/></g>
+      <text x="620" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">שגרות ותהליכים</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(790,463)"><circle cx="0" cy="0" r="9"/><circle cx="0" cy="0" r="4"/><circle cx="0" cy="0" r="0.6" fill="#2B2D42"/></g>
+      <text x="790" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">אסטרטגיה</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(940,465)"><path d="M-8 8V2M-2 8V-4M4 8V0M10 8V-8"/></g>
+      <text x="940" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">מדידה ולמידה</text>
+    </g>
+
+    <!-- ================= BANNER: ROOTS ================= -->
+    <g>
+      <rect x="490" y="566" width="260" height="34" rx="17" fill="#2B2D42"/>
+      <text x="620" y="588" text-anchor="middle" font-size="16" font-weight="600" fill="#C4B89B">השורשים · הזהות והבסיס</text>
+    </g>
+    <!-- ROOT icons row (y ~ 660) -->
+    <g text-anchor="middle">
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(330,655)"><circle cx="0" cy="0" r="9"/><path d="M0 -5l2 5-2 1z"/></g>
+      <text x="330" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">חזון ומטרה</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(470,655)"><path d="M0 -9l4 5-4 8-4-8z"/><path d="M-6 -4h12"/></g>
+      <text x="470" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">ערכים מנחים</text>
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(620,655)"><circle cx="-6" cy="-3" r="4"/><circle cx="6" cy="-3" r="4"/><path d="M-13 9c0-4 3-6 7-6s7 2 7 6M1 9c0-4 3-6 7-6s5 2 5 6"/></g>
+      <text x="620" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">רוח המשפחה</text>
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(770,655)"><path d="M0 9s-7-4-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-11 10-11 10z" transform="scale(0.8)"/></g>
+      <text x="770" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">אוכלוסיית יעד</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(910,655)"><path d="M0 9V-1M0 -1c0-4-3-6-7-6M0 -1c0-4 3-6 7-6"/></g>
+      <text x="910" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">אמונה בדרך</text>
+    </g>
+  </svg>
+    </div>
+    <p class="anim text-center" data-delay="720" dir="rtl" style="font-family:'Heebo';font-weight:300;font-size:13.5px;color:#6A6C80;margin-top:6px;">למידה מתמשכת, התאמה וגדילה לאורך זמן</p>
+  </div>
+</div>
+
+
+<!-- ========== 8 · שני המעגלים ========== -->
+<div class="slide light" style="padding:84px 40px 30px;">
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">02 · עץ הצמיחה</span></div>
+  <div class="content" dir="rtl" style="text-align:center;">
+    <p class="kicker anim" data-delay="0" dir="ltr" style="justify-content:center;">Two circles</p>
+    <h2 class="title anim" data-delay="100">שני <b>המעגלים</b> של הקרן</h2>
+    <div class="rule centered anim" data-delay="200"></div>
+    <div class="circles-wrap">
+      <!-- circle 1: הקרן -->
+      <div class="orbit anim" data-delay="300">
+        <div class="orbit-core" style="background:linear-gradient(140deg,var(--warm),var(--warm-deep));color:var(--ink);">
+          <span class="orbit-kicker" style="color:var(--ink);opacity:0.75;">מעגל הקרן</span>
+          <span class="orbit-title" style="color:var(--ink);">קרן מקצועית,<br>עצמאית ומצוינת</span>
+        </div>
+        <span class="petal p1">בחירת תחומי מיקוד</span>
+        <span class="petal p2">מודל גמיש של מענקים</span>
+        <span class="petal p3">מודל מענקים ושותפויות</span>
+        <span class="petal p4">למידה ושיפור מתמיד</span>
+        <span class="petal p5">יצירת ערך לאורך זמן</span>
+      </div>
+      <!-- circle 2: המשפחה -->
+      <div class="orbit anim" data-delay="450">
+        <div class="orbit-core" style="background:radial-gradient(circle at 35% 30%,var(--ink-2),var(--ink));color:#fff;">
+          <span class="orbit-kicker" style="color:var(--warm);">מעגל המשפחה</span>
+          <span class="orbit-title" style="color:#fff;">המשפחה:<br>מה מתאים לנו?</span>
+        </div>
+        <span class="petal q1">חיבור לערכים</span>
+        <span class="petal q2">חיבור למורשת</span>
+        <span class="petal q3">מפגשים משמעותיים וקבועים</span>
+        <span class="petal q4">שיתוף סיפורים ודילמות</span>
+        <span class="petal q5">תחושת בעלות וגאווה</span>
+        <span class="petal q6">חופש לצוות עם אחריות</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 9 · CHAPTER THREE ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:400px;height:400px;top:-140px;right:-120px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div>
+    <div class="shape ring float-rev" style="width:260px;height:260px;bottom:-60px;left:-40px;"></div>
+    <div class="dotgrid float-mid" style="top:24%;left:14%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">03 · בעוד 10 שנים</span></div>
+  <div class="chapter" dir="rtl">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter Three</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:42px;">בעוד 10 שנים</h2>
+    <p class="font-heading anim" data-delay="350" dir="ltr" style="font-size:96px;font-weight:300;color:var(--warm);line-height:1;margin:4px 0;">2036</p>
+    <div class="rule centered anim" data-delay="500"></div>
+    <p class="chapter-sub anim" data-delay="650">חלומות של נאוה והשלד לחשיבה</p>
+  </div>
+</div>
+
+<!-- ========== 10 · חלומות ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:200px;height:200px;top:-40px;right:-30px;"></div><div class="dotgrid float-rev" style="bottom:8%;left:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">Nava's dreams for 2036</p>
+    <h2 class="title anim" data-delay="100">בעוד 10 שנים: <b>חלומות של נאוה</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g3 anim" data-delay="280" style="gap:18px;margin-bottom:20px;">
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n">100K+</div><div class="lbl">בוגרים, צעירים וצעירות שחוו הזדמנות בזכות הקרן</div></div></div>
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n">100+</div><div class="lbl">ארגונים חזקים ומקצועיים</div></div></div>
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n" style="font-size:40px;">פריפריה</div><div class="lbl">קידום החינוך בפריפריה, בהשפעה ארוכת טווח על מדינת ישראל</div></div></div>
+    </div>
+    <div class="grid g2" style="gap:18px;">
+      <div class="fcard anim" data-delay="360"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M16 3h5v5"/><path d="M21 3l-9 9"/></svg></div><h4>מודל למידה לקרנות נוספות</h4><p>מודלים שיהוו מודל למידה לקרנות נוספות, במטרה להשפיע יותר</p></div>
+      <div class="fcard anim" data-delay="480"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><circle cx="5" cy="16" r="2.4"/><circle cx="19" cy="16" r="2.4"/><path d="M9.3 9.8 6.7 14M14.7 9.8 17.3 14"/></svg></div><h4>תרבות של פילנתרופיה משפחתית</h4><p>מחוברת, משמעותית ומעורבת</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 11 · הייחוד ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:320px;height:320px;bottom:-120px;left:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.15;"></div><div class="shape sq float-mid" style="width:80px;height:80px;top:20%;right:10%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">What makes us unique</p>
+    <h2 class="title anim" data-delay="100">מה יהיה <b>הייחוד</b> שלנו?</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g5" style="gap:16px;">
+      <div class="fcard anim" data-delay="280"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg></div><h4>פתרונות ברי קיימא</h4><p>ארוכי טווח לאתגרים חברתיים עמוקים</p></div>
+      <div class="fcard anim" data-delay="380"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6"/></svg></div><h4>אנשים שמובילים שינוי</h4><p>נשקיע במי שמוביל שינוי</p></div>
+      <div class="fcard anim" data-delay="480"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5-7-10a7 7 0 0 1 14 0c0 5-7 10-7 10z"/><circle cx="12" cy="11" r="2.4"/></svg></div><h4>מקומות שנשארים מאחור</h4><p>נגיע לאוכלוסייה ולמקומות שנשארים מאחור</p></div>
+      <div class="fcard anim" data-delay="580"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12"/><path d="M3 21h18"/><path d="M9 21v-5h6v5"/></svg></div><h4>תשתיות שנשארות</h4><p>שימשיכו להשפיע גם אחרי שנסיים לתמוך</p></div>
+      <div class="fcard anim" data-delay="680"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><h4>מורשת ברי ברלוביץ</h4><p>נשמר את המורשת של ברי ברלוביץ</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 12 · השלד: מה נבנה ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:220px;height:220px;top:-50px;left:-30px;"></div><div class="dotgrid float-rev" style="bottom:12%;right:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">The framework — what we build</p>
+    <h2 class="title anim" data-delay="100">השלד לחשיבה: <b>מה נבנה</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g3" style="gap:20px;">
+      <div class="fcard anim" data-delay="300" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">01</div></div><h4 style="font-size:19px;margin-top:8px;">אבנים גדולות</h4><p>2 עד 3 פרויקטים אסטרטגיים שנעמוד מאחורי שינוי מערכתי שביצענו: חקיקה, תוכנית שהמדינה מאמצת או שמאמצים בעולם. בזכות מענקים מתמשכים ותוכנית בנויה (הופה, הזנה), ונגבה זאת בכנסים ארציים, מידע, מחקרים ותקשורת.</p></div>
+      <div class="fcard anim" data-delay="450" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">02</div></div><h4 style="font-size:19px;margin-top:8px;">תשתית לצמיחת עמותות</h4><p>תשתית למאות עמותות שזיהינו שהיינו רוצים שיגדלו, בזכות מענקי צמיחה. נמדוד את עצמנו שנה ושלוש שנים מתום המענק: האם הייתה הצלחה למהלכים שביצענו?</p></div>
+      <div class="fcard anim" data-delay="600" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">03</div></div><h4 style="font-size:19px;margin-top:8px;">תשתית ליזמות ורעיונות</h4><p>נבנה תשתית לעשייה יזמית ולרעיונות שנרצה לקדם, באמצעות פרס ברלוביץ או מענק אחר, לצד מענקי ליווי שתפקידם להצמיח ארגונים קטנים, יוזמות, רעיונות או אנשים.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 13 · השלד: איך נפעל ========== -->
+<div class="slide light" style="padding:92px 40px 30px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:300px;height:300px;top:-120px;right:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">The framework — how we act</p>
+    <h2 class="title anim" data-delay="100">השלד לחשיבה: <b>איך נפעל</b></h2>
+    <div class="rule anim" data-delay="200" style="margin-bottom:24px;"></div>
+    <div class="grid g3" style="gap:16px;">
+      <div class="fcard anim actcard" data-delay="280"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><div><h4>מענים מהירים לחירום</h4><p>אתגרי אס או אס: אסונות, מלחמות ומצבים לא צפויים</p></div></div>
+      <div class="fcard anim actcard" data-delay="340"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 19c0-2.2 1.4-3.7 3.5-3.7"/></svg></div><div><h4>קבוצת מוענקים</h4><p>נטפח מובילי שינוי, לדוגמה מפגשי למידה של מקבלי מענקים</p></div></div>
+      <div class="fcard anim actcard" data-delay="400"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></div><div><h4>פריפריה חברתית וגיאוגרפית</h4><p>מגוון תוכניות שיכולות לייצר שינוי גם נקודתי</p></div></div>
+      <div class="fcard anim actcard" data-delay="460"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><div><h4>אוכלוסיות שנפגעו</h4><p>מחויבים להשקיע בהן לעתיד טוב יותר למדינת ישראל</p></div></div>
+      <div class="fcard anim actcard" data-delay="520"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l5-5M14 4l6 6-9 3-3 3-3-3 3-3 3-9z"/></svg></div><div><h4>אבנים קטנות</h4><p>מענקים שחשוב לנו לתת גם אם לא עומדים בכללים שקבענו</p></div></div>
+      <div class="fcard anim actcard" data-delay="580"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg></div><div><h4>פרויקט דו שנתי משמעותי</h4><p>יכולת השפעה רחבה, גם אם לא בהכרח ארצית</p></div></div>
+      <div class="fcard anim actcard" data-delay="640"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v6M12 21a6 6 0 0 0 6-6c0-4-6-9-6-9s-6 5-6 9a6 6 0 0 0 6 6z"/></svg></div><div><h4>מורשת ברי</h4><p>נשמר את הדמות שהיה וסיפור חייו</p></div></div>
+      <div class="fcard anim actcard" data-delay="700"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg></div><div><h4>גמישות לשינוי</h4><p>נשנה את הסיפור בהתאם למציאות משתנה או לסדר עדיפויות</p></div></div>
+      <div class="fcard anim actcard" data-delay="760"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M7 10v4a3 3 0 0 0 3 3h4"/></svg></div><div><h4>סיפור משפחתי לדורות</h4><p>סיפור של הדור של היום שימשיך קדימה לדור הבא</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 14 · חלוקת הכסף (chart) ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:200px;height:200px;bottom:8%;left:5%;"></div><div class="shape sq spin-slow" style="width:90px;height:90px;top:24%;right:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker anim" data-delay="0" dir="ltr">How the funding is structured</p>
+    <h2 class="title anim" data-delay="100">מבנה <b>חלוקת הכסף</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div id="fundingChart" class="anim" data-delay="300" style="display:flex;flex-direction:column;gap:15px;max-width:960px;"></div>
+    <p class="anim" data-delay="900" dir="rtl" style="font-family:'Heebo';font-weight:300;font-style:italic;font-size:13px;color:#8D8D8D;margin-top:16px;">היקפים להמחשה בלבד, לצורך המבנה, ולא סכומים סופיים</p>
+  </div>
+</div>
+
+<!-- ========== 15 · השותפות עם המשפחה ========== -->
+<div class="slide dark" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:340px;height:340px;top:-120px;left:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.11;"></div><div class="shape ring float-rev" style="width:200px;height:200px;bottom:10%;right:6%;"></div></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">03 · בעוד 10 שנים</span></div>
+  <div class="content" dir="rtl">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Our partnership with the family</p>
+    <h2 class="title on-dark anim" data-delay="150">השותפות שלנו <b>עם המשפחה</b></h2>
+    <div class="rule anim" data-delay="300"></div>
+    <div class="grid g5" style="gap:18px;">
+      <div class="anim" data-delay="400" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a9 9 0 0 1 18 0v3a3 3 0 0 1-3 3h-1v-6h4M3 11v3a3 3 0 0 0 3 3h1v-6H3"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">הקשבה</p></div>
+      <div class="anim" data-delay="500" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">המשכיות בין דורית</p></div>
+      <div class="anim" data-delay="600" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V6a2 2 0 0 1 2-2h5v15H6a2 2 0 0 0-2 2zM20 19V6a2 2 0 0 0-2-2h-5v15h5a2 2 0 0 1 2 2z"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">למידה משותפת</p></div>
+      <div class="anim" data-delay="700" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="M9 12l2 2 4-4"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">מעורבות פעילה ומחוברת</p></div>
+      <div class="anim" data-delay="800" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">שיח פתוח ומשמעותי</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 16 · CLOSING ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:420px;height:420px;top:-140px;right:-130px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div>
+    <div class="shape ring float-rev" style="width:240px;height:240px;bottom:-70px;left:-50px;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div style="position:relative;z-index:10;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;padding:0 24px;">
+    <div class="anim-photo" data-delay="200" style="width:88px;height:88px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.3);"><img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation" style="height:70px;width:70px;object-fit:contain;"></div>
+    <h2 class="font-heading anim" data-delay="400" style="font-size:52px;font-weight:300;letter-spacing:3px;color:var(--light);">Thank You</h2>
+    <div class="anim" data-delay="600" style="width:120px;height:1px;background:var(--warm);opacity:0.5;"></div>
+    <div class="anim-photo" data-delay="800" style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:2px solid var(--warm);box-shadow:0 0 32px rgba(196,184,155,0.15);">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <p class="font-heading anim" data-delay="1000" style="font-style:italic;font-size:18px;letter-spacing:1px;color:var(--warm);line-height:1.6;">Continuing Beri's legacy of compassion,<br>education, and community impact.</p>
+    <p class="anim" data-delay="1200" style="font-family:'Inter';font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--border);margin-top:12px;">Berelowitz Family Foundation</p>
+  </div>
+</div>
+
+
+</div>
+<div id="pane-en" dir="ltr">
+
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="dot-nav" id="dotNav"></div>
+
+<!-- ========== 1 · COVER ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:420px;height:420px;top:-120px;right:-120px;background:radial-gradient(circle,#C4B89B 0%,transparent 70%);opacity:0.14;"></div>
+    <div class="shape blob float-rev" style="width:340px;height:340px;bottom:-120px;left:-100px;background:radial-gradient(circle,#C4B89B 0%,transparent 70%);opacity:0.10;"></div>
+    <div class="shape ring float-mid" style="width:220px;height:220px;top:12%;left:8%;"></div>
+    <div class="shape sq spin-slow" style="width:120px;height:120px;bottom:16%;right:12%;"></div>
+    <div class="dotgrid float-slow" style="top:20%;right:22%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div style="position:relative;z-index:10;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 16px;">
+    <div class="anim-photo" data-delay="200" style="width:100px;height:100px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.3);">
+      <img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation" style="height:80px;width:80px;object-fit:contain;">
+    </div>
+    <p class="anim" data-delay="400" style="font-family:'Cormorant Garamond',serif;font-size:15px;text-transform:uppercase;letter-spacing:7px;color:var(--warm);">Berelowitz Family Foundation</p>
+    <div class="anim" data-delay="500" style="width:170px;height:1px;background:var(--warm);opacity:0.4;"></div>
+    <div class="anim-photo" data-delay="650" style="width:150px;height:150px;border-radius:50%;overflow:hidden;border:3px solid var(--warm);box-shadow:0 0 48px rgba(196,184,155,0.2);">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <p class="font-heading anim" data-delay="900" style="font-style:italic;font-size:16px;letter-spacing:1px;color:var(--warm);">In memory of Beri Berelovitz z"l</p>
+    <div style="height:6px;"></div>
+    <h1 class="anim" data-delay="1100" dir="ltr" style="font-family:'Frank Ruhl Libre',serif;font-size:60px;font-weight:300;color:var(--light);line-height:1.05;">Our Foundation <span style="color:var(--warm);font-weight:700;">2036</span></h1>
+    <p class="anim" data-delay="1300" dir="ltr" style="font-family:'Frank Ruhl Libre',serif;font-weight:400;font-size:24px;color:var(--warm);letter-spacing:1px;">Growing Impact for Generations</p>
+    <p class="anim" data-delay="1450" dir="ltr" style="font-family:'Heebo',sans-serif;font-weight:200;font-size:18px;letter-spacing:3px;color:#9A9CB0;">A Ten-Year Vision</p>
+  </div>
+</div>
+
+<!-- ========== 2 · CHAPTER ONE ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape ring float-slow" style="width:280px;height:280px;top:-80px;right:-60px;"></div>
+    <div class="shape blob float-rev" style="width:300px;height:300px;bottom:-100px;left:-80px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.10;"></div>
+    <div class="dotgrid float-mid" style="bottom:14%;right:16%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">01 · Vision</span></div>
+  <div class="chapter" dir="ltr">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter One</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:48px;">What Guides Us</h2>
+    <div class="rule centered anim" data-delay="300"></div>
+    <p class="statement anim" data-delay="500">Together with partners, <b>to strengthen people and organizations</b></p>
+    <p class="statement anim" data-delay="700">to create social change</p>
+    <p class="statement warm anim" data-delay="900">for change that lasts over time</p>
+  </div>
+</div>
+
+<!-- ========== 3 · איך זה מרגיש + מי איתנו ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:360px;height:360px;top:-120px;left:-120px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.16;"></div>
+    <div class="shape ring float-rev" style="width:180px;height:180px;bottom:8%;right:5%;"></div>
+    <div class="shape sq float-mid" style="width:80px;height:80px;top:22%;right:14%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · Vision</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">The Foundation, ten years from now</p>
+    <h2 class="title anim" data-delay="100">The Foundation, <b>ten years</b> from now</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g2" style="gap:28px;">
+      <div class="listcard anim" data-delay="300">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><h4>How does it feel?</h4></div>
+        <div class="chip"><div class="dot"></div><span>Meaning and pride</span></div>
+        <div class="chip"><div class="dot"></div><span>A connected, professional team</span></div>
+        <div class="chip"><div class="dot"></div><span>Balance in our work</span></div>
+        <div class="chip"><div class="dot"></div><span>Confidence in the path and the results</span></div>
+      </div>
+      <div class="listcard anim" data-delay="450">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 20c0-2.2 1.4-3.7 3.5-3.7s3 1.5 3 3.7"/></svg></div><h4>Who is with us on the way?</h4></div>
+        <div class="chip"><div class="dot"></div><span>Strong social organizations</span></div>
+        <div class="chip"><div class="dot"></div><span>Philanthropic partners</span></div>
+        <div class="chip"><div class="dot"></div><span>Local communities</span></div>
+        <div class="chip"><div class="dot"></div><span>Government and authorities</span></div>
+        <div class="chip"><div class="dot"></div><span>Experts and thought leaders</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 4 · מה יש לנו + מה אנחנו עושים ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape ring float-slow" style="width:240px;height:240px;top:-60px;right:-40px;"></div>
+    <div class="dotgrid float-rev" style="bottom:10%;left:6%;"></div>
+    <div class="shape sq spin-slow" style="width:100px;height:100px;top:30%;left:10%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · Vision</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">Our starting point</p>
+    <h2 class="title anim" data-delay="100">Our <b>starting</b> point</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g2" style="gap:28px;">
+      <div class="listcard anim" data-delay="300">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div><h4>What do we have?</h4></div>
+        <div class="chip"><div class="dot"></div><span>A small, professional team</span></div>
+        <div class="chip"><div class="dot"></div><span>Clear processes</span></div>
+        <div class="chip"><div class="dot"></div><span>Deep knowledge and understanding of the field, with the ability to adapt quickly to extreme situations</span></div>
+        <div class="chip"><div class="dot"></div><span>A broad network of connections</span></div>
+        <div class="chip"><div class="dot"></div><span>A culture of learning</span></div>
+        <div class="chip"><div class="dot"></div><span>An involved, leading board and family</span></div>
+      </div>
+      <div class="listcard anim" data-delay="450">
+        <div class="lc-head"><div class="lc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div><h4>What do we do?</h4></div>
+        <div class="chip"><div class="dot"></div><span>Award strategic grants</span></div>
+        <div class="chip"><div class="dot"></div><span>Create knowledge and tools for growth</span></div>
+        <div class="chip"><div class="dot"></div><span>Build long-term infrastructure</span></div>
+        <div class="chip"><div class="dot"></div><span>Enable innovation and experimentation</span></div>
+        <div class="chip"><div class="dot"></div><span>Advance measurement and learning</span></div>
+        <div class="chip"><div class="dot"></div><span>Connect people</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 5 · How will we measure הצלחה ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:340px;height:340px;bottom:-120px;right:-100px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.15;"></div>
+    <div class="shape ring float-mid" style="width:160px;height:160px;top:14%;left:6%;"></div>
+  </div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">01 · Vision</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">How we measure success</p>
+    <h2 class="title anim" data-delay="100">How will we measure <b>success?</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g4" style="gap:20px;">
+      <div class="fcard anim" data-delay="300"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><h4>Change in the lives of people and communities</h4></div>
+      <div class="fcard anim" data-delay="420"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg></div><h4>Strengthening organizations and infrastructure</h4></div>
+      <div class="fcard anim" data-delay="540"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></div><h4>Systemic impact</h4></div>
+      <div class="fcard anim" data-delay="660"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M21 3l-9 9"/><path d="M16 3h5v5"/></svg></div><h4>Ongoing learning and change</h4></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 6 · CHAPTER TWO ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:380px;height:380px;top:-140px;left:-100px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.12;"></div>
+    <div class="shape ring float-rev" style="width:240px;height:240px;bottom:6%;right:8%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">02 · The Growth Tree</span></div>
+  <div class="chapter" dir="ltr">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter Two</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:46px;">Building the Foundation <b>as a Philanthropic Institution</b></h2>
+    <div class="rule centered anim" data-delay="300"></div>
+    <p class="chapter-sub anim" data-delay="500">The Foundation's Growth Tree</p>
+  </div>
+</div>
+
+<!-- ========== 7 · THE TREE ========== -->
+<div class="slide warmwash" style="padding:70px 40px 20px;">
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">02 · The Growth Tree</span></div>
+  <div class="content" dir="ltr" style="max-width:1180px;">
+    <div class="text-center" style="margin-bottom:2px;">
+      <h2 class="title anim" data-delay="100" style="font-size:28px;">The Foundation's Growth Tree <span style="color:#8D8D8D;font-weight:300;font-size:18px;">· What we need to see</span></h2>
+    </div>
+    <div class="anim-grow" data-delay="250" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 1240 720" style="width:100%;max-width:1180px;height:auto;max-height:80vh;" xmlns="http://www.w3.org/2000/svg" font-family="Heebo, sans-serif">
+    <defs>
+      <linearGradient id="bark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C8A68"/><stop offset="1" stop-color="#6E6047"/></linearGradient>
+      <linearGradient id="leafg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D8CCAC"/><stop offset="1" stop-color="#A8976F"/></linearGradient>
+      <linearGradient id="leafg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9BC97"/><stop offset="1" stop-color="#9C8B63"/></linearGradient>
+      <radialGradient id="fruitg" cx="38%" cy="34%" r="70%"><stop offset="0" stop-color="#D8C8A2"/><stop offset="0.5" stop-color="#C4B89B"/><stop offset="1" stop-color="#9E8C68"/></radialGradient>
+      <!-- a single leaf shape, reused -->
+      <g id="leaf"><path d="M0 0 C 7 -7 16 -8 22 0 C 16 8 7 7 0 0 Z"/><path d="M2 0 H 19" stroke="#877655" stroke-width="0.8" fill="none" opacity="0.5"/></g>
+    </defs>
+
+    <!-- ================= TRUNK (center vertical, tapered) ================= -->
+    <path d="M600 250 C 592 360 590 460 592 566 L 648 566 C 650 460 648 360 640 250 C 628 242 612 242 600 250 Z" fill="url(#bark)"/>
+    <path d="M614 268 C 612 360 611 460 611 560" stroke="#574B36" stroke-width="1.6" fill="none" opacity="0.35"/>
+    <path d="M628 268 C 630 360 631 460 631 560" stroke="#574B36" stroke-width="1.6" fill="none" opacity="0.3"/>
+
+    <!-- ================= CANOPY: two horizontal branch fans ================= -->
+    <g stroke="url(#bark)" fill="none" stroke-linecap="round">
+      <!-- right fan -->
+      <path d="M620 260 C 660 210 720 195 800 190" stroke-width="9"/>
+      <path d="M800 190 C 860 187 910 182 965 178" stroke-width="6"/>
+      <path d="M710 200 C 740 175 770 165 800 158" stroke-width="4"/>
+      <path d="M840 186 C 865 168 890 160 915 155" stroke-width="4"/>
+      <!-- left fan -->
+      <path d="M620 260 C 580 210 520 195 440 190" stroke-width="9"/>
+      <path d="M440 190 C 380 187 330 182 275 178" stroke-width="6"/>
+      <path d="M530 200 C 500 175 470 165 440 158" stroke-width="4"/>
+      <path d="M400 186 C 375 168 350 160 325 155" stroke-width="4"/>
+    </g>
+    <!-- ===== LEAVES: dense, varied clusters along the fans ===== -->
+    <g>
+      <!-- right fan leaves -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(700,196) rotate(-8)  scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(730,182) rotate(-30) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(760,200) rotate(0)   scale(1.05)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(788,178) rotate(-24) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(820,192) rotate(-6)  scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(842,170) rotate(-34) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(872,186) rotate(-12) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(898,164) rotate(-30) scale(0.88)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(926,180) rotate(-6)  scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(950,166) rotate(-22) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(806,150) rotate(-48) scale(0.85)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(878,146) rotate(-52) scale(0.8)"/>
+      <!-- left fan leaves (mirrored) -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(540,196) rotate(188) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(510,182) rotate(210) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(480,200) rotate(180) scale(1.05)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(452,178) rotate(204) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(420,192) rotate(186) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(398,170) rotate(214) scale(0.9)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(368,186) rotate(192) scale(1)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(342,164) rotate(210) scale(0.88)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(314,180) rotate(186) scale(0.95)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(290,166) rotate(202) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(434,150) rotate(228) scale(0.85)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(362,146) rotate(232) scale(0.8)"/>
+      <!-- === extra fill layer: upward + gap-filling leaves === -->
+      <!-- right -->
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(716,168) rotate(-62) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(748,158) rotate(-70) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(784,150) rotate(-64) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(826,140) rotate(-72) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(862,134) rotate(-66) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(902,132) rotate(-58) scale(0.76)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(938,138) rotate(-46) scale(0.74)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(772,210) rotate(14)  scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(830,206) rotate(10)  scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(888,200) rotate(6)   scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(700,178) rotate(-42) scale(0.76)"/>
+      <!-- left (mirrored) -->
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(524,168) rotate(242) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(492,158) rotate(250) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(456,150) rotate(244) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(414,140) rotate(252) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(378,134) rotate(246) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(338,132) rotate(238) scale(0.76)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(302,138) rotate(226) scale(0.74)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(468,210) rotate(166) scale(0.82)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(410,206) rotate(170) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(352,200) rotate(174) scale(0.78)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(540,178) rotate(222) scale(0.76)"/>
+      <!-- crown top leaves over the center -->
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(600,150) rotate(-84) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg2)" transform="translate(632,150) rotate(-96) scale(0.8)"/>
+      <use href="#leaf" fill="url(#leafg)"  transform="translate(612,132) rotate(-90) scale(0.72)"/>
+    </g>
+    <!-- ===== FRUITS: round gold berries at the branch tips ===== -->
+    <g stroke="#8F7F5E" stroke-width="1.2">
+      <circle cx="800" cy="190" r="8" fill="url(#fruitg)"/>
+      <circle cx="880" cy="176" r="7" fill="url(#fruitg)"/>
+      <circle cx="940" cy="172" r="8" fill="url(#fruitg)"/>
+      <circle cx="852" cy="152" r="6" fill="url(#fruitg)"/>
+      <circle cx="440" cy="190" r="8" fill="url(#fruitg)"/>
+      <circle cx="360" cy="176" r="7" fill="url(#fruitg)"/>
+      <circle cx="300" cy="172" r="8" fill="url(#fruitg)"/>
+      <circle cx="388" cy="152" r="6" fill="url(#fruitg)"/>
+    </g>
+    <g fill="#fff" opacity="0.55">
+      <circle cx="797" cy="187" r="2"/><circle cx="877" cy="173" r="1.8"/><circle cx="937" cy="169" r="2"/>
+      <circle cx="437" cy="187" r="2"/><circle cx="357" cy="173" r="1.8"/><circle cx="297" cy="169" r="2"/>
+    </g>
+
+    <!-- ================= ROOTS: two horizontal root fans ================= -->
+    <g stroke="url(#bark)" fill="none" stroke-linecap="round">
+      <path d="M620 560 C 660 610 720 625 800 630" stroke-width="8"/>
+      <path d="M800 630 C 860 633 910 636 965 640" stroke-width="5"/>
+      <path d="M715 618 C 745 640 775 650 805 658" stroke-width="3"/>
+      <path d="M620 560 C 580 610 520 625 440 630" stroke-width="8"/>
+      <path d="M440 630 C 380 633 330 636 275 640" stroke-width="5"/>
+      <path d="M525 618 C 495 640 465 650 435 658" stroke-width="3"/>
+      <path d="M625 560 C 625 615 625 655 625 690" stroke-width="4"/>
+    </g>
+
+    <!-- ================= BANNER: FRUITS ================= -->
+    <g>
+      <rect x="502" y="118" width="236" height="34" rx="17" fill="#2B2D42"/>
+      <text x="620" y="140" text-anchor="middle" font-size="16" font-weight="600" fill="#C4B89B">The Fruit · Impact</text>
+    </g>
+
+    <!-- FRUIT icons row (y ~ 300) -->
+    <g text-anchor="middle">
+      <!-- 1 Strong organizations -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(330,285)"><circle cx="-6" cy="-3" r="4"/><circle cx="6" cy="-3" r="4"/><path d="M-13 10c0-4 3-6 7-6s7 2 7 6M1 10c0-4 3-6 7-6s5 2 5 6"/></g>
+      <text x="330" y="322" font-size="14" font-weight="600" fill="#2B2D42">Strong organizations</text>
+      <text x="330" y="342" font-size="13" font-weight="300" fill="#7A7C90">and thriving communities</text>
+      <!-- 2 Success stories -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(470,285)"><path d="M0 -10s7 4 7 10-7 12-7 12-7-6-7-12 7-10 7-10z"/></g>
+      <text x="470" y="322" font-size="14" font-weight="600" fill="#2B2D42">Success stories</text>
+      <text x="470" y="342" font-size="13" font-weight="300" fill="#7A7C90">that carry forward</text>
+      <!-- 3 Innovation and learning -->
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(770,285)"><path d="M-4 -9l1 3M4 -9l-1 3M-9 -2l3 2M9 -2l-3 2M0 -11v3"/><path d="M0 -6a6 6 0 0 1 3 11c0 1 0 2-.5 3h-5c-.5-1-.5-2-.5-3a6 6 0 0 1 3-11zM-2 10h4"/></g>
+      <text x="770" y="322" font-size="14" font-weight="600" fill="#2B2D42">Innovation and learning</text>
+      <text x="770" y="342" font-size="13" font-weight="300" fill="#7A7C90">shared</text>
+      <!-- 4 Systemic impact -->
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" transform="translate(910,285)"><circle cx="0" cy="0" r="9"/><path d="M-9 0h18M0 -9c3 3 3 15 0 18M0 -9c-3 3-3 15 0 18"/></g>
+      <text x="910" y="322" font-size="14" font-weight="600" fill="#2B2D42">Systemic impact</text>
+      <text x="910" y="342" font-size="13" font-weight="300" fill="#7A7C90">broad</text>
+    </g>
+
+    <!-- ================= BANNER: TRUNK ================= -->
+    <g>
+      <rect x="470" y="392" width="300" height="34" rx="17" fill="#C4B89B"/>
+      <text x="620" y="414" text-anchor="middle" font-size="15" font-weight="700" fill="#2B2D42">The Trunk · The infrastructure that holds the Foundation</text>
+    </g>
+    <!-- TRUNK icons row (y ~ 470) -->
+    <g text-anchor="middle">
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(300,465)"><rect x="-6" y="-9" width="12" height="18" rx="2"/><path d="M-3 -4h6M-3 0h6M-3 4h4"/></g>
+      <text x="300" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">Policy and bylaws</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(450,465)"><circle cx="-5" cy="-4" r="3"/><circle cx="5" cy="-4" r="3"/><path d="M-11 8c0-3 2.5-5 6-5M11 8c0-3-2.5-5-6-5"/></g>
+      <text x="450" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">Board</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(620,463)"><circle cx="0" cy="0" r="4"/><path d="M0 -9v3M0 9v-3M-9 0h3M9 0h-3M-6 -6l2 2M6 6l-2-2M6 -6l-2 2M-6 6l2-2"/></g>
+      <text x="620" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">Routines and processes</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(790,463)"><circle cx="0" cy="0" r="9"/><circle cx="0" cy="0" r="4"/><circle cx="0" cy="0" r="0.6" fill="#2B2D42"/></g>
+      <text x="790" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">Strategy</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(940,465)"><path d="M-8 8V2M-2 8V-4M4 8V0M10 8V-8"/></g>
+      <text x="940" y="502" font-size="13.5" font-weight="600" fill="#2B2D42">Measurement and learning</text>
+    </g>
+
+    <!-- ================= BANNER: ROOTS ================= -->
+    <g>
+      <rect x="490" y="566" width="260" height="34" rx="17" fill="#2B2D42"/>
+      <text x="620" y="588" text-anchor="middle" font-size="16" font-weight="600" fill="#C4B89B">The Roots · Identity and foundation</text>
+    </g>
+    <!-- ROOT icons row (y ~ 660) -->
+    <g text-anchor="middle">
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(330,655)"><circle cx="0" cy="0" r="9"/><path d="M0 -5l2 5-2 1z"/></g>
+      <text x="330" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">Vision and purpose</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(470,655)"><path d="M0 -9l4 5-4 8-4-8z"/><path d="M-6 -4h12"/></g>
+      <text x="470" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">Guiding values</text>
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(620,655)"><circle cx="-6" cy="-3" r="4"/><circle cx="6" cy="-3" r="4"/><path d="M-13 9c0-4 3-6 7-6s7 2 7 6M1 9c0-4 3-6 7-6s5 2 5 6"/></g>
+      <text x="620" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">The family spirit</text>
+      <g stroke="#2B2D42" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(770,655)"><path d="M0 9s-7-4-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-11 10-11 10z" transform="scale(0.8)"/></g>
+      <text x="770" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">Target population</text>
+      <g stroke="#2B2D42" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(910,655)"><path d="M0 9V-1M0 -1c0-4-3-6-7-6M0 -1c0-4 3-6 7-6"/></g>
+      <text x="910" y="692" font-size="13.5" font-weight="600" fill="#2B2D42">Belief in the path</text>
+    </g>
+  </svg>
+    </div>
+    <p class="anim text-center" data-delay="720" dir="ltr" style="font-family:'Heebo';font-weight:300;font-size:13.5px;color:#6A6C80;margin-top:6px;">Continuous learning, adaptation and growth over time</p>
+  </div>
+</div>
+
+
+<!-- ========== 8 · The two circles ========== -->
+<div class="slide light" style="padding:84px 40px 30px;">
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">02 · The Growth Tree</span></div>
+  <div class="content" dir="ltr" style="text-align:center;">
+    <p class="kicker anim" data-delay="0" dir="ltr" style="justify-content:center;">Two circles</p>
+    <h2 class="title anim" data-delay="100">The two <b>circles</b> of the Foundation</h2>
+    <div class="rule centered anim" data-delay="200"></div>
+    <div class="circles-wrap">
+      <!-- circle 1: הקרן -->
+      <div class="orbit anim" data-delay="300">
+        <div class="orbit-core" style="background:linear-gradient(140deg,var(--warm),var(--warm-deep));color:var(--ink);">
+          <span class="orbit-kicker" style="color:var(--ink);opacity:0.75;">The Foundation circle</span>
+          <span class="orbit-title" style="color:var(--ink);">A professional,<br>independent and excellent Foundation</span>
+        </div>
+        <span class="petal p1">Choosing focus areas</span>
+        <span class="petal p2">A flexible grants model</span>
+        <span class="petal p3">A model of grants and partnerships</span>
+        <span class="petal p4">Ongoing learning and improvement</span>
+        <span class="petal p5">Creating value over time</span>
+      </div>
+      <!-- circle 2: המשפחה -->
+      <div class="orbit anim" data-delay="450">
+        <div class="orbit-core" style="background:radial-gradient(circle at 35% 30%,var(--ink-2),var(--ink));color:#fff;">
+          <span class="orbit-kicker" style="color:var(--warm);">The family circle</span>
+          <span class="orbit-title" style="color:#fff;">The family:<br>what fits us?</span>
+        </div>
+        <span class="petal q1">Connection to values</span>
+        <span class="petal q2">Connection to legacy</span>
+        <span class="petal q3">Meaningful, regular gatherings</span>
+        <span class="petal q4">Sharing stories and dilemmas</span>
+        <span class="petal q5">A sense of ownership and pride</span>
+        <span class="petal q6">Freedom for the team, with responsibility</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 9 · CHAPTER THREE ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:400px;height:400px;top:-140px;right:-120px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div>
+    <div class="shape ring float-rev" style="width:260px;height:260px;bottom:-60px;left:-40px;"></div>
+    <div class="dotgrid float-mid" style="top:24%;left:14%;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">03 · Ten Years From Now</span></div>
+  <div class="chapter" dir="ltr">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Chapter Three</p>
+    <h2 class="title on-dark anim" data-delay="150" style="font-size:42px;">Ten Years From Now</h2>
+    <p class="font-heading anim" data-delay="350" dir="ltr" style="font-size:96px;font-weight:300;color:var(--warm);line-height:1;margin:4px 0;">2036</p>
+    <div class="rule centered anim" data-delay="500"></div>
+    <p class="chapter-sub anim" data-delay="650">Nava's dreams and the framework for thinking</p>
+  </div>
+</div>
+
+<!-- ========== 10 · חלומות ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:200px;height:200px;top:-40px;right:-30px;"></div><div class="dotgrid float-rev" style="bottom:8%;left:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">Nava's dreams for 2036</p>
+    <h2 class="title anim" data-delay="100">Ten years from now: <b>Nava's dreams</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g3 anim" data-delay="280" style="gap:18px;margin-bottom:20px;">
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n">100K+</div><div class="lbl">graduates, young people who experienced opportunity thanks to the Foundation</div></div></div>
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n">100+</div><div class="lbl">Strong, professional organizations</div></div></div>
+      <div class="fcard" style="text-align:center;padding:22px;"><div class="metric"><div class="n" style="font-size:40px;">Periphery</div><div class="lbl">Advancing education in the periphery, with long-term impact on the State of Israel</div></div></div>
+    </div>
+    <div class="grid g2" style="gap:18px;">
+      <div class="fcard anim" data-delay="360"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M16 3h5v5"/><path d="M21 3l-9 9"/></svg></div><h4>A learning model for other foundations</h4><p>Models that serve as a learning example for other foundations, in order to have greater impact</p></div>
+      <div class="fcard anim" data-delay="480"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><circle cx="5" cy="16" r="2.4"/><circle cx="19" cy="16" r="2.4"/><path d="M9.3 9.8 6.7 14M14.7 9.8 17.3 14"/></svg></div><h4>A culture of family philanthropy</h4><p>connected, meaningful and involved</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 11 · unique ========== -->
+<div class="slide light" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:320px;height:320px;bottom:-120px;left:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.15;"></div><div class="shape sq float-mid" style="width:80px;height:80px;top:20%;right:10%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">What makes us unique</p>
+    <h2 class="title anim" data-delay="100">What will make us <b>unique</b> ?</h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g5" style="gap:16px;">
+      <div class="fcard anim" data-delay="280"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg></div><h4>Sustainable solutions</h4><p>long-term answers to deep social challenges</p></div>
+      <div class="fcard anim" data-delay="380"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6"/></svg></div><h4>People who lead change</h4><p>We invest in those who lead change</p></div>
+      <div class="fcard anim" data-delay="480"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5-7-10a7 7 0 0 1 14 0c0 5-7 10-7 10z"/><circle cx="12" cy="11" r="2.4"/></svg></div><h4>Places left behind</h4><p>We reach populations and places that are left behind</p></div>
+      <div class="fcard anim" data-delay="580"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12"/><path d="M3 21h18"/><path d="M9 21v-5h6v5"/></svg></div><h4>Infrastructure that endures</h4><p>that keeps having impact even after our support ends</p></div>
+      <div class="fcard anim" data-delay="680"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><h4>Beri Berelovitz's legacy</h4><p>We preserve the legacy of Beri Berelovitz</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 12 · השלד: what we build ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:220px;height:220px;top:-50px;left:-30px;"></div><div class="dotgrid float-rev" style="bottom:12%;right:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">The framework — what we build</p>
+    <h2 class="title anim" data-delay="100">The framework: <b>what we build</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div class="grid g3" style="gap:20px;">
+      <div class="fcard anim" data-delay="300" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">01</div></div><h4 style="font-size:19px;margin-top:8px;">Large stones</h4><p>2 to 3 strategic projects where we stand behind a systemic change we achieved: legislation, a program the state adopts, or one adopted worldwide. Through sustained grants and a structured plan (Hopa, Nutrition), backed by national conferences, information, research and media.</p></div>
+      <div class="fcard anim" data-delay="450" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">02</div></div><h4 style="font-size:19px;margin-top:8px;">Infrastructure for growing nonprofits</h4><p>Infrastructure for hundreds of nonprofits we identified as ones we want to grow, through growth grants. We measure ourselves one and three years after the grant ends: were our moves successful?</p></div>
+      <div class="fcard anim" data-delay="600" style="padding:28px 24px;"><div class="metric" style="text-align:right;"><div class="n" style="font-size:56px;">03</div></div><h4 style="font-size:19px;margin-top:8px;">Infrastructure for ventures and ideas</h4><p>We build infrastructure for entrepreneurial work and ideas we want to advance, through the Berelovitz Prize or another grant, alongside mentoring grants meant to grow small organizations, initiatives, ideas or people.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 13 · השלד: how we act ========== -->
+<div class="slide light" style="padding:92px 40px 30px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:300px;height:300px;top:-120px;right:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">The framework — how we act</p>
+    <h2 class="title anim" data-delay="100">The framework: <b>how we act</b></h2>
+    <div class="rule anim" data-delay="200" style="margin-bottom:24px;"></div>
+    <div class="grid g3" style="gap:16px;">
+      <div class="fcard anim actcard" data-delay="280"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><div><h4>Rapid emergency responses</h4><p>SOS challenges: disasters, wars and unforeseen situations</p></div></div>
+      <div class="fcard anim actcard" data-delay="340"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 19c0-2.2 1.4-3.7 3.5-3.7"/></svg></div><div><h4>A grantee cohort</h4><p>We nurture change leaders, e.g. learning gatherings for grant recipients</p></div></div>
+      <div class="fcard anim actcard" data-delay="400"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></div><div><h4>Social and geographic periphery</h4><p>A range of programs that can create change, even locally</p></div></div>
+      <div class="fcard anim actcard" data-delay="460"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></div><div><h4>Populations that were harmed</h4><p>We are committed to investing in them for a better future for Israel</p></div></div>
+      <div class="fcard anim actcard" data-delay="520"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l5-5M14 4l6 6-9 3-3 3-3-3 3-3 3-9z"/></svg></div><div><h4>Small stones</h4><p>Grants we care about giving even if they do not meet the rules we set</p></div></div>
+      <div class="fcard anim actcard" data-delay="580"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg></div><div><h4>A significant biennial project</h4><p>Broad impact potential, even if not necessarily national</p></div></div>
+      <div class="fcard anim actcard" data-delay="640"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v6M12 21a6 6 0 0 0 6-6c0-4-6-9-6-9s-6 5-6 9a6 6 0 0 0 6 6z"/></svg></div><div><h4>Beri's legacy</h4><p>We preserve who he was and the story of his life</p></div></div>
+      <div class="fcard anim actcard" data-delay="700"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg></div><div><h4>Flexibility to change</h4><p>We adapt our story to a changing reality or shifting priorities</p></div></div>
+      <div class="fcard anim actcard" data-delay="760"><div class="ic-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M7 10v4a3 3 0 0 0 3 3h4"/></svg></div><div><h4>A family story across generations</h4><p>A story of today's generation that carries forward to the next</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 14 · how funds are allocated (chart) ========== -->
+<div class="slide warmwash" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape ring float-slow" style="width:200px;height:200px;bottom:8%;left:5%;"></div><div class="shape sq spin-slow" style="width:90px;height:90px;top:24%;right:8%;"></div></div>
+  <div class="slide-header on-light"><div class="header-left"><div class="header-logo-box on-light"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-light">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker anim" data-delay="0" dir="ltr">How the funding is structured</p>
+    <h2 class="title anim" data-delay="100">The structure of <b>how funds are allocated</b></h2>
+    <div class="rule anim" data-delay="200"></div>
+    <div id="fundingChart" class="anim" data-delay="300" style="display:flex;flex-direction:column;gap:15px;max-width:960px;"></div>
+    <p class="anim" data-delay="900" dir="ltr" style="font-family:'Heebo';font-weight:300;font-style:italic;font-size:13px;color:#8D8D8D;margin-top:16px;">Amounts are illustrative only, to show the structure, not final figures</p>
+  </div>
+</div>
+
+<!-- ========== 15 · השותפות with the family ========== -->
+<div class="slide dark" style="padding:92px 40px 40px;">
+  <div class="bg-shapes"><div class="shape blob float-slow" style="width:340px;height:340px;top:-120px;left:-90px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.11;"></div><div class="shape ring float-rev" style="width:200px;height:200px;bottom:10%;right:6%;"></div></div>
+  <div class="slide-header on-dark"><div class="header-left"><div class="header-logo-box on-dark"><img src="logo-berelovitz.jpg" alt=""></div><span class="header-label">Berelowitz Family Foundation</span></div><span class="header-num on-dark">03 · Ten Years From Now</span></div>
+  <div class="content" dir="ltr">
+    <p class="kicker on-dark anim" data-delay="0" dir="ltr">Our partnership with the family</p>
+    <h2 class="title on-dark anim" data-delay="150">Our partnership <b>with the family</b></h2>
+    <div class="rule anim" data-delay="300"></div>
+    <div class="grid g5" style="gap:18px;">
+      <div class="anim" data-delay="400" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a9 9 0 0 1 18 0v3a3 3 0 0 1-3 3h-1v-6h4M3 11v3a3 3 0 0 0 3 3h1v-6H3"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">Listening</p></div>
+      <div class="anim" data-delay="500" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">Intergenerational continuity</p></div>
+      <div class="anim" data-delay="600" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V6a2 2 0 0 1 2-2h5v15H6a2 2 0 0 0-2 2zM20 19V6a2 2 0 0 0-2-2h-5v15h5a2 2 0 0 1 2 2z"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">Shared learning</p></div>
+      <div class="anim" data-delay="700" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="M9 12l2 2 4-4"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">Active, connected involvement</p></div>
+      <div class="anim" data-delay="800" style="text-align:center;padding:28px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,184,155,0.22);border-radius:14px;"><div style="width:50px;height:50px;border-radius:13px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(196,184,155,0.16);color:var(--warm);"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><p style="font-family:'Heebo';font-weight:300;font-size:16px;color:var(--light);">Open, meaningful dialogue</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 16 · CLOSING ========== -->
+<div class="slide dark">
+  <div class="bg-shapes">
+    <div class="shape blob float-slow" style="width:420px;height:420px;top:-140px;right:-130px;background:radial-gradient(circle,#C4B89B,transparent 70%);opacity:0.13;"></div>
+    <div class="shape ring float-rev" style="width:240px;height:240px;bottom:-70px;left:-50px;"></div>
+  </div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div style="position:relative;z-index:10;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;padding:0 24px;">
+    <div class="anim-photo" data-delay="200" style="width:88px;height:88px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.3);"><img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation" style="height:70px;width:70px;object-fit:contain;"></div>
+    <h2 class="font-heading anim" data-delay="400" style="font-size:52px;font-weight:300;letter-spacing:3px;color:var(--light);">Thank You</h2>
+    <div class="anim" data-delay="600" style="width:120px;height:1px;background:var(--warm);opacity:0.5;"></div>
+    <div class="anim-photo" data-delay="800" style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:2px solid var(--warm);box-shadow:0 0 32px rgba(196,184,155,0.15);">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <p class="font-heading anim" data-delay="1000" style="font-style:italic;font-size:18px;letter-spacing:1px;color:var(--warm);line-height:1.6;">Continuing Beri's legacy of compassion,<br>education, and community impact.</p>
+    <p class="anim" data-delay="1200" style="font-family:'Inter';font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--border);margin-top:12px;">Berelowitz Family Foundation</p>
+  </div>
+</div>
+
+
+</div>
+
+<script>
+function initPane(root) {
+  const slides = root.querySelectorAll('.slide');
+  const dotNav = root.querySelector('.dot-nav'); if (!dotNav) return;
+  const progressBar = root.querySelector('.progress-bar');
+  if (dotNav.dataset.built) { return; }
+  dotNav.dataset.built = '1';
+  // funding chart
+  const fc = root.querySelector('#fundingChart');
+  if (fc && !fc.dataset.built) {
+    fc.dataset.built='1';
+    (root.__funding||[]).forEach((f) => {
+      const op = 0.42 + (f.v/100)*0.58;
+      fc.insertAdjacentHTML('beforeend', `
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span style="font-family:'Heebo';font-weight:300;font-size:14.5px;color:#2B2D42;width:44%;text-align:${root.id==='pane-en'?'right':'left'};line-height:1.4;">${f.label}</span>
+          <div style="flex:1;height:28px;background:rgba(43,45,66,0.06);border-radius:6px;overflow:hidden;">
+            <div class="fbar" data-w="${f.v}" style="height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#7C6F55,#C4B89B);opacity:${op};transition:width 1s cubic-bezier(.2,.7,.2,1);"></div>
+          </div>
+        </div>`);
+    });
+  }
+  dotNav.innerHTML='';
+  slides.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Slide ' + (i+1));
+    if (i===0) b.classList.add('active');
+    b.addEventListener('click', () => slides[i].scrollIntoView({behavior:'smooth'}));
+    dotNav.appendChild(b);
+  });
+  const dots = dotNav.querySelectorAll('button');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(slides).indexOf(entry.target);
+        dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+        if (progressBar) progressBar.style.width = (idx/(slides.length-1)*100)+'%';
+        entry.target.querySelectorAll('.anim,.anim-x,.anim-photo,.anim-grow').forEach(el=>{
+          setTimeout(()=>el.classList.add('visible'), parseInt(el.dataset.delay||0));
+        });
+        entry.target.querySelectorAll('.fbar').forEach((bar,i)=>{
+          setTimeout(()=>{bar.style.width=bar.dataset.w+'%';}, 400+i*100);
+        });
+      }
+    });
+  }, { threshold: 0.35, root: null });
+  slides.forEach(s => observer.observe(s));
+  // reveal first slide immediately
+  const first = slides[0];
+  if (first) first.querySelectorAll('.anim,.anim-x,.anim-photo,.anim-grow').forEach(el=>{ setTimeout(()=>el.classList.add('visible'), parseInt(el.dataset.delay||0)); });
+}
+
+const FUND_HE = [
+  {label:'מענקים ארוכי טווח, כמו הופה', v:100},
+  {label:'מענקי תשתית לשנתיים שלוש, כמו יד מרדכי (החלטה משותפת)', v:82},
+  {label:'מענקים בתחומים שחשובים לנו (ברי שינוי), תחת קול קורא', v:64},
+  {label:'מענקי הצמחה של ארגונים', v:50},
+  {label:'קופה משותפת למשפחה ולבורד', v:38},
+  {label:'פרס ברלוביץ, לסיפור של ברי ולהצמחת מיזמים', v:30},
+];
+const FUND_EN = [
+  {label:`Long-term grants, such as Hopa`, v:100},
+  {label:`Infrastructure grants over 2-3 years, such as Yad Mordechai (a shared decision)`, v:82},
+  {label:`Grants in areas we care about (drivers of change), via a call for proposals`, v:64},
+  {label:`Growth grants for organizations`, v:50},
+  {label:`A shared fund for the family and board`, v:38},
+  {label:`The Berelovitz Prize, honoring Beri's story and growing new ventures`, v:30},
+];
+
+function setLang(lang) {
+  document.body.classList.toggle('show-en', lang==='en');
+  document.getElementById('btn-he').classList.toggle('active', lang==='he');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang==='en') ? 'ltr' : 'rtl';
+  const pane = document.getElementById(lang==='en'?'pane-en':'pane-he');
+  pane.__funding = (lang==='en')?FUND_EN:FUND_HE;
+  initPane(pane);
+  window.scrollTo(0,0);
+  try { localStorage.setItem('berelovitz_lang', lang); } catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  let lang = 'he';
+  try { lang = localStorage.getItem('berelovitz_lang') || 'he'; } catch(e){}
+  const he = document.getElementById('pane-he'); he.__funding = FUND_HE;
+  setLang(lang);
+});
+</script>
+
+</body>
+</html>
