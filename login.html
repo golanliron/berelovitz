@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קרן משפחת ברלוביץ׳ | כניסה למורשים</title>
+<meta name="description" content="כניסה למערכת הניהול של קרן משפחת ברלוביץ׳, לחברי דירקטוריון וצוות הקרן.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Berelowitz Family Foundation — login gate
+   brand design system: docs/DESIGN-TOKENS.css
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --purple:#352D4A; --ivory:#F3F0E8;
+  --sage:#AAB19A; --terracotta:#C68E74; --mustard:#B79B67;
+  --purple-08:rgba(53,45,74,.08);
+  --purple-15:rgba(53,45,74,.15);
+  --purple-35:rgba(53,45,74,.35);
+  --purple-60:rgba(53,45,74,.60);
+  --purple-75:rgba(53,45,74,.75);
+  --serif:'Frank Ruhl Libre',Georgia,serif;
+  --sans:'Heebo',system-ui,sans-serif;
+}
+html,body{height:100%}
+body{
+  font-family:var(--sans);background:var(--ivory);color:var(--purple);
+  line-height:1.7;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px 22px;position:relative;overflow-x:clip;
+}
+/* paper grain */
+body::before{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* monogram watermark */
+.watermark{
+  position:fixed;bottom:-8vh;left:-4vw;width:min(46vw,420px);opacity:.05;
+  pointer-events:none;user-select:none;
+}
+img{max-width:100%;display:block}
+::selection{background:var(--purple);color:var(--ivory)}
+:focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
+
+.card{
+  width:100%;max-width:420px;background:var(--ivory);
+  border:1px solid var(--purple-15);border-radius:4px;
+  padding:46px 38px 38px;text-align:center;position:relative;z-index:1;
+}
+.card.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+.logo{width:190px;margin:0 auto 26px}
+
+/* hand-drawn brand line with one loop */
+.brandline{display:block;margin:0 auto 26px}
+
+h1{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:-.01em;margin-bottom:8px}
+.hint{font-size:13.5px;color:var(--purple-60);line-height:1.6;margin-bottom:28px}
+
+.field{text-align:right;margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--purple)}
+.field input{width:100%;padding:13px 15px;border:1px solid var(--purple-35);border-radius:2px;background:#fff;
+  font-family:var(--sans);font-size:16px;color:var(--purple);text-align:center;letter-spacing:3px}
+.field input:focus{outline:none;border-color:var(--purple)}
+
+.btn{width:100%;padding:15px;background:var(--purple);color:var(--ivory);border:1px solid var(--purple);border-radius:2px;
+  font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .3s,color .3s;letter-spacing:.01em}
+.btn:hover{background:var(--ivory);color:var(--purple)}
+.btn:disabled{opacity:.6;cursor:wait}
+
+.err{margin-top:14px;font-size:13.5px;color:var(--terracotta);min-height:20px;opacity:0;transition:opacity .2s}
+.err.show{opacity:1}
+
+.foot{margin-top:30px;font-size:12.5px;color:var(--purple-60);text-align:center;position:relative;z-index:1}
+.foot a{color:var(--purple-60);text-decoration:none;border-bottom:1px solid var(--purple-15)}
+.foot a:hover{color:var(--purple)}
+
+@media(max-width:420px){
+  .card{padding:38px 24px 30px}
+  .logo{width:160px}
+}
+</style>
+</head>
+<body>
+
+<img class="watermark" src="monogram-only.png" alt="">
+
+<form class="card" id="loginBox" autocomplete="off" onsubmit="return doLogin(event)">
+  <div class="logo"><img src="logo-name-transparent.png" alt="קרן משפחת ברלוביץ׳, Berelowitz Family Foundation"></div>
+  <svg class="brandline" width="150" height="16" viewBox="0 0 150 16" fill="none" aria-hidden="true">
+    <path d="M4 10 C 34 10, 54 10, 66 9 C 74 8.4, 77 4, 73 3 C 69 2.2, 66 6, 72 8.4 C 78 10.6, 108 10, 146 9.2"
+      stroke="#352D4A" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <h1>כניסה למורשים</h1>
+  <div class="hint">גישה למאגר העמותות ומדידת האימפקט, לחברי דירקטוריון וצוות הקרן</div>
+  <div class="field">
+    <label for="pw">תעודת זהות</label>
+    <input id="pw" name="pw" type="password" inputmode="numeric" autocomplete="off" placeholder="• • • • • • • • •" maxlength="9" autofocus>
+  </div>
+  <button class="btn" type="submit" id="lgBtn">כניסה למערכת</button>
+  <div class="err" id="lgErr"></div>
+</form>
+
+<div class="foot">
+  © 2026 קרן משפחת ברלוביץ׳ &nbsp;·&nbsp; <a href="mailto:info@berelovitz.org">info@berelovitz.org</a>
+</div>
+
+<script>
+/* ===== CONFIG ===== */
+var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0JGp-JLQ5NQExopmbZ7rT6EfYODfKZmAfnPPj-p0jA/exec";
+var TARGET = "app.html";
+var SESSION_KEY = "berelovitz_gate_ok";
+var OWNER_HASH = -1637438633;
+
+function hash(s){var x=0;for(var i=0;i<s.length;i++){x=((x<<5)-x+s.charCodeAt(i))|0}return x}
+
+/* already authenticated this session: go straight in */
+try{ if(sessionStorage.getItem(SESSION_KEY)==="1"){ window.location.replace(TARGET); } }catch(e){}
+
+function enter(){ try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(e){} window.location.href=TARGET; }
+function fail(msg){
+  var err=document.getElementById("lgErr"), box=document.getElementById("loginBox");
+  err.textContent=msg||"תעודת זהות לא מורשית"; err.classList.add("show");
+  box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
+  var i=document.getElementById("pw"); i.value=""; i.focus();
+}
+window.doLogin=function(ev){
+  ev.preventDefault();
+  var val=(document.getElementById("pw").value||"").replace(/\D/g,"");
+  if(!val){ fail("נא להזין תעודת זהות"); return false; }
+  if(hash(val)===OWNER_HASH){ enter(); return false; }
+  var btn=document.getElementById("lgBtn"); btn.disabled=true; btn.textContent="בודק...";
+  fetch(API + "?action=auth&id=" + encodeURIComponent(val) + "&t=" + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      btn.disabled=false; btn.textContent="כניסה למערכת";
+      if(d && d.ok && d.allowed){ enter(); } else fail("תעודת זהות לא מורשית. פני למנהל הקרן.");
+    })
+    .catch(function(){ btn.disabled=false; btn.textContent="כניסה למערכת"; fail("שגיאת חיבור. נסי שוב."); });
+  return false;
+};
+</script>
+</body>
+</html>
