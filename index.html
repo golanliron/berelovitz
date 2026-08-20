@@ -81,6 +81,13 @@ h1{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:-.01em
 .foot a{color:var(--purple-60);text-decoration:none;border-bottom:1px solid var(--purple-15)}
 .foot a:hover{color:var(--purple)}
 
+/* public site link under the gate card */
+.pub{margin-top:26px;text-align:center;position:relative;z-index:1}
+.pub a{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--purple);
+  border-bottom:1px solid var(--purple-35);padding-bottom:3px;text-decoration:none;transition:border-color .2s}
+.pub a:hover{border-color:var(--purple)}
+.pub svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6}
+
 @media(max-width:420px){
   .card{padding:38px 24px 30px}
   .logo{width:160px}
@@ -106,6 +113,12 @@ h1{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:-.01em
   <button class="btn" type="submit" id="lgBtn">כניסה למערכת</button>
   <div class="err" id="lgErr"></div>
 </form>
+
+<div class="pub">
+  <a href="home.html">לצפייה באתר הקרן
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+  </a>
+</div>
 
 <div class="foot">
   © 2026 קרן משפחת ברלוביץ׳ &nbsp;·&nbsp; <a href="mailto:info@berelovitz.org">info@berelovitz.org</a>
