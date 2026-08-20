@@ -87,6 +87,19 @@ section{padding:80px 32px}
 .dark-bg .icard{background:rgba(255,255,255,.05);border-color:rgba(196,184,155,.2)}
 .dark-bg .icard h3{color:#fff}
 .dark-bg .icard p{color:rgba(255,255,255,.65)}
+.icard .ic-svg{width:30px;height:30px;margin-bottom:14px;color:var(--warm-d);stroke:currentColor}
+.dark-bg .icard .ic-svg{color:var(--warm)}
+
+/* ===== Partner logo wall ===== */
+.logo-wall-head{text-align:center;margin:56px 0 26px}
+.logo-wall-head .lw-tag{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:700}
+.logo-wall-head .lw-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(22px,3.2vw,30px);color:#fff;margin-top:6px}
+.logo-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;margin-top:8px}
+.logo-cell{background:#fff;border-radius:12px;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;padding:18px;transition:transform .22s,box-shadow .22s;border:1px solid rgba(255,255,255,.06)}
+.logo-cell:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.28)}
+.logo-cell img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:none}
+.logo-note{text-align:center;margin-top:22px;color:rgba(255,255,255,.5);font-size:13px;font-weight:300}
+@media(max-width:560px){.logo-wall{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}.logo-cell{padding:13px}}
 
 /* biography layout */
 .bio{display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start}
@@ -176,7 +189,6 @@ footer a{color:var(--warm)}
     <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
     <div class="nav-links" id="navLinks">
       <a href="#story" onclick="closeNav()">הסיפור שלנו</a>
-      <a href="#vision" onclick="closeNav()">החזון</a>
       <a href="#partners" onclick="closeNav()">שותפים שלנו</a>
       <a href="#" class="nav-cta" onclick="openLogin();closeNav();return false;">🔒 כניסה למורשים</a>
     </div>
@@ -189,7 +201,7 @@ footer a{color:var(--warm)}
   <div class="hero-in">
     <div class="hero-logo"><img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳"></div>
     <h1>מצמיחים <em>השפעה</em> לדורות</h1>
-    <div class="hero-sub">קרן משפחתית פילנתרופית — ביחד עם שותפים, לחיזוק אנשים וארגונים ליצירת שינוי חברתי שנשאר לאורך זמן</div>
+    <div class="hero-sub">קרן משפחתית לחיזוק אנשים וארגונים — למען שינוי חברתי שנשאר לדורות</div>
     <div class="memorial">לזכר ברי ברלוביץ׳ ז״ל</div>
     <div class="hero-rule"></div>
     <div class="hero-cta">
@@ -243,43 +255,6 @@ footer a{color:var(--warm)}
       <div class="icard"><div class="ic-icon">🎓</div><h3>חינוך על־יסודי</h3><p>קידום החינוך העל־יסודי בישראל וצמצום פערים לימודיים.</p></div>
       <div class="icard"><div class="ic-icon">⚖️</div><h3>הזדמנות שווה</h3><p>הגדלת ההזדמנות השווה בפריפריה ובקרב אוכלוסיות מוחלשות.</p></div>
       <div class="icard"><div class="ic-icon">🤲</div><h3>צמצום עוני ורווחה</h3><p>קידום פרויקטים בתחום צמצום העוני והרווחה.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== VISION ===== -->
-<section id="vision" class="dark-bg">
-  <div class="wrap">
-    <div class="sec-tag" style="color:var(--warm)">החזון · 2036</div>
-    <h2 class="sec-title">הקרן בעוד עשר שנים</h2>
-    <div class="sec-divider"></div>
-    <p class="sec-lead">חלומות של נאוה והשלד לחשיבה — לאן אנחנו מכוונים בעשור הקרוב.</p>
-
-    <div class="vstats">
-      <div class="vstat"><div class="vs-num">100K+</div><div class="vs-label">בוגרים, צעירים וצעירות שחוו הזדמנות בזכות הקרן</div></div>
-      <div class="vstat"><div class="vs-num">100+</div><div class="vs-label">ארגונים חזקים ומקצועיים</div></div>
-      <div class="vstat"><div class="vs-num">פריפריה</div><div class="vs-label">קידום החינוך בפריפריה, בהשפעה ארוכת טווח על מדינת ישראל</div></div>
-    </div>
-
-    <div class="grid grid-2">
-      <div class="icard"><div class="ic-icon">♾️</div><h3>פתרונות ברי קיימא</h3><p>פתרונות ארוכי טווח לאתגרים חברתיים עמוקים.</p></div>
-      <div class="icard"><div class="ic-icon">🧭</div><h3>אנשים שמובילים שינוי</h3><p>נשקיע במי שמוביל שינוי, וניגע לאוכלוסייה ולמקומות שנשארים מאחור.</p></div>
-      <div class="icard"><div class="ic-icon">🏗️</div><h3>תשתיות שנשארות</h3><p>תשתיות שימשיכו להשפיע גם אחרי שנסיים לתמוך.</p></div>
-      <div class="icard"><div class="ic-icon">🕊️</div><h3>מורשת ברי ברלוביץ׳</h3><p>נשמר את המורשת של ברי ברלוביץ׳ ז״ל — סיפור של דור שממשיך קדימה.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TREE ===== -->
-<section class="alt-bg">
-  <div class="wrap">
-    <div class="sec-tag">עץ הצמיחה של הקרן</div>
-    <h2 class="sec-title">שורשים · גזע · פירות</h2>
-    <div class="sec-divider"></div>
-    <p class="sec-lead">מהזהות והבסיס (השורשים), דרך התשתיות שמחזיקות את הקרן (הגזע), אל ההשפעה שאנו מצמיחים (הפירות).</p>
-    <div class="tree-wrap">
-      <img src="tree-berelovitz.png" alt="עץ הצמיחה של קרן ברלוביץ׳" loading="lazy">
-      <div class="tree-cap">עץ הצמיחה של הקרן — מתוך מצגת החזון 2036</div>
     </div>
   </div>
 </section>
