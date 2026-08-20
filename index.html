@@ -212,18 +212,18 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
   .hero>.brand-line{display:none}
 }
 @media(max-width:760px){
-  .hero{min-height:0}
-  .hero-grid{grid-template-columns:minmax(0,47%) minmax(0,53%);gap:0;min-height:clamp(350px,94vw,450px);padding-inline:0;direction:ltr}
-  .hero-copy{order:1;padding:24px 8px 26px var(--gutter);text-align:left;direction:ltr;display:flex;flex-direction:column;justify-content:center}
-  .hero-copy::after{display:block;width:clamp(58px,14vw,96px);border-radius:0 0 clamp(98px,22vw,150px) 0}
-  .hero-media{order:2;align-self:stretch;height:auto}
-  .hero h1{font-size:clamp(24px,6.8vw,36px);line-height:1.05;letter-spacing:0;word-break:normal;overflow-wrap:break-word}
-  .hero .lead{font-size:clamp(12.5px,3.4vw,15px);line-height:1.48;text-align:left;margin:14px 0 0;max-width:100%}
-  .hero-media figure{position:absolute;inset:0;height:auto;aspect-ratio:auto;border-radius:0;margin-inline:0}
-  .hero-media img{object-position:57% center}
-  .hero-media figcaption{color:rgba(243,240,232,.95)}
+  .hero{min-height:0;background:var(--ivory);overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:0;min-height:0;padding-inline:0;direction:inherit}
+  .hero-media{order:1;align-self:stretch;height:clamp(230px,64vw,330px)}
+  .hero-media figure{position:relative;inset:auto;height:100%;aspect-ratio:auto;border-radius:0;margin-inline:0;background:#e8e1d6}
+  .hero-media img{object-fit:contain;object-position:center center}
+  .hero-media figcaption{right:12px;bottom:12px;color:rgba(243,240,232,.96);font-size:10.5px;max-width:calc(100% - 24px)}
+  .hero-copy{order:2;padding:26px var(--gutter) 34px;text-align:center;direction:inherit;display:flex;flex-direction:column;align-items:center}
+  .hero-copy::after{display:none}
+  .hero h1{font-size:clamp(34px,10.5vw,46px);line-height:1.06;letter-spacing:0;word-break:normal;overflow-wrap:break-word}
+  .hero .lead{font-size:clamp(15px,4.2vw,17px);line-height:1.5;text-align:center;margin:16px auto 0;max-width:25ch}
   .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
-  .hero>.brand-line{display:block;right:40%;bottom:16px;height:96px!important;z-index:4}
+  .hero>.brand-line{display:block;left:-18vw;right:-18vw;bottom:86px;height:82px!important;z-index:1;opacity:.9}
 }
 @media(max-width:420px){
   .hero h1{font-size:clamp(34px,10.5vw,44px)}
@@ -613,14 +613,14 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
   .nav{inset:52px 0 auto 0;padding:10px var(--gutter) 20px}
   .nav a{font-size:16px;padding:11px 4px;text-align:right}
 
-  .hero-copy{padding:24px 8px 26px var(--gutter);text-align:left}
-  .hero h1{font-size:clamp(24px,6.8vw,36px);line-height:1.05}
-  .hero .lead{font-size:clamp(12.5px,3.4vw,15px);line-height:1.48;margin:14px 0 0;text-align:left}
-  .hero-cta{margin-top:18px}
-  .hero-cta .btn{width:auto;justify-content:center;padding:11px 14px;font-size:12.5px}
+  .hero-copy{padding:26px var(--gutter) 34px;text-align:center}
+  .hero h1{font-size:clamp(34px,10.5vw,46px);line-height:1.06}
+  .hero .lead{font-size:clamp(15px,4.2vw,17px);line-height:1.5;margin:16px auto 0;text-align:center}
+  .hero-cta{margin-top:20px}
+  .hero-cta .btn{width:auto;justify-content:center;padding:12px 18px;font-size:13px}
   .hero-media figure{margin-inline:0;border-radius:0;aspect-ratio:auto}
-  .hero-media img{object-position:57% center;filter:grayscale(1) sepia(.08) contrast(.95) brightness(1.05)}
-  .hero-media figcaption{right:10px;bottom:10px;font-size:9.5px;padding:5px 7px}
+  .hero-media img{object-position:center center;filter:grayscale(1) sepia(.08) contrast(.95) brightness(1.05)}
+  .hero-media figcaption{right:12px;bottom:12px;font-size:10.5px;padding:5px 8px}
 
   .focus{padding-block:0}
   .focus .wrap{padding-inline:0}
@@ -729,8 +729,9 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
 
 @media(max-width:390px){
   .brand-logo{width:68px}
-  .hero h1{font-size:25px}
-  .hero-copy{padding-top:22px}
+  .hero-media{height:225px}
+  .hero h1{font-size:34px}
+  .hero-copy{padding-top:24px}
   .focus-item{gap:12px}
   .focus-ic{width:52px;height:52px}
   .story-row,.story-row:nth-child(even){grid-template-columns:42px 1fr}
@@ -784,7 +785,7 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
   <div class="hero-grid">
     <div class="hero-copy fu">
       <h1>בונים הזדמנות.<br><span class="accent">מצמיחים שינוי</span> שנשאר.</h1>
-      <p class="lead">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
+      <p class="lead">שותפים לאנשים וארגונים שמצמיחים שינוי שנשאר.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#impact">האימפקט שלנו
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -1207,7 +1208,7 @@ var TEXT = {
     navImpact:"האימפקט שלנו",
     navPartners:"שותפים",
     heroTitle:"בונים הזדמנות.<br><span class=\"accent\">מצמיחים שינוי</span> שנשאר.",
-    heroLead:"אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.",
+    heroLead:"שותפים לאנשים וארגונים שמצמיחים שינוי שנשאר.",
     heroBtn:"האימפקט שלנו",
     heroCaption:"ברי ברלוביץ׳ ז״ל · 1938–2022",
     heroAlt:"ברי ברלוביץ׳ ז״ל, מייסד הקרן",
@@ -1309,7 +1310,7 @@ var TEXT = {
     navImpact:"Our Impact",
     navPartners:"Partners",
     heroTitle:"Building opportunity<br><span class=\"accent\">Growing lasting</span> change.",
-    heroLead:"We partner with people and organizations creating meaningful social impact that lasts for generations.",
+    heroLead:"Partnering with people and organizations to grow lasting change.",
     heroBtn:"Our Impact",
     heroCaption:"Beri Berelowitz, of blessed memory · 1938-2022",
     heroAlt:"Beri Berelowitz, of blessed memory, founder of the foundation",
