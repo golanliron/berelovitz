@@ -182,14 +182,15 @@ table.data tr:hover td{background:#f9f7f4}
 <!-- Header -->
 <div class="header">
   <div class="header-right">
-    <img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳" class="header-logo" style="cursor:pointer" onclick="switchTab('dashboard')" title="לעמוד הבית">
+    <img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳" class="header-logo" style="cursor:pointer" onclick="goHome()" title="לעמוד הבית">
     <div>
       <h1>קרן משפחת ברלוביץ׳ <em>מערכת ניהול אימפקט</em></h1>
       <div class="subtitle">מאגר העמותות ומדידת ההשפעה 2024–2025</div>
     </div>
   </div>
   <div class="header-actions">
-    <button class="hbtn" onclick="switchTab('dashboard')">🏠 עמוד הבית</button>
+    <button class="hbtn" onclick="switchTab('dashboard')">📊 דשבורד</button>
+    <button class="hbtn" onclick="goHome()">🏠 עמוד הבית</button>
     <button class="hbtn" onclick="refreshData()">↻ רענון</button>
     <button class="hbtn" onclick="exportCSV()">⬇ ייצוא CSV</button>
   </div>
@@ -843,6 +844,7 @@ function exportCSV(){
   toast("הקובץ יורד ✓","ok");
 }
 function openSheet(){ window.open(SHEET_URL, "_blank"); }
+function goHome(){ window.location.href = "index.html"; }
 
 var toastTimer;
 function toast(msg, kind){
