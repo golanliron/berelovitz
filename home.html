@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,8 +33,9 @@ html{scroll-behavior:smooth}
 html{overflow-x:clip}
 body{
   font-family:var(--sans);background:var(--ivory);color:var(--purple);
-  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip;position:relative;width:100%;max-width:100%;
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip;position:relative;width:100%;max-width:100%;direction:ltr;
 }
+body.loading{overflow:hidden}
 /* paper grain — barely-there noise overlay */
 body::before{
   content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
@@ -45,8 +46,8 @@ a{color:inherit;text-decoration:none}
 ::selection{background:var(--purple);color:var(--ivory)}
 :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
 
-.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gutter)}
-section{padding-block:clamp(72px,10vw,140px);position:relative;overflow-x:clip}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);direction:rtl}
+section{padding-block:clamp(72px,10vw,140px);position:relative;overflow-x:clip;scroll-margin-top:118px}
 
 /* ---------- Typography ---------- */
 h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spacing:-.01em}
@@ -68,7 +69,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 .tlink:hover svg{transform:translateX(-4px)}
 
 /* ---------- Monogram graphic (reusable) ---------- */
-.monogram{position:absolute;background:url("monogram-only.png") no-repeat center/contain;pointer-events:none;z-index:0}
+.monogram{position:absolute;background:url("monogram-motif.png") no-repeat center/contain;pointer-events:none;z-index:0}
 
 /* ---------- BrandLine ---------- */
 .brand-line{display:block;width:100%;overflow:visible}
@@ -78,127 +79,478 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 }
 @keyframes draw{to{stroke-dashoffset:0}}
 
+/* ---------- Intro loader ---------- */
+.intro-loader{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:
+  radial-gradient(circle at 48% 44%,rgba(183,155,103,.16),transparent 34%),
+  linear-gradient(180deg,#f7f4ec 0%,var(--ivory) 100%);
+  overflow:hidden;animation:introGone .8s 4.2s ease forwards}
+.intro-loader::before{content:"";position:absolute;inset:auto auto -15vw -10vw;width:min(620px,62vw);height:min(620px,62vw);background:url("monogram-motif.png") center/contain no-repeat;opacity:.045;transform:rotate(-8deg)}
+.intro-loader::after{content:"";position:absolute;left:0;right:0;top:57%;height:92px;background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 130' preserveAspectRatio='none'%3E%3Cpath d='M0 70 C180 54 258 98 394 64 C520 32 576 42 628 68 C666 88 700 84 730 60 C760 36 804 36 834 62 C866 90 924 80 1010 62 C1138 36 1260 72 1440 56' fill='none' stroke='%23352D4A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+  opacity:.2;transform:translateY(-50%)}
+.intro-inner{position:relative;z-index:2;display:grid;justify-items:center;gap:18px;text-align:center;padding:34px;direction:rtl}
+.intro-stage{position:relative;width:clamp(250px,30vw,430px);display:grid;place-items:center;isolation:isolate}
+.intro-logo{width:100%;opacity:0;transform:translateY(12px) scale(.96);filter:blur(8px) drop-shadow(0 18px 38px rgba(53,45,74,.08));animation:introLogoReveal 1.65s .15s cubic-bezier(.22,.8,.2,1) forwards,introLogoSettle .55s 1.8s ease forwards}
+.intro-logo img{width:100%;height:auto;display:block}
+.intro-signature{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 38px rgba(53,45,74,.08));transform:translateY(2px);animation:introLogoSettle .55s 2.15s ease forwards}
+.intro-draw{fill:none;stroke:#fff;stroke-width:82;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:introDraw 1.4s cubic-bezier(.68,0,.22,1) forwards}
+.intro-draw.d1{animation-delay:.05s}
+.intro-draw.d2{animation-delay:.36s}
+.intro-draw.d3{animation-delay:.62s}
+.intro-draw.d4{animation-delay:.86s}
+.intro-draw.d5{animation-delay:1.18s}
+.intro-tag{font-family:var(--serif);font-size:clamp(24px,3vw,46px);line-height:1.1;color:var(--purple);opacity:0;transform:translateY(10px) rotate(-2deg);animation:introRevealTag .8s 2.35s ease forwards}
+.intro-tag span{color:var(--terracotta);position:relative}
+.intro-tag span::after{content:"";position:absolute;right:-.05em;left:-.05em;bottom:.02em;height:.18em;background:rgba(183,155,103,.24);z-index:-1;transform:skewX(-12deg)}
+@keyframes introLogoReveal{to{opacity:1;transform:translateY(0) scale(1);filter:blur(0) drop-shadow(0 18px 38px rgba(53,45,74,.08))}}
+@keyframes introDraw{to{stroke-dashoffset:0}}
+@keyframes introLogoSettle{to{transform:translateY(-2px) scale(1.02)}}
+@keyframes introRevealTag{to{opacity:1;transform:rotate(-2deg)}}
+@keyframes introGone{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(prefers-reduced-motion:reduce){
+  .intro-loader{animation:introGone .35s .8s ease forwards}
+  .intro-logo,.intro-signature,.intro-tag{animation:none;opacity:1;transform:none;filter:none}
+  .intro-draw{animation:none;stroke-dashoffset:0}
+}
+
 /* ---------- Header ---------- */
-.hdr{position:sticky;top:0;z-index:200;background:var(--ivory);transition:background .3s,backdrop-filter .3s,box-shadow .3s;border-bottom:1px solid transparent}
-.hdr.stuck{background:rgba(243,240,232,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--purple-08)}
-.hdr-in{max-width:1240px;margin:0 auto;padding:22px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:14px}
-.brand-mark{width:46px;height:46px;object-fit:contain}
-.brand-txt{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;color:var(--purple)}
-.brand-txt small{display:block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple-35);margin-top:2px}
-.nav{display:flex;align-items:center;gap:6px}
-.nav a{font-size:14.5px;font-weight:500;color:var(--purple);padding:9px 15px;border-radius:2px;transition:color .2s,opacity .2s;opacity:.78}
+.hdr{position:sticky;top:0;z-index:200;background:rgba(236,235,225,.94);transition:background .3s,backdrop-filter .3s,box-shadow .3s;border-bottom:3px solid rgba(170,177,154,.55);overflow:visible;backdrop-filter:blur(10px)}
+.hdr.stuck{background:rgba(236,235,225,.88);box-shadow:0 10px 30px rgba(53,45,74,.06)}
+.hdr-in{max-width:100%;margin:0 auto;padding:14px clamp(34px,5vw,78px) 12px;display:flex;align-items:center;justify-content:space-between;gap:44px;direction:ltr;overflow:visible;position:relative;z-index:2}
+.brand{display:flex;align-items:center;overflow:visible}
+.brand-logo{width:clamp(104px,8.6vw,138px);height:auto;display:block;object-fit:contain}
+.hdr-tagline{position:absolute;left:clamp(210px,17vw,320px);top:50%;transform:translateY(-48%) rotate(-5deg);font-family:var(--serif);font-size:clamp(18px,1.25vw,24px);line-height:1;color:var(--terracotta);white-space:nowrap;letter-spacing:.01em;padding:8px 18px 10px;pointer-events:none;z-index:1}
+.hdr-tagline::before{content:"";position:absolute;inset:52% 0 0 0;height:42%;background:rgba(183,155,103,.16);border-radius:999px;transform:skewX(-12deg);z-index:-1}
+.hdr-tagline::after{content:"";position:absolute;right:10px;left:10px;bottom:2px;height:1px;background:linear-gradient(90deg,transparent,var(--terracotta),transparent);opacity:.55}
+.nav{display:flex;align-items:center;gap:clamp(28px,4vw,64px);direction:rtl;padding-top:0}
+.nav a{font-size:clamp(16px,1.2vw,19px);font-weight:600;color:var(--purple);padding:0 0 10px;border-radius:2px;transition:color .2s,opacity .2s,border-color .2s;opacity:.92;letter-spacing:.01em;border-bottom:1px solid transparent}
 .nav a:hover{opacity:1}
-.nav a.nav-cta{margin-inline-start:8px;border:1px solid var(--purple-35);opacity:1;display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.nav a[aria-current="page"],.nav a:hover{border-color:var(--terracotta)}
+.nav a.nav-cta{display:inline-flex;margin-inline-start:8px;border:1px solid var(--purple);opacity:1;align-items:center;gap:8px;font-weight:600;padding:15px 26px}
 .nav a.nav-cta:hover{background:var(--purple);color:var(--ivory)}
 .nav a.nav-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8}
+.hdr-thread{display:none}
+.lang-toggle{border:1px solid rgba(53,45,74,.24);background:rgba(255,255,255,.16);color:var(--purple);font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.04em;padding:8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.lang-toggle span{opacity:.45}
+.lang-toggle:hover{background:rgba(255,255,255,.34)}
 .burger{display:none;background:none;border:none;color:var(--purple);cursor:pointer;padding:6px}
 .burger svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.6}
-@media(max-width:900px){
-  .nav{position:fixed;inset:78px 0 auto 0;flex-direction:column;align-items:stretch;background:var(--ivory);
+@media(max-width:760px){
+  .hdr{position:sticky}
+  .hdr-in{align-items:center;padding:8px var(--gutter);direction:rtl}
+  .brand-logo{width:128px}
+  .hdr-tagline{display:none}
+  .nav{position:fixed;inset:54px 0 auto 0;flex-direction:column;align-items:stretch;background:var(--ivory);
     padding:16px var(--gutter) 28px;gap:2px;border-bottom:1px solid var(--purple-08);
     transform:translateY(-135%);transition:transform .35s ease;box-shadow:0 24px 40px var(--purple-08)}
-  .nav.open{transform:translateY(0)}
+  .nav.open{transform:translateY(0);box-shadow:0 24px 40px var(--purple-08),0 100vh 0 rgba(243,240,232,.86)}
   .nav a{padding:14px 6px;font-size:16px;opacity:1;border-bottom:1px solid var(--purple-08)}
   .nav a.nav-cta{margin:10px 0 0;justify-content:center;border-radius:2px;padding:14px}
+  .hdr-thread{display:none}
+  .lang-toggle{margin-inline-start:auto;padding:5px 8px;font-size:11px}
   .burger{display:block}
 }
+@media(max-width:1080px){
+  .hdr-tagline{left:clamp(182px,18vw,230px);font-size:17px}
+}
+@media(max-width:940px){
+  .hdr-tagline{display:none}
+}
 @media(max-width:520px){
-  .hdr-in{padding:16px var(--gutter)}
-  .brand-mark{width:38px;height:38px}
-  .brand-txt{font-size:15px}
-  .brand-txt small{font-size:8px;letter-spacing:.12em}
+  .hdr-in{padding:6px var(--gutter)}
+  .brand-logo{width:74px}
 }
 @media(max-width:380px){ .brand-txt small{display:none} }
+body.lang-en{direction:ltr}
+body.lang-en .wrap,body.lang-en .intro-inner,body.lang-en .nav,body.lang-en .focus-grid,body.lang-en .story-hero-copy,body.lang-en .partners-head{direction:ltr}
+body.lang-en .hero-copy,body.lang-en .hero .lead,body.lang-en .story-hero-copy,body.lang-en .partners-head{text-align:left}
+body.lang-en .hero h1 .accent{font-style:normal}
+body.lang-en .tlink::after{right:auto;left:0;transform-origin:left}
+body.lang-en .btn svg,body.lang-en .tlink svg{transform:scaleX(-1)}
+body.lang-en .tlink:hover svg{transform:translateX(4px) scaleX(-1)}
+body.lang-en .story-row,body.lang-en .story-row:nth-child(even){direction:ltr}
+body.lang-en .story-row:nth-child(even) .row-copy{direction:ltr}
+body.lang-en .row-copy{text-align:center}
+body.lang-en .lg-field{text-align:left}
+body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
 
-/* ---------- Hero (image bleeds to the edge with an organic curve, like the mockup) ---------- */
-.hero{position:relative;overflow:hidden;min-height:clamp(520px,44vw,680px);display:flex;align-items:center;padding:0}
-.hero-media{position:absolute;top:0;left:0;width:min(55%,880px);height:90%;z-index:2;overflow:hidden;
-  background:var(--purple-08);border-radius:0 clamp(120px,16vw,220px) clamp(260px,34vw,460px) 0}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-inner{position:relative;z-index:3;width:100%;max-width:1240px;margin:0 auto;padding:clamp(56px,7vw,96px) var(--gutter)}
-.hero-copy{width:min(600px,46%)}
-.hero h1{font-size:clamp(44px,5vw,84px);line-height:1.04;font-weight:400;letter-spacing:-.03em}
-.hero .lead{margin-top:24px}
-.hero-cta{margin-top:36px}
-/* hand-drawn line: enters from the right, loops under the button, slips beneath the image */
-.hero-line{position:absolute;left:0;right:0;bottom:clamp(24px,5vw,64px);height:140px;z-index:1;pointer-events:none}
-@media(max-width:900px){
-  .hero{display:block;min-height:0}
-  .hero-inner{padding:clamp(40px,8vw,56px) var(--gutter) 24px}
-  .hero-copy{width:100%}
-  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;overflow-wrap:break-word}
-  .hero-media{position:relative;top:auto;left:auto;width:auto;height:320px;margin:0 var(--gutter) 0 0;
-    border-radius:0 110px 220px 0}
-  .hero-line{position:static;height:90px;margin-top:-30px}
+/* ---------- Hero ---------- */
+.hero{padding-block:0;position:relative;overflow:hidden;min-height:500px}
+.hero-grid{max-width:100%;margin:0 auto;padding-inline:0;
+  display:grid;grid-template-columns:minmax(430px,47vw) 1fr;gap:0;align-items:stretch;min-height:500px;direction:ltr}
+.hero-copy{position:relative;z-index:3;padding:clamp(42px,5vw,72px) clamp(42px,5.2vw,88px) 62px;direction:rtl;text-align:right;background:var(--ivory)}
+.hero-copy::after{
+  content:"";position:absolute;top:0;bottom:0;left:calc(100% - 1px);width:clamp(130px,14vw,260px);
+  background:var(--ivory);border-radius:0 0 clamp(150px,16vw,260px) 0;z-index:-1;
+}
+.hero h1{font-size:clamp(50px,5vw,84px);line-height:1.04;font-weight:400;letter-spacing:0}
+.hero h1 .accent{font-style:italic;font-weight:400}
+.hero .lead{margin-top:24px;font-size:22px;line-height:1.45;max-width:560px;margin-inline-start:auto;text-align:right}
+.hero-cta{margin-top:34px}
+/* large edge-to-edge image panel with concave curved edge (like the mockup) */
+.hero-media{position:relative;z-index:2;align-self:stretch}
+.hero-media figure{position:absolute;inset:0;overflow:hidden;background:#e9e2d8;
+  border-radius:clamp(160px,18vw,290px) 0 0 0}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center center;filter:grayscale(1) sepia(.12) contrast(.94) brightness(1.03)}
+.hero-media figcaption{position:absolute;right:28px;bottom:24px;z-index:3;
+  font-family:var(--sans);font-size:12px;color:rgba(243,240,232,.95);letter-spacing:.02em;
+  background:rgba(0,0,0,.48);padding:6px 10px;border-radius:2px;backdrop-filter:blur(2px)}
+/* connecting brand line between text and image */
+.hero-connect{position:absolute;inset:0;z-index:1;pointer-events:none}
+/* large cropped monogram bleeding off the left edge */
+.hero .monogram{display:none}
+.hero>.brand-line{position:absolute;left:0;right:53%;width:auto;bottom:34px;z-index:4;margin:0!important;height:140px!important;transform:scaleX(-1);pointer-events:none}
+.hero>.brand-line path{stroke-width:2.1}
+@media(min-width:761px) and (max-width:1100px){
+  .hero{min-height:390px}
+  .hero-grid{grid-template-columns:minmax(390px,52vw) 1fr;min-height:390px}
+  .hero-copy{padding-top:36px;padding-bottom:40px}
+  .hero h1{font-size:clamp(46px,5.2vw,60px)}
+  .hero .lead{font-size:19px}
+  .hero-media figure{background:#e9e2d8}
+  .hero-media img{object-fit:cover;object-position:74% center}
+  .hero>.brand-line{display:none}
+}
+@media(max-width:760px){
+  .hero{min-height:0;background:var(--ivory);overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:0;min-height:0;padding-inline:0;direction:inherit}
+  .hero-media{order:1;align-self:stretch;height:clamp(230px,64vw,330px)}
+  .hero-media figure{position:relative;inset:auto;height:100%;aspect-ratio:auto;border-radius:0;margin-inline:0;background:#e8e1d6}
+  .hero-media img{object-fit:contain;object-position:center center}
+  .hero-media figcaption{right:12px;bottom:12px;color:rgba(243,240,232,.96);font-size:10.5px;max-width:calc(100% - 24px)}
+  .hero-copy{order:2;padding:26px var(--gutter) 34px;text-align:center;direction:inherit;display:flex;flex-direction:column;align-items:center}
+  .hero-copy::after{display:none}
+  .hero h1{font-size:clamp(34px,10.5vw,46px);line-height:1.06;letter-spacing:0;word-break:normal;overflow-wrap:break-word}
+  .hero .lead{font-size:clamp(15px,4.2vw,17px);line-height:1.5;text-align:center;margin:16px auto 0;max-width:25ch}
+  .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
+  .hero>.brand-line{display:block;left:-18vw;right:-18vw;bottom:86px;height:82px!important;z-index:1;opacity:.9}
 }
 @media(max-width:420px){
   .hero h1{font-size:clamp(34px,10.5vw,44px)}
 }
 
-/* ---------- Focus cards strip (single bordered row under hero, like mockup) ---------- */
-.focus{padding-block:clamp(26px,4vw,48px)}
-.focus .wrap{max-width:1400px}
-.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--purple-15)}
-.focus-item{display:flex;align-items:center;gap:18px;padding:28px 26px;color:inherit}
-.focus-item:not(:last-child){border-inline-end:1px solid var(--purple-15)}
-.focus-ic{flex-shrink:0;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.focus-ic svg{width:26px;height:26px;stroke:var(--ivory);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+/* ---------- Focus areas ---------- */
+.focus{border-top:1px solid rgba(53,45,74,.2);padding-block:20px 18px;background:var(--ivory)}
+.focus .wrap{max-width:100%;padding-inline:clamp(24px,3vw,44px)}
+.focus-head{display:none;max-width:620px;margin-bottom:clamp(40px,5vw,64px)}
+.focus-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
+.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(53,45,74,.22);direction:rtl}
+.focus-item{min-height:124px;padding:20px clamp(18px,2.6vw,36px);border-bottom:none;position:relative;display:flex;align-items:center;gap:20px;background:rgba(255,255,255,.18)}
+.focus-item:not(:last-child){border-inline-end:1px solid rgba(53,45,74,.22);padding-inline-end:clamp(22px,3vw,42px)}
+.focus-ic{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:0;box-shadow:inset 0 1px 10px rgba(255,255,255,.22)}
+.focus-ic{flex:0 0 auto}
+.focus-ic svg{width:38px;height:38px;stroke:var(--ivory);fill:none;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
 .focus-ic.sage{background:var(--sage)}.focus-ic.terracotta{background:var(--terracotta)}.focus-ic.mustard{background:var(--mustard)}
-.focus-item h3{font-size:21px;font-weight:600;margin-bottom:3px}
-.focus-item p{font-size:14px;color:var(--purple-75);line-height:1.55;max-width:270px}
-.focus-arrow{margin-inline-start:auto;flex-shrink:0;width:22px;height:22px;stroke:var(--purple);fill:none;stroke-width:1.5;transition:transform .25s}
-.focus-item:hover .focus-arrow{transform:translateX(-5px)}
-@media(max-width:820px){
+.focus-copy{flex:1 1 auto;min-width:0}
+.focus-item h3{font-size:clamp(22px,1.8vw,27px);font-weight:500;margin-bottom:5px;white-space:normal;line-height:1.08}
+.focus-item p{font-size:clamp(14px,1.05vw,16px);color:var(--purple-75);line-height:1.48;max-width:310px}
+.focus-item .tlink{flex:0 0 auto;margin-inline-start:auto;margin-top:0;font-size:0;width:42px;height:42px;align-items:center;justify-content:center;padding:0}
+.focus-item .tlink::after{display:none}
+.focus-item .tlink svg{width:35px;height:35px;stroke-width:1.15}
+.focus-item .tlink:hover svg{transform:translateX(-4px)}
+@media(max-width:760px){
   .focus-grid{grid-template-columns:1fr}
-  .focus-item:not(:last-child){border-inline-end:none;border-bottom:1px solid var(--purple-15)}
+  .focus-item,.focus-item:not(:last-child){padding:24px 20px;border-inline-end:none;border-bottom:1px solid rgba(53,45,74,.22)}
+  .focus-item:last-child{border-bottom:none}
+}
+@media(min-width:761px) and (max-width:1100px){
+  .focus-item{min-height:122px;padding:18px 18px;gap:13px}
+  .focus-ic{width:56px;height:56px}
+  .focus-ic svg{width:30px;height:30px}
+  .focus-item h3{font-size:21px;margin-bottom:4px}
+  .focus-item p{font-size:13.5px;line-height:1.42}
+  .focus-item .tlink{width:30px;height:30px}
+  .focus-item .tlink svg{width:27px;height:27px}
 }
 
-/* ---------- Impact statement (tinted band + gold hand line, like mockup) ---------- */
-.impact{text-align:center;background:#E9E7DB;padding-block:clamp(56px,7vw,92px)}
+/* ---------- Work detail ---------- */
+.work-detail{position:relative;overflow:hidden;border-top:1px solid rgba(53,45,74,.13);background:linear-gradient(180deg,rgba(243,240,232,.78),rgba(236,235,225,.9));padding-block:clamp(58px,7vw,96px)}
+.work-detail::before{content:"";position:absolute;inset:18px auto auto 24px;width:330px;height:330px;background:url("monogram-motif.png") center/contain no-repeat;opacity:.035;pointer-events:none}
+.work-intro{position:relative;z-index:1;display:grid;grid-template-columns:minmax(300px,440px) 1fr;gap:clamp(34px,5vw,80px);align-items:end;margin-bottom:clamp(34px,4vw,58px)}
+.work-intro h2{font-size:clamp(42px,4.4vw,72px);line-height:1.02;margin-top:12px}
+.work-intro .lead{font-size:18px;line-height:1.75;color:var(--purple-75);max-width:620px}
+.work-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(53,45,74,.18);background:rgba(255,255,255,.22)}
+.work-metric{min-height:128px;padding:24px 22px;text-align:center;border-inline-end:1px solid rgba(53,45,74,.16);display:flex;flex-direction:column;justify-content:center}
+.work-metric:last-child{border-inline-end:none}
+.work-metric strong{font-family:var(--serif);font-size:clamp(34px,3.4vw,54px);line-height:1;color:var(--purple);font-weight:500}
+.work-metric span{font-size:14.5px;line-height:1.5;color:var(--purple-60);margin-top:10px}
+.strategy-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(53,45,74,.18);background:rgba(255,255,255,.18)}
+.strategy-card{position:relative;min-height:280px;padding:32px 30px 34px;border-inline-end:1px solid rgba(53,45,74,.16);overflow:hidden}
+.strategy-card:last-child{border-inline-end:none}
+.strategy-card::after{content:"";position:absolute;inset:auto 0 0 0;height:5px}
+.strategy-card.sage::after{background:var(--sage)}
+.strategy-card.terracotta::after{background:var(--terracotta)}
+.strategy-card.mustard::after{background:var(--mustard)}
+.strategy-card .num{font-family:var(--serif);font-size:72px;line-height:.8;color:rgba(53,45,74,.08);display:block;margin-bottom:20px}
+.strategy-card h3{font-size:clamp(27px,2.5vw,38px);line-height:1.08;margin-bottom:14px;color:var(--purple)}
+.strategy-card p{font-size:15.5px;line-height:1.72;color:var(--purple-75)}
+.work-actions{position:relative;z-index:1;margin-top:28px;border:1px solid rgba(53,45,74,.16);background:rgba(53,45,74,.04);padding:26px clamp(22px,3vw,34px)}
+.work-actions h3{font-size:clamp(24px,2.4vw,34px);margin-bottom:18px}
+.action-list{display:flex;flex-wrap:wrap;gap:10px}
+.action-list span{display:inline-flex;align-items:center;gap:9px;padding:10px 14px;border:1px solid rgba(53,45,74,.14);background:rgba(255,255,255,.24);font-size:14.5px;color:var(--purple-75)}
+.action-list span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex:0 0 auto}
+.action-list span:nth-child(3n+1)::before{background:var(--sage)}
+.action-list span:nth-child(3n)::before{background:var(--mustard)}
+.work-swoosh{width:100vw;margin:8px 50% 36px 0;transform:translateX(50%);height:92px}
+.work-swoosh path{stroke:var(--purple);stroke-width:1.8;fill:none}
+.work-metric strong::after{content:"";display:block;width:150px;height:5px;margin:10px auto 0;border-radius:999px;background:var(--sage);opacity:.8}
+.work-metric.terracotta strong::after{background:var(--terracotta)}
+.work-metric.mustard strong::after{background:var(--mustard)}
+.success-flow{max-width:980px;margin:56px auto 0;position:relative}
+.success-flow h3,.build-title,.lasting-title{text-align:center;font-size:clamp(28px,3vw,44px);margin-bottom:26px}
+.success-row{display:grid;grid-template-columns:84px 92px 1fr;gap:28px;align-items:center;min-height:116px;border-top:1px solid rgba(53,45,74,.18)}
+.success-row:last-child{border-bottom:1px solid rgba(53,45,74,.18)}
+.success-num{font-family:var(--serif);font-size:40px;color:var(--purple);text-align:center}
+.success-ic{width:64px;height:64px;margin:auto;color:var(--sage)}
+.success-ic svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.success-row.terracotta .success-ic{color:var(--terracotta)}
+.success-row.mustard .success-ic{color:var(--mustard)}
+.success-copy h4{font-size:20px;margin-bottom:6px}
+.success-copy p{font-size:15px;line-height:1.7;color:var(--purple-75);max-width:560px}
+.build-title{margin-top:64px}
+.build-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(53,45,74,.16);background:rgba(255,255,255,.18)}
+.build-card{min-height:230px;text-align:center;padding:34px 28px;border-inline-end:1px solid rgba(53,45,74,.14);position:relative;overflow:hidden}
+.build-card:last-child{border-inline-end:none}
+.build-card::before{content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;transition:opacity .3s,transform .35s}
+.build-card::after{content:"";position:absolute;inset:auto 18% 0;height:5px;border-radius:999px;background:currentColor;opacity:0;transform:scaleX(.3);transition:opacity .3s,transform .35s}
+.build-card.sage::before{background:linear-gradient(145deg,rgba(170,177,154,.55),rgba(170,177,154,.08))}
+.build-card.terracotta::before{background:linear-gradient(145deg,rgba(198,142,116,.48),rgba(198,142,116,.08))}
+.build-card.mustard::before{background:linear-gradient(145deg,rgba(183,155,103,.52),rgba(183,155,103,.08))}
+.build-card.sage{color:var(--sage)}.build-card.terracotta{color:var(--terracotta)}.build-card.mustard{color:var(--mustard)}
+.build-card>*{position:relative;z-index:1}
+.build-card h4{font-size:22px;margin-bottom:10px}
+.build-card p{font-size:14.5px;line-height:1.65;color:var(--purple-75)}
+.build-card .success-ic{margin-bottom:16px;transition:transform .35s,color .3s}
+.build-card.sage .success-ic{color:var(--sage)}
+.build-card.terracotta .success-ic{color:var(--terracotta)}
+.build-card.mustard .success-ic{color:var(--mustard)}
+@media(hover:hover){
+  .build-card{transition:transform .35s,box-shadow .35s,background .35s}
+  .build-card:hover{transform:translateY(-8px);box-shadow:0 18px 54px rgba(53,45,74,.12);z-index:2;background:rgba(255,255,255,.32)}
+  .build-card:hover::before{opacity:.52;transform:scale(1.06)}
+  .build-card:hover::after{opacity:.9;transform:scaleX(1)}
+  .build-card:hover .success-ic{transform:translateY(-6px) scale(1.06)}
+}
+.lasting-impact{margin-top:60px;text-align:center;position:relative}
+.lasting-impact .monogram-mini{width:196px;height:196px;margin:10px auto 22px;position:relative;background:none;opacity:1}
+.lasting-impact .monogram-mini::before,
+.lasting-impact .monogram-mini::after{content:"";position:absolute;inset:0;background:url("monogram-motif.png") center/158px 158px no-repeat;pointer-events:none}
+.lasting-impact .monogram-mini::before{opacity:.14;filter:brightness(0) saturate(1) invert(93%) sepia(7%) saturate(230%) hue-rotate(358deg) brightness(105%) contrast(92%);transform:translate(-3px,-3px)}
+.lasting-impact .monogram-mini::after{opacity:.18;filter:brightness(0) saturate(1) invert(18%) sepia(19%) saturate(1074%) hue-rotate(216deg) brightness(88%) contrast(90%);transform:translate(3px,3px);mix-blend-mode:multiply}
+.lasting-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;max-width:980px;margin:24px auto 36px;text-align:center;border:1px solid rgba(53,45,74,.16);background:rgba(255,255,255,.16)}
+.lasting-list span{position:relative;min-height:118px;padding:42px 22px 26px;color:var(--purple);font-size:17px;line-height:1.45;font-weight:600;display:grid;place-items:center;overflow:hidden;border-inline-end:1px solid rgba(53,45,74,.14);transition:transform .32s ease,background .32s ease}
+.lasting-list span:last-child{border-inline-end:none}
+.lasting-list span::before{content:"";position:absolute;inset:0;opacity:.22;z-index:-1;transition:opacity .32s ease}
+.lasting-list span:nth-child(1)::before{background:var(--sage)}
+.lasting-list span:nth-child(2)::before{background:var(--terracotta)}
+.lasting-list span:nth-child(3)::before{background:var(--mustard)}
+.lasting-list span::after{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:currentColor;opacity:.38}
+@media(hover:hover){
+  .lasting-list span:hover{transform:translateY(-6px);background:rgba(255,255,255,.28)}
+  .lasting-list span:hover::before{opacity:.34}
+}
+.lasting-quote{font-family:var(--serif);font-size:clamp(28px,3.2vw,48px);line-height:1.3;color:var(--purple);max-width:860px;margin:0 auto}
+@media(max-width:900px){
+  .work-intro{grid-template-columns:1fr;align-items:start}
+  .work-metrics,.strategy-grid{grid-template-columns:1fr}
+  .work-metric,.work-metric:last-child,.strategy-card,.strategy-card:last-child{border-inline-end:none;border-bottom:1px solid rgba(53,45,74,.16)}
+  .work-metric:last-child,.strategy-card:last-child{border-bottom:none}
+  .strategy-card{min-height:0}
+  .success-row{grid-template-columns:54px 54px 1fr;gap:14px}
+  .success-ic{width:48px;height:48px}
+  .build-grid{grid-template-columns:1fr}
+  .lasting-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lasting-list span:nth-child(2n){border-inline-end:none}
+  .lasting-list span{border-bottom:1px solid rgba(53,45,74,.14)}
+  .lasting-list span:nth-last-child(-n+2){border-bottom:none}
+  .build-card,.build-card:last-child{border-inline-end:none;border-bottom:1px solid rgba(53,45,74,.18)}
+  .build-card:last-child{border-bottom:none}
+}
+
+/* ---------- Impact statement ---------- */
+.impact{text-align:center;background:linear-gradient(180deg,rgba(198,142,116,.18),rgba(198,142,116,.08) 55%,rgba(243,240,232,0));padding-block:40px 62px}
 .impact .wrap{position:relative;z-index:2}
-.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(23px,2.7vw,38px);line-height:1.45;max-width:840px;margin:18px auto 0;color:var(--purple)}
-.impact-gold{position:absolute;left:-20px;bottom:-8px;width:min(380px,42vw);height:90px;z-index:1;pointer-events:none}
-.impact-gold path{fill:none;stroke:var(--mustard);stroke-width:1.5;stroke-linecap:round}
+.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.42;max-width:900px;margin:0 auto;color:var(--purple)}
+.impact .brand-line{max-width:280px;margin:40px auto 0;height:40px}
 
 /* ---------- Story ---------- */
-.story{border-top:1px solid var(--purple-15);position:relative;overflow:hidden}
+.story{border-top:1px solid var(--purple-15);position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(183,155,103,.1),rgba(243,240,232,0) 42%)}
+.story::before{content:"";position:absolute;inset:0 0 auto auto;width:min(720px,58vw);height:100%;background:linear-gradient(90deg,rgba(53,45,74,.16),rgba(243,240,232,.62) 48%,rgba(243,240,232,.92)),url("beri-hero-wide.png") center/cover no-repeat;opacity:.42;filter:grayscale(1) sepia(.16) contrast(1.08);pointer-events:none}
 .story .monogram{width:min(520px,46vw);height:min(520px,46vw);left:-140px;bottom:-80px;opacity:.05}
-.story-grid{display:grid;grid-template-columns:340px 1fr;gap:clamp(36px,5vw,72px);align-items:start;position:relative;z-index:2}
-.story-aside{position:sticky;top:120px}
-.story-aside figure{border-radius:4px 4px 4px 90px;overflow:hidden;background:var(--purple-08)}
-.story-aside img{width:100%}
-.story-name{font-family:var(--serif);font-size:24px;font-weight:600;margin-top:20px}
-.story-years{font-size:13px;letter-spacing:.14em;color:var(--purple-60);margin-top:4px}
-.story-quote{margin-top:22px;padding-top:22px;border-top:1px solid var(--purple-15);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--purple)}
-.story-quote span{display:block;font-style:normal;font-size:14px;color:var(--purple-60);margin-top:4px}
+.story-grid{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:clamp(34px,5vw,78px);align-items:start;position:relative;z-index:2}
+.story-aside{position:sticky;top:110px}
+.story-card{border:1px solid rgba(53,45,74,.16);background:rgba(255,255,255,.32);padding:24px;backdrop-filter:blur(2px)}
+.story-aside figure{display:none;border-radius:4px 4px 4px 110px;overflow:hidden;background:var(--purple-08);aspect-ratio:4/5}
+.story-aside img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) sepia(.12) contrast(.94)}
+.story-name{font-family:var(--serif);font-size:34px;font-weight:500;margin-top:0;line-height:1.05}
+.story-years{display:inline-flex;margin-top:10px;padding:7px 12px;border-radius:999px;background:rgba(183,155,103,.16);color:var(--mustard);font-size:13px;letter-spacing:.14em;font-weight:600}
+.story-quote{margin-top:24px;padding:22px;border-right:4px solid var(--terracotta);background:rgba(198,142,116,.12);font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.35;color:var(--purple)}
+.story-quote span{display:block;font-family:var(--sans);font-style:normal;font-size:14px;color:var(--purple-60);margin-top:7px}
 .story-body .eyebrow{display:block;margin-bottom:16px}
-.story-body h2{font-size:clamp(36px,3.6vw,58px);line-height:1.06;margin-bottom:28px}
-.story-body p{font-size:17px;line-height:1.75;color:var(--purple-75);max-width:640px;margin-bottom:20px}
-.story-body p.first{font-size:20px;color:var(--purple);line-height:1.6}
+.story-body h2{font-size:clamp(40px,4.3vw,68px);line-height:1.04;margin-bottom:22px}
+.story-signature{width:min(360px,72vw);height:58px;margin:-4px 0 16px auto;transform:scaleX(-1)}
+.story-signature path{stroke:var(--terracotta);stroke-width:1.7}
+.story-body p{font-size:16.5px;line-height:1.78;color:var(--purple-75);max-width:720px;margin-bottom:18px}
+.story-body p.first{font-family:var(--serif);font-size:clamp(24px,2.1vw,34px);color:var(--purple);line-height:1.35;max-width:760px;margin-bottom:28px}
 .story-body em{font-style:italic;color:var(--purple)}
+.memory-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:32px 0 34px;border:1px solid rgba(53,45,74,.18)}
+.memory-card{min-height:136px;padding:24px 22px;border-inline-end:1px solid rgba(53,45,74,.18);background:rgba(255,255,255,.2);position:relative;overflow:hidden}
+.memory-card::before{content:"";position:absolute;inset:0;opacity:.22;pointer-events:none}
+.memory-card:last-child{border-inline-end:none}
+.memory-card .dot{width:12px;height:12px;border-radius:50%;display:block;margin-bottom:18px}
+.memory-card.sage{border-top:4px solid var(--sage)}
+.memory-card.terracotta{border-top:4px solid var(--terracotta)}
+.memory-card.mustard{border-top:4px solid var(--mustard)}
+.memory-card.sage::before{background:linear-gradient(135deg,rgba(170,177,154,.5),rgba(170,177,154,0))}
+.memory-card.terracotta::before{background:linear-gradient(135deg,rgba(198,142,116,.48),rgba(198,142,116,0))}
+.memory-card.mustard::before{background:linear-gradient(135deg,rgba(183,155,103,.5),rgba(183,155,103,0))}
+.memory-card.sage .dot{background:var(--sage)}
+.memory-card.terracotta .dot{background:var(--terracotta)}
+.memory-card.mustard .dot{background:var(--mustard)}
+.memory-card h3{font-size:24px;line-height:1.1;margin-bottom:8px}
+.memory-card p{font-size:14.5px;line-height:1.55;margin:0;color:var(--purple-75)}
+.memory-card>*{position:relative;z-index:1}
+.story-text{max-width:900px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:8px}
+.story-step{position:relative;min-height:180px;padding:24px 24px 24px 22px;border:1px solid rgba(53,45,74,.16);background:rgba(255,255,255,.24);overflow:hidden}
+.story-step::before{content:attr(data-step);position:absolute;left:18px;top:10px;font-family:var(--serif);font-size:78px;line-height:1;color:rgba(53,45,74,.06)}
+.story-step::after{content:"";position:absolute;inset:auto 0 0 0;height:5px;opacity:.95}
+.story-step.sage::after{background:var(--sage)}
+.story-step.terracotta::after{background:var(--terracotta)}
+.story-step.mustard::after{background:var(--mustard)}
+.story-step.purple::after{background:var(--purple)}
+.story-step h3{font-size:28px;line-height:1.08;margin-bottom:12px;position:relative;z-index:1}
+.story-step p{font-size:15.5px;line-height:1.7;margin:0;color:var(--purple-75);position:relative;z-index:1}
+.story-step.wide{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:rgba(53,45,74,.05)}
+.story-step.wide h3{margin:0}
+.story-step.wide p{font-size:17px;color:var(--purple)}
+.legacy-panel{margin:34px 0 30px;border:1px solid rgba(53,45,74,.2);min-height:260px;background:linear-gradient(135deg,rgba(170,177,154,.18),rgba(198,142,116,.12) 48%,rgba(183,155,103,.16));overflow:hidden;box-shadow:0 18px 48px rgba(53,45,74,.08);position:relative}
+.legacy-panel::before{content:"";position:absolute;inset:auto 2% -18% auto;width:320px;height:320px;background:url("monogram-motif.png") center/contain no-repeat;opacity:.045;transform:rotate(-12deg);pointer-events:none}
+.legacy-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.28),rgba(255,255,255,0));pointer-events:none}
+.legacy-image{display:none}
+.legacy-content{position:relative;z-index:1;padding:38px clamp(26px,4vw,56px);display:flex;flex-direction:column;justify-content:center}
+.legacy-content blockquote{font-family:var(--serif);font-size:clamp(25px,2.7vw,42px);line-height:1.2;color:var(--purple);font-weight:400;margin:0}
+.legacy-content blockquote span{color:var(--terracotta)}
+.legacy-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+.legacy-fact{border-top:3px solid var(--sage);padding-top:10px;font-size:13.5px;line-height:1.35;color:var(--purple-75)}
+.legacy-fact strong{display:block;font-family:var(--serif);font-size:24px;color:var(--purple);line-height:1}
+.legacy-fact:nth-child(2){border-color:var(--terracotta)}
+.legacy-fact:nth-child(3){border-color:var(--mustard)}
+.story-thread{width:min(520px,78vw);height:52px;margin:26px auto 0 0}
+.story-thread path{stroke:var(--mustard);stroke-width:1.6}
 @media(max-width:820px){
   .story-grid{grid-template-columns:1fr;gap:32px}
-  .story-aside{position:static;max-width:300px}
+  .story-aside{position:static;max-width:360px}
+  .memory-cards{grid-template-columns:1fr}
+  .memory-card,.memory-card:last-child{border-inline-end:none;border-bottom:1px solid rgba(53,45,74,.18)}
+  .memory-card:last-child{border-bottom:none}
+  .story-text{grid-template-columns:1fr}
+  .story-step.wide{grid-column:auto;display:block}
+  .story-step.wide h3{margin-bottom:10px}
+  .legacy-facts{grid-template-columns:1fr}
+}
+
+/* Memorial page, based on the fuller Beri reference layout */
+.story{padding-block:0 70px;background:var(--ivory);border-top:1px solid var(--purple-15);position:relative;overflow:hidden}
+.story::before{content:"";position:absolute;inset:120px auto auto 41%;width:min(420px,34vw);height:min(420px,34vw);background:url("monogram-motif.png") center/contain no-repeat;opacity:.045;filter:none;pointer-events:none}
+.story .monogram{display:none}
+.story .wrap{max-width:1180px}
+.story-grid{display:block;position:relative;z-index:2}
+.story-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(34px,5vw,76px);align-items:center;padding-block:clamp(46px,7vw,92px) 34px;direction:ltr}
+.story-photo{margin:0;align-self:center;justify-self:center;width:min(520px,100%);overflow:visible;background:none;box-shadow:none}
+.story-photo img{display:block;width:100%;height:auto;object-fit:contain;filter:sepia(.05) contrast(.98) brightness(1.02);mix-blend-mode:multiply;
+  -webkit-mask-image:radial-gradient(ellipse 58% 55% at 50% 50%, #000 58%, rgba(0,0,0,.75) 72%, transparent 91%);
+          mask-image:radial-gradient(ellipse 58% 55% at 50% 50%, #000 58%, rgba(0,0,0,.75) 72%, transparent 91%)}
+.story-hero-copy{text-align:right;direction:rtl}
+.story-hero-copy .eyebrow{display:block;color:var(--mustard);margin-bottom:14px}
+.story-hero-copy h2{font-size:clamp(48px,5.2vw,78px);line-height:1.02;margin-bottom:22px}
+.story-hero-copy p{font-family:var(--serif);font-size:clamp(24px,2.2vw,34px);line-height:1.48;color:var(--purple-75);max-width:560px;margin-inline-start:auto}
+.memory-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0 48px;border-bottom:1px solid rgba(53,45,74,.16);border-top:1px solid rgba(53,45,74,.12)}
+.memory-mini{min-height:130px;padding:24px 30px;display:grid;grid-template-columns:68px 1fr;gap:18px;align-items:center;border-inline-end:1px solid rgba(53,45,74,.18)}
+.memory-mini:last-child{border-inline-end:none}
+.memory-mini .focus-ic{width:62px;height:62px}
+.memory-mini .focus-ic svg{width:32px;height:32px}
+.memory-mini h3{font-size:26px;line-height:1.05;margin-bottom:8px}
+.memory-mini p{font-size:15px;line-height:1.55;color:var(--purple-75);margin:0}
+.story-swoosh{width:100vw;margin:16px 50% 22px 0;transform:translateX(50%);height:92px}
+.story-swoosh path{stroke:var(--purple);stroke-width:2;fill:none}
+.story-quote-main{text-align:center;max-width:760px;margin:0 auto 30px;font-family:var(--serif);font-size:clamp(30px,3.4vw,48px);line-height:1.25;color:var(--purple)}
+.story-timeline{max-width:820px;margin:0 auto 52px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;text-align:center}
+.story-timeline::before{content:"";position:absolute;left:10%;right:10%;top:10px;height:1px;background:rgba(53,45,74,.24)}
+.timepoint{position:relative;padding-top:28px}
+.timepoint::before{content:"";position:absolute;top:0;left:50%;width:16px;height:16px;border-radius:50%;transform:translateX(-50%);background:var(--sage)}
+.timepoint.terracotta::before{background:var(--terracotta)}
+.timepoint.mustard::before{background:var(--mustard)}
+.timepoint strong{display:block;font-family:var(--serif);font-size:34px;line-height:1;color:var(--purple);font-weight:500}
+.timepoint span{display:block;margin-top:8px;font-size:14px;color:var(--purple-60);line-height:1.4}
+.story-rows{max-width:980px;margin:0 auto;border-top:1px solid rgba(53,45,74,.18)}
+.story-row{display:flex;direction:rtl;align-items:center;gap:24px;min-height:146px;border-bottom:1px solid rgba(53,45,74,.18);padding-block:28px}
+.story-row:nth-child(even){direction:ltr}
+.story-row:nth-child(even) .row-copy{direction:rtl}
+.story-row>[aria-hidden="true"]{display:block;flex:0 0 86px}
+.row-num{flex:0 0 86px;font-family:var(--serif);font-size:58px;line-height:1;color:rgba(53,45,74,.36);font-weight:400;text-align:center}
+.row-icon{flex:0 0 76px;width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ivory)}
+.row-icon svg{width:42px;height:42px;stroke:currentColor;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.row-icon.sage{background:var(--sage)}.row-icon.terracotta{background:var(--terracotta)}.row-icon.mustard{background:var(--mustard)}
+.row-copy{flex:1;text-align:center}
+.row-copy h3{font-size:clamp(27px,2.6vw,38px);line-height:1.08;margin-bottom:10px}
+.row-copy p{max-width:620px;margin:0 auto;font-size:15.8px;line-height:1.72;color:var(--purple-75)}
+.story-final{position:relative;text-align:center;padding:34px 0 18px}
+.story-final .brand-line{position:absolute;left:-8vw;right:auto;top:20px;width:min(520px,55vw);height:70px;transform:scaleX(-1)}
+.story-final .brand-line path{stroke:var(--purple);stroke-width:1.7}
+.story-final h3{font-size:clamp(30px,3.3vw,46px);margin-bottom:10px}
+.story-final p{max-width:720px;margin:0 auto;color:var(--purple-75);font-size:16px;line-height:1.7}
+.story-final .final-mark{width:86px;height:86px;margin:24px auto 0;background:url("monogram-motif.png") center/72px 72px no-repeat;opacity:.95}
+@media(max-width:900px){
+  .story-hero{grid-template-columns:1fr;padding-top:36px}
+  .story-photo{order:2}
+  .story-hero-copy{order:1;text-align:center}
+  .story-hero-copy p{margin-inline:auto}
+  .memory-strip{grid-template-columns:1fr}
+  .memory-mini,.memory-mini:last-child{border-inline-end:none;border-bottom:1px solid rgba(53,45,74,.16)}
+  .memory-mini:last-child{border-bottom:none}
+  .story-row,.story-row:nth-child(even){direction:rtl;display:grid;grid-template-columns:58px 1fr;gap:16px;min-height:0}
+  .story-row>[aria-hidden="true"]{display:none}
+  .story-row .row-icon,.story-row:nth-child(even) .row-icon{grid-column:1;grid-row:1/3;width:58px;height:58px}
+  .story-row .row-copy,.story-row:nth-child(even) .row-copy{grid-column:2;text-align:right}
+  .story-row .row-num,.story-row:nth-child(even) .row-num{grid-column:2;grid-row:1;text-align:right;font-size:40px;line-height:.8}
+  .row-copy h3{margin-top:30px}
+  .story-timeline{grid-template-columns:1fr;gap:18px}
+  .story-timeline::before{display:none}
 }
 
 /* ---------- Partners ---------- */
-.partners{border-top:1px solid var(--purple-15)}
-.partners-head{max-width:620px;margin-bottom:clamp(36px,4vw,56px)}
-.partners-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
-.logo-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  border-top:1px solid var(--purple-15);border-inline-start:1px solid var(--purple-15)}
-.logo-cell{background:#fff;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;padding:22px;
-  border-inline-end:1px solid var(--purple-15);border-bottom:1px solid var(--purple-15);
-  transition:background .25s;cursor:pointer}
-.logo-cell:hover{background:#fbfaf7}
-.logo-cell img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:saturate(.4);transition:filter .3s}
-.logo-cell:hover img{filter:saturate(1)}
-.logo-note{margin-top:22px;font-size:14px;color:var(--purple-60)}
-@media(max-width:560px){.logo-wall{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}.logo-cell{padding:15px}}
+.partners{border-top:1px solid var(--purple-15);overflow:hidden;background:var(--ivory);padding-block:clamp(74px,9vw,126px);position:relative}
+.partners::before{content:"";position:absolute;left:clamp(28px,6vw,96px);top:72px;width:min(300px,26vw);height:min(300px,26vw);background:url("monogram-motif.png") center/contain no-repeat;opacity:.055;filter:drop-shadow(0 1px 0 rgba(255,255,255,.5));pointer-events:none}
+.partners .wrap{max-width:none;padding-inline:0;direction:ltr;position:relative;z-index:1}
+.partners-head{max-width:1240px;margin:0 auto clamp(42px,5vw,70px);padding-inline:var(--gutter);direction:rtl;text-align:right}
+.partners-head h2{font-size:clamp(44px,4.8vw,78px);line-height:1.04;margin-top:14px}
+.partners-head .lead{font-family:var(--serif);font-size:clamp(23px,2.2vw,34px);line-height:1.45;color:var(--purple-75);max-width:900px;margin-inline-start:auto}
+.partners-track{position:relative;overflow:hidden;padding-block:74px 62px}
+.partners-thread{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
+.partners-thread path{fill:none;stroke:var(--purple);stroke-width:1.75}
+.partners-dot{position:absolute;top:70px;width:15px;height:15px;border-radius:50%;z-index:2}
+.partners-dot.sage{left:7%;background:var(--sage)}
+.partners-dot.terracotta{left:55%;background:var(--terracotta)}
+.partners-dot.mustard{left:86%;background:var(--mustard)}
+.logo-wall{position:relative;z-index:1;display:flex;align-items:center;width:max-content;min-width:100%;direction:ltr;margin-left:0;margin-right:auto;border:0;animation:logoRoll 42s linear infinite;will-change:transform}
+.logo-wall:hover{animation-play-state:paused}
+.logo-cell{background:transparent;aspect-ratio:auto;flex:0 0 clamp(130px,12vw,180px);height:86px;display:flex;align-items:center;justify-content:center;padding:12px 22px;border:0;transition:transform .25s,filter .25s;cursor:pointer}
+.logo-cell:hover{transform:translateY(-3px)}
+.logo-cell img{max-width:100%;max-height:62px;width:auto;height:auto;object-fit:contain;filter:saturate(.62) contrast(.92);opacity:.82;transition:filter .3s,opacity .3s}
+.logo-cell:hover img{filter:saturate(1) contrast(1);opacity:1}
+@media(max-width:760px){
+  .partners::before{width:240px;height:260px;left:-30px;top:90px}
+  .partners-track{padding-block:46px}
+  .partners-thread{height:150px;top:18px}
+  .partners-dot{top:48px}
+  .logo-cell{flex-basis:128px;height:70px;padding:10px 18px}
+  .logo-cell img{max-height:48px}
+}
+@keyframes logoRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.logo-wall{animation:none;flex-wrap:wrap;width:100%}}
 
 /* ---------- Quote / stories ---------- */
-.quote{text-align:center;border-top:1px solid var(--purple-15)}
+.quote{text-align:center;border-top:1px solid var(--purple-15);background:linear-gradient(180deg,rgba(170,177,154,.2),rgba(170,177,154,.08) 62%,rgba(243,240,232,0))}
 .quote-mark{font-family:var(--serif);font-size:90px;line-height:.5;color:var(--purple-35);height:44px;display:block}
 .quote blockquote{font-family:var(--serif);font-size:clamp(24px,3vw,38px);line-height:1.4;max-width:800px;margin:22px auto 0;color:var(--purple);font-weight:400}
 .quote cite{display:block;font-family:var(--sans);font-style:normal;font-size:14px;color:var(--purple-60);margin-top:24px;letter-spacing:.04em}
@@ -206,8 +558,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 
 /* ---------- Footer ---------- */
 .ftr{background:var(--purple);color:var(--ivory);padding-block:clamp(56px,7vw,88px);position:relative;overflow:hidden}
-.ftr .monogram{width:300px;height:300px;left:-60px;bottom:-90px;opacity:.08;
-  background-image:url("monogram-only.png");filter:brightness(0) invert(1)}
+.ftr .monogram{width:210px;height:210px;left:54px;bottom:52px;opacity:.05;
+  background-image:url("monogram-motif.png");filter:brightness(0) invert(1)}
 .ftr-in{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);position:relative;z-index:2;
   display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
 .ftr-brand .fb-name{font-family:var(--serif);font-size:22px;font-weight:600}
@@ -242,6 +594,150 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 .lg-err{margin-top:14px;font-size:13.5px;color:var(--terracotta);min-height:18px;opacity:0;transition:opacity .2s}
 .lg-err.show{opacity:1}
 
+/* ---------- Mobile polish pass ---------- */
+@media(max-width:760px){
+  :root{--gutter:clamp(18px,5.8vw,26px)}
+  section{padding-block:58px;scroll-margin-top:74px}
+  .intro-loader{animation:introGone .65s 2.95s ease forwards}
+  .intro-inner{gap:12px;padding:24px}
+  .intro-stage{width:min(76vw,300px)}
+  .intro-logo{animation-duration:1.2s}
+  .intro-draw{stroke-width:88;animation-duration:1.2s}
+  .intro-tag{font-size:clamp(23px,7vw,32px);animation-delay:1.35s;color:var(--purple)}
+  .hdr{border-bottom:1px solid rgba(170,177,154,.55)}
+  .hdr-in{min-height:46px;padding:4px var(--gutter);justify-content:space-between;gap:8px}
+  .brand-logo{width:clamp(64px,19vw,76px)}
+  .lang-toggle{padding:4px 7px;font-size:10.5px;gap:4px}
+  .burger{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(53,45,74,.15);background:rgba(255,255,255,.2)}
+  .burger svg{width:21px;height:21px}
+  .nav{inset:52px 0 auto 0;padding:10px var(--gutter) 20px}
+  .nav a{font-size:16px;padding:11px 4px;text-align:right}
+
+  .hero-copy{padding:26px var(--gutter) 34px;text-align:center}
+  .hero h1{font-size:clamp(34px,10.5vw,46px);line-height:1.06}
+  .hero .lead{font-size:clamp(15px,4.2vw,17px);line-height:1.5;margin:16px auto 0;text-align:center}
+  .hero-cta{margin-top:20px}
+  .hero-cta .btn{width:auto;justify-content:center;padding:12px 18px;font-size:13px}
+  .hero-media figure{margin-inline:0;border-radius:0;aspect-ratio:auto}
+  .hero-media img{object-position:center center;filter:grayscale(1) sepia(.08) contrast(.95) brightness(1.05)}
+  .hero-media figcaption{right:12px;bottom:12px;font-size:10.5px;padding:5px 8px}
+
+  .focus{padding-block:0}
+  .focus .wrap{padding-inline:0}
+  .focus-grid{border-inline:0}
+  .focus-item,.focus-item:not(:last-child){min-height:0;padding:22px var(--gutter);gap:16px}
+  .focus-ic{width:58px;height:58px}
+  .focus-ic svg{width:31px;height:31px}
+  .focus-item h3{font-size:23px}
+  .focus-item p{font-size:14.5px;max-width:none}
+  .focus-item .tlink{width:34px;height:34px}
+  .focus-item .tlink svg{width:28px;height:28px}
+
+  .work-detail{padding-block:56px;background:linear-gradient(180deg,rgba(243,240,232,.95),rgba(236,235,225,.9))}
+  .work-detail::before{width:210px;height:210px;left:-66px;top:18px;opacity:.03}
+  .work-intro{gap:16px;margin-bottom:30px;text-align:center}
+  .work-intro h2{font-size:clamp(36px,10.5vw,48px);line-height:1.08}
+  .work-intro .lead{font-size:16px;line-height:1.65;margin:0 auto}
+  .work-swoosh{height:58px;margin-bottom:22px}
+  .work-metric{min-height:112px;padding:22px 18px}
+  .work-metric strong{font-size:42px}
+  .success-flow{margin-top:42px}
+  .success-flow h3,.build-title,.lasting-title{font-size:clamp(28px,8vw,38px);margin-bottom:20px}
+  .success-row{grid-template-columns:46px 1fr;gap:12px;padding-block:20px;align-items:start}
+  .success-row .success-ic{grid-column:1;grid-row:2;width:42px;height:42px}
+  .success-num{grid-column:1;grid-row:1;font-size:32px;line-height:1}
+  .success-copy{grid-column:2;grid-row:1/3;text-align:right}
+  .success-copy h4{font-size:20px;line-height:1.15}
+  .success-copy p{font-size:14.5px;line-height:1.65;color:rgba(53,45,74,.72)}
+  .build-title{margin-top:44px}
+  .build-card{min-height:0;padding:28px 22px}
+  .build-card h4{color:var(--purple)}
+  .build-card p{color:rgba(53,45,74,.72)}
+  .lasting-impact{margin-top:46px}
+  .lasting-impact .monogram-mini{width:150px;height:150px;margin-bottom:14px}
+  .lasting-impact .monogram-mini::before,
+  .lasting-impact .monogram-mini::after{background-size:122px 122px}
+  .lasting-list{grid-template-columns:1fr;gap:12px;max-width:420px;margin:18px auto 28px;border:0;background:transparent}
+  .lasting-list span,.lasting-list span:nth-child(2n){
+    min-height:76px;padding:20px 52px 20px 20px;border:1px solid rgba(53,45,74,.12);border-bottom:1px solid rgba(53,45,74,.12);
+    background:rgba(255,255,255,.2);box-shadow:0 14px 34px rgba(53,45,74,.055);text-align:right;justify-items:end;border-radius:3px;
+  }
+  .lasting-list span::before{opacity:.16;inset:0 auto 0 0;width:7px}
+  .lasting-list span::after{top:50%;left:auto;right:24px;transform:translateY(-50%);width:11px;height:11px;opacity:.56}
+  .lasting-list span:last-child{border-bottom:1px solid rgba(53,45,74,.12)}
+  .lasting-quote{font-size:clamp(26px,7.8vw,36px);line-height:1.28}
+
+  .impact{padding-block:42px 50px}
+  .impact .impact-text{font-size:clamp(25px,7.4vw,34px);line-height:1.36}
+
+  .story{padding-block:0 54px}
+  .story::before{width:280px;height:280px;inset:110px auto auto -92px;opacity:.035}
+  .story-hero{gap:18px;padding-block:36px 20px}
+  .story-photo{width:min(82vw,330px)}
+  .story-hero-copy h2{font-size:clamp(38px,10vw,52px)}
+  .story-hero-copy p{font-size:clamp(21px,6vw,27px);line-height:1.45;color:rgba(53,45,74,.82)}
+  .memory-strip{margin:12px 0 34px}
+  .memory-mini{grid-template-columns:54px 1fr;gap:14px;min-height:0;padding:18px}
+  .memory-mini .focus-ic{width:52px;height:52px}
+  .memory-mini .focus-ic svg{width:28px;height:28px}
+  .memory-mini h3{font-size:22px}
+  .memory-mini p{font-size:14px}
+  .story-swoosh{height:54px;margin-top:2px;margin-bottom:14px}
+  .story-quote-main{font-size:clamp(26px,7.6vw,36px);line-height:1.25;margin-bottom:22px}
+  .timepoint{padding-top:22px}
+  .timepoint strong{font-size:30px}
+  .timepoint span{font-size:13.5px}
+  .story-timeline{margin-bottom:36px}
+  .story-rows{border-top-color:rgba(53,45,74,.14)}
+  .story-row,.story-row:nth-child(even){grid-template-columns:48px 1fr;gap:12px;padding-block:22px}
+  .story-row .row-icon,.story-row:nth-child(even) .row-icon{width:48px;height:48px}
+  .row-icon svg{width:28px;height:28px}
+  .story-row .row-num,.story-row:nth-child(even) .row-num{font-size:30px}
+  .row-copy h3{font-size:clamp(24px,7vw,31px);margin-top:24px}
+  .row-copy p{font-size:14.5px;line-height:1.65;color:rgba(53,45,74,.72)}
+  .story-final{padding-top:28px}
+  .story-final .brand-line{display:none}
+  .story-final p{font-size:14.5px}
+  .story-final .final-mark{width:70px;height:70px;background-size:58px 58px}
+
+  .partners{padding-block:50px 52px}
+  .partners::before{width:190px;height:190px;top:42px;left:-70px}
+  .partners-head{text-align:center;margin-bottom:24px}
+  .partners-head h2{font-size:clamp(34px,9vw,46px)}
+  .partners-head .lead{font-size:clamp(20px,5.8vw,27px);line-height:1.42;margin-inline:auto;color:rgba(53,45,74,.8)}
+  .partners-track{padding-block:28px 28px}
+  .partners-thread{height:104px;top:6px}
+  .partners-thread path{stroke-width:1.35}
+  .partners-dot{width:11px;height:11px;top:32px}
+  .logo-wall{animation-duration:34s}
+  .logo-cell{flex-basis:112px;height:60px;padding:8px 14px}
+  .logo-cell img{max-height:40px;opacity:.9}
+
+  .quote{padding-block:54px;background:linear-gradient(180deg,rgba(170,177,154,.24),rgba(170,177,154,.08))}
+  .quote-mark{font-size:70px;height:34px}
+  .quote blockquote{font-size:clamp(23px,6.5vw,31px);line-height:1.35}
+
+  .ftr{padding-block:48px 38px}
+  .ftr .monogram{width:150px;height:150px;left:-36px;bottom:18px}
+  .ftr-in{display:grid;grid-template-columns:1fr;gap:26px;text-align:right}
+  .ftr-brand .fb-name{font-size:24px}
+  .ftr-brand .fb-sub{font-size:10px;letter-spacing:.12em}
+  .ftr-col a,.ftr-col p{font-size:16px;margin-bottom:10px}
+  .ftr-bottom{display:grid;grid-template-columns:1fr;gap:8px;margin-top:28px;text-align:right}
+  .login{padding:34px 24px 28px}
+}
+
+@media(max-width:390px){
+  .brand-logo{width:68px}
+  .hero-media{height:225px}
+  .hero h1{font-size:34px}
+  .hero-copy{padding-top:24px}
+  .focus-item{gap:12px}
+  .focus-ic{width:52px;height:52px}
+  .story-row,.story-row:nth-child(even){grid-template-columns:42px 1fr}
+  .row-copy h3{font-size:23px}
+}
+
 /* ---------- fade-up on scroll ---------- */
 @media(prefers-reduced-motion:no-preference){
   .fu{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
@@ -249,95 +745,202 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 }
 </style>
 </head>
-<body>
+<body class="loading">
+<div class="intro-loader" id="introLoader" aria-label="טעינת האתר">
+  <div class="intro-inner">
+    <div class="intro-stage">
+      <div class="intro-logo">
+        <img src="logo-berelowitz-site.png" alt="Berelowitz Family Foundation">
+      </div>
+    </div>
+    <div class="intro-tag">מצמיחים <span>השפעה</span> לדורות</div>
+  </div>
+</div>
 
 <!-- ===================== HEADER ===================== -->
 <header class="hdr" id="hdr">
   <div class="hdr-in">
     <a href="#top" class="brand" aria-label="קרן משפחת ברלוביץ׳ — לעמוד הבית">
-      <img class="brand-mark" src="monogram-only.png" alt="לוגו קרן משפחת ברלוביץ׳">
-      <span class="brand-txt">קרן משפחת ברלוביץ׳<small>Berelowitz Family Foundation</small></span>
+      <img class="brand-logo" src="logo-berelowitz-site.png" alt="Berelowitz Family Foundation">
     </a>
+    <div class="hdr-tagline" aria-hidden="true">מצמיחים השפעה לדורות</div>
+    <button class="lang-toggle" type="button" onclick="toggleLang()" aria-label="Switch language">HE <span>|</span> EN</button>
     <button class="burger" aria-label="פתיחת תפריט" aria-expanded="false" onclick="toggleNav(this)">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <nav class="nav" id="nav" aria-label="ניווט ראשי">
       <a href="#story" onclick="closeNav()">אודות</a>
-      <a href="#work" onclick="closeNav()">הפעילות שלנו</a>
+      <a href="#impact" onclick="closeNav()">האימפקט שלנו</a>
       <a href="#partners" onclick="closeNav()">שותפים</a>
-      <a href="#stories" onclick="closeNav()">סיפורים</a>
-      <a href="#contact" onclick="closeNav()">צור קשר</a>
-      <a href="#" class="nav-cta" onclick="openLogin();closeNav();return false;">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>כניסה למורשים</a>
     </nav>
   </div>
+  <svg class="hdr-thread" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M68,60 C104,72 156,88 244,82 C334,76 386,52 432,36 C488,16 542,20 548,48 C556,84 470,94 384,92 C276,90 160,78 0,80 M384,80 C560,80 722,78 852,82 C966,86 1010,98 1080,80 C1106,72 1116,54 1102,46 C1084,34 1062,58 1082,75 C1108,98 1214,78 1440,82"/>
+  </svg>
 </header>
 
 <!-- ===================== HERO ===================== -->
 <header class="hero" id="top">
-  <div class="hero-media fu">
-    <img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
-  </div>
-  <div class="hero-inner">
+  <div class="monogram" aria-hidden="true"></div>
+  <div class="hero-grid">
     <div class="hero-copy fu">
-      <h1>בונים הזדמנות.<br>מצמיחים שינוי שנשאר.</h1>
-      <p class="lead">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
+      <h1>בונים הזדמנות.<br><span class="accent">מצמיחים שינוי</span> שנשאר.</h1>
+      <p class="lead">שותפים לאנשים וארגונים שמצמיחים שינוי שנשאר.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#work">הפעילות שלנו</a>
+        <a class="btn btn-primary" href="#impact">האימפקט שלנו
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </a>
       </div>
     </div>
+    <div class="hero-media fu">
+      <figure>
+        <img src="beri-hero-wide.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
+      </figure>
+      <figcaption>ברי ברלוביץ׳ ז״ל · 1938–2022</figcaption>
+    </div>
   </div>
-  <svg class="hero-line brand-line" style="--len:1900" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M1440,88 C1330,56 1240,118 1120,98 C1084,92 1052,64 1072,46 C1090,30 1118,50 1094,70 C1058,98 970,106 870,98 C690,84 520,118 330,102 C190,90 70,106 0,74"/>
+  <svg class="brand-line" style="--len:1500;margin-top:-30px;height:120px" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,64 C260,26 420,104 660,66 C860,34 980,6 1140,44 C1250,70 1300,110 1440,72"/>
   </svg>
 </header>
 
 <!-- ===================== FOCUS AREAS ===================== -->
 <section class="focus" id="work">
   <div class="wrap">
-    <div class="focus-grid fu">
-      <a class="focus-item" href="#story">
+    <div class="focus-head fu">
+      <span class="eyebrow">הפעילות שלנו</span>
+      <h2>שותפות לטווח ארוך.<br>שינוי משמעותי.</h2>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-item fu">
         <span class="focus-ic sage">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20c-4-1-7-4-7-9a5 5 0 0 1 7-4"/><path d="M11 20c0-6 2-10 8-12"/><path d="M11 20v-6"/></svg>
         </span>
-        <div class="focus-txt">
+        <div class="focus-copy">
           <h3>הגישה שלנו</h3>
-          <p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית.</p>
+          <p>רעיונות שורשיים. קשרים ארוכים. התקדמות מדודה.</p>
         </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
-      <a class="focus-item" href="#story">
+        <a class="tlink" href="#story">קראו עוד
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+      <div class="focus-item fu">
         <span class="focus-ic terracotta">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
         </span>
-        <div class="focus-txt">
+        <div class="focus-copy">
           <h3>המיקוד שלנו</h3>
-          <p>חינוך, הזדמנות שווה ורווחה — לטווח הארוך.</p>
+          <p>חינוך. הזדמנות. רווחה. השקעה באנשים ובקהילות.</p>
         </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
-      <a class="focus-item" href="#partners">
+        <a class="tlink" href="#impact">קראו עוד
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+      <div class="focus-item fu">
         <span class="focus-ic mustard">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-4-6-9a4 4 0 0 1 6-3 4 4 0 0 1 6 3c0 5-6 9-6 9Z"/><path d="M12 9v4"/></svg>
         </span>
-        <div class="focus-txt">
+        <div class="focus-copy">
           <h3>השותפים שלנו</h3>
-          <p>פועלים לצד עמותות וארגונים קרובים לשטח ולעשייה.</p>
+          <p>לצד עמותות ואנשים שפועלים קרוב לשטח.</p>
         </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
+        <a class="tlink" href="#partners">לשותפים שלנו
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK DETAIL / IMPACT ===================== -->
+<section class="work-detail" id="impact">
+  <div class="wrap">
+    <div class="work-intro fu">
+      <div>
+        <span class="eyebrow">האימפקט שלנו</span>
+        <h2>מצמיחים השפעה לדורות</h2>
+      </div>
+      <p class="lead">אנחנו מחזקים אנשים וארגונים כדי ליצור שינוי חברתי שנשאר לאורך זמן — דרך מענקים אסטרטגיים, שותפויות, למידה ומדידה.</p>
+    </div>
+
+    <svg class="work-swoosh" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,58 C220,34 360,70 560,48 C670,36 710,16 728,44 C750,80 680,82 684,48 C690,16 760,42 920,46 C1110,52 1260,48 1440,40"/>
+    </svg>
+
+    <div class="work-metrics fu">
+      <div class="work-metric terracotta">
+        <strong>100+</strong>
+        <span>ארגונים חזקים ומקצועיים</span>
+      </div>
+      <div class="work-metric">
+        <strong>100K+</strong>
+        <span>בוגרים, צעירים וצעירות שחוו הזדמנות בזכות הקרן</span>
+      </div>
+      <div class="work-metric mustard">
+        <strong>2036</strong>
+        <span>חזון עשר שנים קדימה</span>
+      </div>
+    </div>
+
+    <div class="success-flow fu">
+      <h3>כך אנחנו מודדים הצלחה</h3>
+      <div class="success-row sage">
+        <div class="success-num">01</div>
+        <div class="success-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 20a6 6 0 0 1 12 0"/><path d="M12 3l2 2 2-2"/></svg></div>
+        <div class="success-copy"><h4>שינוי בחיי אנשים וקהילות</h4><p>אנחנו בוחנים את השינוי בחייהם של אנשים ובחוסן של קהילות לאורך זמן.</p></div>
+      </div>
+      <div class="success-row terracotta">
+        <div class="success-num">02</div>
+        <div class="success-ic"><svg viewBox="0 0 24 24"><path d="M4 21h16"/><path d="M6 21V9l6-4 6 4v12"/><path d="M10 21v-6h4v6"/><path d="M9 11h1M14 11h1"/></svg></div>
+        <div class="success-copy"><h4>חיזוק ארגונים ותשתיות</h4><p>אנחנו מחזקים ארגונים ותשתיות כדי שיוכלו להתרחב, להתמקצע ולהשפיע יותר.</p></div>
+      </div>
+      <div class="success-row mustard">
+        <div class="success-num">03</div>
+        <div class="success-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M7 7.5l3.4 3M16.8 7.5l-3.4 3M7.8 17.6l2.8-4M16.2 17.6l-2.8-4"/></svg></div>
+        <div class="success-copy"><h4>השפעה מערכתית</h4><p>אנחנו פועלים לשינוי מדיניות, תוכניות ומערכות כדי לפתור את שורשי האתגרים החברתיים.</p></div>
+      </div>
+      <div class="success-row sage">
+        <div class="success-num">04</div>
+        <div class="success-ic"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7Z"/><path d="M12 15c4 0 7-3 7-7-4 0-7 3-7 7Z"/><path d="M5 21h14"/></svg></div>
+        <div class="success-copy"><h4>למידה מתמדת ושינוי</h4><p>אנחנו לומדים, מתאימים ובונים ידע כדי להגדיל את ההשפעה שלנו ושל שותפינו.</p></div>
+      </div>
+    </div>
+
+    <h3 class="build-title fu">מה אנחנו בונים</h3>
+    <div class="build-grid fu">
+      <div class="build-card mustard">
+        <div class="success-ic"><svg viewBox="0 0 24 24"><path d="M4 20l5-5M14 4l6 6-9 3-3 3-3-3 3-3 3-9z"/></svg></div>
+        <h4>תשתית ליזמות ורעיונות</h4>
+        <p>הצמחת ארגונים קטנים, יוזמות, רעיונות ואנשים.</p>
+      </div>
+      <div class="build-card terracotta">
+        <div class="success-ic"><svg viewBox="0 0 24 24"><path d="M4 21h16"/><path d="M6 21V9l6-4 6 4v12"/></svg></div>
+        <h4>תשתית לצמיחת עמותות</h4>
+        <p>מענקי צמיחה, ליווי ומדידה לאורך זמן.</p>
+      </div>
+      <div class="build-card sage">
+        <div class="success-ic"><svg viewBox="0 0 24 24"><path d="M3 18h18"/><path d="M5 18l4-8 4 8"/><path d="M11 18l4-11 4 11"/></svg></div>
+        <h4>אבנים גדולות</h4>
+        <p>2-3 פרויקטים אסטרטגיים שמובילים לשינוי מערכתי.</p>
+      </div>
+    </div>
+
+    <div class="lasting-impact fu">
+      <h3 class="lasting-title">השפעה שנשארת</h3>
+      <div class="monogram-mini" aria-hidden="true"></div>
+      <div class="lasting-list">
+        <span>פתרונות בני קיימא</span>
+        <span>אנשים שמובילים שינוי</span>
+        <span>תשתיות שממשיכות להשפיע</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== IMPACT STATEMENT ===================== -->
 <section class="impact">
-  <svg class="impact-gold" viewBox="0 0 360 80" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,52 C50,28 96,60 150,44 C182,34 196,10 178,6 C162,2 152,26 178,32 C220,42 280,30 360,24"/>
-  </svg>
   <div class="wrap">
-    <span class="eyebrow mustard fu">האימפקט שלנו</span>
     <p class="impact-text fu">אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.</p>
+    <svg class="brand-line" style="--len:320" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M4,22 C70,4 110,36 160,20 C210,6 250,30 296,16"/>
+    </svg>
   </div>
 </section>
 
@@ -346,22 +949,133 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
   <div class="monogram" aria-hidden="true"></div>
   <div class="wrap">
     <div class="story-grid">
-      <aside class="story-aside fu">
-        <figure><img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל"></figure>
-        <div class="story-name">ברי ברלוביץ׳ ז״ל</div>
-        <div class="story-years">1938 — 2022</div>
-        <div class="story-quote">״L.I.T.B.<span>Leave It To Beri — תשאירו את זה לברי!</span>״</div>
-      </aside>
-      <div class="story-body fu">
-        <span class="eyebrow">הסיפור שלנו</span>
-        <h2>לזכר ברי ברלוביץ׳</h2>
-        <p class="first">ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
-        <p>ברי נולד ביוהנסבורג, דרום אפריקה, לסם — מהגר מליטא — ולמרי, שמוצאה ממה שהיום בלארוס. סם נפטר כשברי היה פעוט, ומרי התקשתה לפרנס את שני ילדיה. למרבה הצער היא נפטרה ממחלת לב כשברי היה בן 11, והוא ואחותו הלן גדלו אצל דוד ודודה.</p>
-        <p>ברי הפך לתלמיד מצטיין באוניברסיטת ויטווטרסרנד, אך בשל מיעוט משאבים כספיים לא היה ביכולתו לשלם עבור ספרים — וכמעט נשר מהלימודים. ברגע האחרון הצליח לקבל מלגה קטנה, וסיים את לימודי החשבונאות כתלמיד השני בהצטיינות. הוא מעולם לא שכח את ההשפעה הגדולה שהייתה למחווה קטנה זו על חייו.</p>
-        <p>הגאונות החשבונאית שלו עשתה במהרה רושם במשרד רואי החשבון הנודע פישר הופמן, שם הפך לשותף מנהל בגיל צעיר. בשנת 1978 היגר ללוס אנג׳לס עם אשתו ג׳ואן ושתי בנותיו, היה שותף בקנת לוונטל — אחד ממשרדי ראיית החשבון הגדולים בארה״ב — והפך גם למשקיע נדל״ן. בשנת 1990 הקים את המשרד שלו בסן דייגו.</p>
-        <p>כבר מתחילת חייו הבוגרים תמך ברי במטרות שהאמין בהן, ועזר בנדיבות לאהוביו כדי לשפר את חייהם. הפילנתרופיה שלו התמקדה בעיקר בפרויקטים בישראל, שם תמך ביוזמות חינוך משמעותיות — הן דרך אורט, הארגון היהודי ללא כוונת רווח הגדול ביותר לחינוך, והן בסיוע למטרות שונות, בהן רעב בקרב ילדים. לאורך הקריירה שלו שימש בנדיבות כמנטור לאנשי מקצוע צעירים רבים, כשהוא מציע את ניסיונו וחוסנו כדוגמה.</p>
-        <p>ברי היה אב נלהב ואוהב, ידוע בחוש ההומור שלו ובתחומי העניין האינטלקטואליים הרחבים שלו. תחביביו האהובים כללו משחק שחמט ושמירה על כושר, והוא נהנה לפתור כל בעיה שנקרתה בדרכו — עד שטבע את הביטוי <em>L.I.T.B. — תשאירו את זה לברי!</em></p>
-        <p>בשנת 2010 נישא לאשתו השנייה, מרלין הייד. זוכרים את ברי באהבה — בנותיו, נכדו, ילדיו החורגים ונכדיו החורגים.</p>
+      <div class="story-hero fu">
+        <figure class="story-photo">
+          <img src="beri-memorial-illustration.png" alt="איור של ברי ברלוביץ׳ ז״ל">
+        </figure>
+        <div class="story-hero-copy">
+          <span class="eyebrow">הסיפור שלנו</span>
+          <h2>לזכר ברי ברלוביץ׳</h2>
+          <p>ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
+        </div>
+      </div>
+
+      <div class="memory-strip fu">
+        <div class="memory-mini">
+          <span class="focus-ic mustard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V9"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7Z"/><path d="M12 15c4 0 7-3 7-7-4 0-7 3-7 7Z"/><path d="M5 21h14"/></svg>
+          </span>
+          <div>
+            <h3>רוח של פתרון</h3>
+            <p>L.I.T.B. — תשאירו את זה לברי, בגישה אנושית ומעשית.</p>
+          </div>
+        </div>
+        <div class="memory-mini">
+          <span class="focus-ic terracotta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20a6 6 0 0 1 12 0"/><circle cx="5.8" cy="11" r="2.1"/><circle cx="18.2" cy="11" r="2.1"/><path d="M2.5 20a4.5 4.5 0 0 1 5-4"/><path d="M16.5 16a4.5 4.5 0 0 1 5 4"/></svg>
+          </span>
+          <div>
+            <h3>נתינה פעילה</h3>
+            <p>מחויבות עמוקה לחינוך, לקהילה ולפרויקטים בישראל.</p>
+          </div>
+        </div>
+        <div class="memory-mini">
+          <span class="focus-ic sage">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c6-1 10-5 12-13"/><path d="M6 19c-2-5 0-10 5-12 3-1 5-1 7-1 0 5-1 9-4 12-2 2-5 2-8 1Z"/><path d="M10 15c-1-3-1-5 0-8"/></svg>
+          </span>
+          <div>
+            <h3>חוסן אישי</h3>
+            <p>סיפור חיים של התמדה, מצוינות והזדמנות ששינתה מסלול.</p>
+          </div>
+        </div>
+      </div>
+
+      <svg class="story-swoosh" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,64 C240,20 430,64 650,52 C840,42 950,96 1120,57 C1240,30 1304,52 1440,18"/>
+      </svg>
+
+      <p class="story-quote-main fu">הזדמנות אחת יכולה לשנות מסלול,<br>ואז להפוך לאחריות.</p>
+
+      <div class="story-timeline fu">
+        <div class="timepoint sage">
+          <strong>1938</strong>
+          <span>תחילת הדרך ביוהנסבורג</span>
+        </div>
+        <div class="timepoint terracotta">
+          <strong>1978</strong>
+          <span>פרק חדש בלוס אנג׳לס</span>
+        </div>
+        <div class="timepoint mustard">
+          <strong>L.I.T.B.</strong>
+          <span>רוח של פתרון ונתינה</span>
+        </div>
+      </div>
+
+      <div class="story-rows fu">
+        <article class="story-row">
+          <div class="row-num">01</div>
+          <span class="row-icon sage">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c6-1 10-5 12-13"/><path d="M6 19c-2-5 0-10 5-12 3-1 5-1 7-1 0 5-1 9-4 12-2 2-5 2-8 1Z"/><path d="M10 15c-1-3-1-5 0-8"/></svg>
+          </span>
+          <div class="row-copy">
+            <h3>התחלה שלא ויתרה</h3>
+            <p>ברי נולד ביוהנסבורג למשפחה של מהגרים. אחרי שאיבד את אביו בילדות ואת אמו בגיל צעיר, גדל עם אחותו אצל דוד ודודה — ולמד מוקדם מהי אחריות, התמדה ומשפחה.</p>
+          </div>
+          <div aria-hidden="true"></div>
+        </article>
+        <article class="story-row">
+          <div class="row-num">02</div>
+          <span class="row-icon terracotta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20a6 6 0 0 1 12 0"/><circle cx="5.8" cy="11" r="2.1"/><circle cx="18.2" cy="11" r="2.1"/><path d="M2.5 20a4.5 4.5 0 0 1 5-4"/><path d="M16.5 16a4.5 4.5 0 0 1 5 4"/></svg>
+          </span>
+          <div class="row-copy">
+            <h3>מחווה קטנה, חיים שלמים</h3>
+            <p>באוניברסיטת ויטווטרסרנד כמעט נאלץ לפרוש כי לא יכול היה לרכוש ספרים. מלגה קטנה פתחה לו דלת, והוא סיים חשבונאות שני בהצטיינות. את הכוח של הזדמנות אחת הוא לא שכח.</p>
+          </div>
+          <div aria-hidden="true"></div>
+        </article>
+        <article class="story-row">
+          <div class="row-num">03</div>
+          <span class="row-icon mustard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V9"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7Z"/><path d="M12 15c4 0 7-3 7-7-4 0-7 3-7 7Z"/><path d="M5 21h14"/></svg>
+          </span>
+          <div class="row-copy">
+            <h3>מצוינות עם תעוזה</h3>
+            <p>כישרונו החשבונאי בלט במהירות. הוא התקדם לשותפות ניהול, היגר ללוס אנג׳לס ב־1978, פעל באחד ממשרדי ראיית החשבון הגדולים בארה״ב, ובהמשך הקים משרד משלו בסן דייגו.</p>
+          </div>
+          <div aria-hidden="true"></div>
+        </article>
+        <article class="story-row">
+          <div class="row-num">04</div>
+          <span class="row-icon sage">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c6-1 10-5 12-13"/><path d="M6 19c-2-5 0-10 5-12 3-1 5-1 7-1 0 5-1 9-4 12-2 2-5 2-8 1Z"/><path d="M10 15c-1-3-1-5 0-8"/></svg>
+          </span>
+          <div class="row-copy">
+            <h3>נתינה שהולכת לשטח</h3>
+            <p>ברי תמך ביוזמות חינוך, קהילה וציונות, בעיקר בפרויקטים בישראל. הוא האמין בעזרה שמגיעה לאנשים עצמם — ובשותפות שמחזיקה לאורך זמן.</p>
+          </div>
+          <div aria-hidden="true"></div>
+        </article>
+        <article class="story-row">
+          <div class="row-num">05</div>
+          <span class="row-icon terracotta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20a6 6 0 0 1 12 0"/><circle cx="5.8" cy="11" r="2.1"/><circle cx="18.2" cy="11" r="2.1"/><path d="M2.5 20a4.5 4.5 0 0 1 5-4"/><path d="M16.5 16a4.5 4.5 0 0 1 5 4"/></svg>
+          </span>
+          <div class="row-copy">
+            <h3>L.I.T.B.</h3>
+            <p><em>Leave It To Beri</em> — תשאירו את זה לברי. כך זוכרים אותו: חד, סקרן, אוהב פתרונות, עם חוש הומור ואנרגיה של אדם שלא משאיר בעיה בלי תשובה.</p>
+          </div>
+          <div aria-hidden="true"></div>
+        </article>
+      </div>
+
+      <div class="story-final fu">
+        <svg class="brand-line" style="--len:560" viewBox="0 0 560 70" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M4,42 C110,8 178,62 270,36 C360,12 440,46 556,24"/>
+        </svg>
+        <h3>זיכרון חי</h3>
+        <p>ברי היה אב אוהב, מנטור נדיב ואדם רחב אופקים. הקרן ממשיכה את הרוח הזו — לתת לאנשים הזדמנות, ולגדל ממנה שינוי שנשאר.</p>
+        <div class="final-mark" aria-hidden="true"></div>
       </div>
     </div>
   </div>
@@ -372,10 +1086,18 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
   <div class="wrap">
     <div class="partners-head fu">
       <span class="eyebrow">שותפויות</span>
-      <h2>הארגונים שאיתם אנו בדרך</h2>
+      <h2>הארגונים שאיתם אנו פועלים</h2>
       <p class="lead" style="margin-top:16px">אנו פועלים בשותפות — עם עמותות, קהילות, שותפים פילנתרופיים, מדינה ומובילי דעה ברחבי הארץ.</p>
     </div>
-    <div class="logo-wall fu">
+    <div class="partners-track fu">
+      <svg class="partners-thread" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,86 C135,62 250,72 396,82 C520,90 610,88 650,66 C688,45 720,52 718,82 C716,116 652,112 655,84 C662,52 738,78 850,76 C1050,72 1180,84 1440,82"/>
+        <path d="M0,168 C190,210 390,190 590,176 C780,164 950,158 1140,168 C1260,176 1360,186 1440,168"/>
+      </svg>
+      <span class="partners-dot sage" aria-hidden="true"></span>
+      <span class="partners-dot terracotta" aria-hidden="true"></span>
+      <span class="partners-dot mustard" aria-hidden="true"></span>
+      <div class="logo-wall">
       <a class="logo-cell" href="https://www.120plus1.org.il/" target="_blank" rel="noopener" title="עמותת 121 מנוע לשינוי חברתי"><img src="partners/121-engine.jpg" alt="עמותת 121 מנוע לשינוי חברתי" loading="lazy"></a>
       <a class="logo-cell" href="https://www.aluma.org.il/" target="_blank" rel="noopener" title="אלומה — עושות חיל"><img src="partners/aluma.png" alt="אלומה — עושות חיל" loading="lazy"></a>
       <a class="logo-cell" href="https://basecamp.org.il/" target="_blank" rel="noopener" title="בייסקאמפ"><img src="partners/basecamp.png" alt="בייסקאמפ" loading="lazy"></a>
@@ -402,8 +1124,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
       <a class="logo-cell" href="https://vertigo.org.il/" target="_blank" rel="noopener" title="עמותת ורטיגו למחול"><img src="partners/vertigo.png" alt="עמותת ורטיגו למחול" loading="lazy"></a>
       <a class="logo-cell" href="https://yedidim-il.org/" target="_blank" rel="noopener" title="ידידים — סיוע בדרכים"><img src="partners/yedidim.png" alt="ידידים — סיוע בדרכים" loading="lazy"></a>
       <a class="logo-cell" href="https://tikunolam.adi-il.org/" target="_blank" rel="noopener" title="יום אחד — תיקון עולם"><img src="partners/yom-echad-tikun-olam.png" alt="יום אחד — תיקון עולם" loading="lazy"></a>
+      </div>
     </div>
-    <div class="logo-note">ועוד עשרות עמותות ויוזמות ברחבי הארץ.</div>
   </div>
 </section>
 
@@ -431,9 +1153,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
     <div class="ftr-col">
       <h4>ניווט</h4>
       <a href="#story">אודות</a>
-      <a href="#work">הפעילות שלנו</a>
+      <a href="#impact">האימפקט שלנו</a>
       <a href="#partners">שותפים</a>
-      <a href="#stories">סיפורים</a>
     </div>
     <div class="ftr-col">
       <h4>יצירת קשר</h4>
@@ -442,7 +1163,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
     </div>
   </div>
   <div class="ftr-bottom">
-    <span>© 2026 קרן משפחת ברלוביץ׳. כל הזכויות שמורות.</span>
+    <span>© 2026 קרן משפחת ברלוביץ׳. כל הזכויות שמורות</span>
     <span>מצמיחים השפעה לדורות</span>
   </div>
 </footer>
@@ -469,8 +1190,280 @@ var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0J
 var TARGET = "app.html";
 var SESSION_KEY = "berelovitz_gate_ok";
 var OWNER_HASH = -1637438633;
+var currentLang = "en";
+
+var TEXT = {
+  he: {
+    title:"קרן משפחת ברלוביץ׳ — מצמיחים השפעה לדורות",
+    desc:"קרן משפחתית פילנתרופית לחיזוק אנשים וארגונים ליצירת שינוי חברתי שנשאר לאורך זמן. לזכר ברי ברלוביץ׳ ז״ל.",
+    introAria:"טעינת האתר",
+    brandAria:"קרן משפחת ברלוביץ׳ — לעמוד הבית",
+    menuAria:"פתיחת תפריט",
+    navAria:"ניווט ראשי",
+    closeAria:"סגירה",
+    introTag:"מצמיחים <span>השפעה</span> לדורות",
+    tagline:"מצמיחים השפעה לדורות",
+    navStory:"אודות",
+    navWork:"הפעילות שלנו",
+    navImpact:"האימפקט שלנו",
+    navPartners:"שותפים",
+    heroTitle:"בונים הזדמנות.<br><span class=\"accent\">מצמיחים שינוי</span> שנשאר.",
+    heroLead:"שותפים לאנשים וארגונים שמצמיחים שינוי שנשאר.",
+    heroBtn:"האימפקט שלנו",
+    heroCaption:"ברי ברלוביץ׳ ז״ל · 1938–2022",
+    heroAlt:"ברי ברלוביץ׳ ז״ל, מייסד הקרן",
+    workEyebrow:"הפעילות שלנו",
+    workTitle:"שותפות לטווח ארוך.<br>שינוי משמעותי.",
+    approachTitle:"הגישה שלנו",
+    approachText:"רעיונות שורשיים. קשרים ארוכים. התקדמות מדודה.",
+    focusTitle:"המיקוד שלנו",
+    focusText:"חינוך. הזדמנות. רווחה. השקעה באנשים ובקהילות.",
+    partnersCardTitle:"השותפים שלנו",
+    partnersCardText:"לצד עמותות ואנשים שפועלים קרוב לשטח.",
+    readMore:"קראו עוד",
+    toPartners:"לשותפים שלנו",
+    impactEyebrow:"האימפקט שלנו",
+    impactTitle:"מצמיחים השפעה לדורות",
+    impactLead:"אנחנו מחזקים אנשים וארגונים כדי ליצור שינוי חברתי שנשאר לאורך זמן — דרך מענקים אסטרטגיים, שותפויות, למידה ומדידה.",
+    metric1:"ארגונים חזקים ומקצועיים",
+    metric2:"בוגרים, צעירים וצעירות שחוו הזדמנות בזכות הקרן",
+    metric3:"חזון עשר שנים קדימה",
+    successTitle:"כך אנחנו מודדים הצלחה",
+    success1Title:"שינוי בחיי אנשים וקהילות",
+    success1Text:"אנחנו בוחנים את השינוי בחייהם של אנשים ובחוסן של קהילות לאורך זמן.",
+    success2Title:"חיזוק ארגונים ותשתיות",
+    success2Text:"אנחנו מחזקים ארגונים ותשתיות כדי שיוכלו להתרחב, להתמקצע ולהשפיע יותר.",
+    success3Title:"השפעה מערכתית",
+    success3Text:"אנחנו פועלים לשינוי מדיניות, תוכניות ומערכות כדי לפתור את שורשי האתגרים החברתיים.",
+    success4Title:"למידה מתמדת ושינוי",
+    success4Text:"אנחנו לומדים, מתאימים ובונים ידע כדי להגדיל את ההשפעה שלנו ושל שותפינו.",
+    buildTitle:"מה אנחנו בונים",
+    build1Title:"תשתית ליזמות ורעיונות",
+    build1Text:"הצמחת ארגונים קטנים, יוזמות, רעיונות ואנשים.",
+    build2Title:"תשתית לצמיחת עמותות",
+    build2Text:"מענקי צמיחה, ליווי ומדידה לאורך זמן.",
+    build3Title:"אבנים גדולות",
+    build3Text:"2-3 פרויקטים אסטרטגיים שמובילים לשינוי מערכתי.",
+    lastingTitle:"השפעה שנשארת",
+    lasting1:"פתרונות בני קיימא",
+    lasting2:"אנשים שמובילים שינוי",
+    lasting3:"תשתיות שממשיכות להשפיע",
+    statement:"אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.",
+    storyEyebrow:"הסיפור שלנו",
+    storyTitle:"לזכר ברי ברלוביץ׳",
+    storyLead:"ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.",
+    storyAlt:"איור של ברי ברלוביץ׳ ז״ל",
+    memory1Title:"רוח של פתרון",
+    memory1Text:"L.I.T.B. — תשאירו את זה לברי, בגישה אנושית ומעשית.",
+    memory2Title:"נתינה פעילה",
+    memory2Text:"מחויבות עמוקה לחינוך, לקהילה ולפרויקטים בישראל.",
+    memory3Title:"חוסן אישי",
+    memory3Text:"סיפור חיים של התמדה, מצוינות והזדמנות ששינתה מסלול.",
+    storyQuote:"הזדמנות אחת יכולה לשנות מסלול,<br>ואז להפוך לאחריות.",
+    time1:"תחילת הדרך ביוהנסבורג",
+    time2:"פרק חדש בלוס אנג׳לס",
+    time3:"רוח של פתרון ונתינה",
+    row1Title:"התחלה שלא ויתרה",
+    row1Text:"ברי נולד ביוהנסבורג למשפחה של מהגרים. אחרי שאיבד את אביו בילדות ואת אמו בגיל צעיר, גדל עם אחותו אצל דוד ודודה — ולמד מוקדם מהי אחריות, התמדה ומשפחה.",
+    row2Title:"מחווה קטנה, חיים שלמים",
+    row2Text:"באוניברסיטת ויטווטרסרנד כמעט נאלץ לפרוש כי לא יכול היה לרכוש ספרים. מלגה קטנה פתחה לו דלת, והוא סיים חשבונאות שני בהצטיינות. את הכוח של הזדמנות אחת הוא לא שכח.",
+    row3Title:"מצוינות עם תעוזה",
+    row3Text:"כישרונו החשבונאי בלט במהירות. הוא התקדם לשותפות ניהול, היגר ללוס אנג׳לס ב־1978, פעל באחד ממשרדי ראיית החשבון הגדולים בארה״ב, ובהמשך הקים משרד משלו בסן דייגו.",
+    row4Title:"נתינה שהולכת לשטח",
+    row4Text:"ברי תמך ביוזמות חינוך, קהילה וציונות, בעיקר בפרויקטים בישראל. הוא האמין בעזרה שמגיעה לאנשים עצמם — ובשותפות שמחזיקה לאורך זמן.",
+    row5Text:"<em>Leave It To Beri</em> — תשאירו את זה לברי. כך זוכרים אותו: חד, סקרן, אוהב פתרונות, עם חוש הומור ואנרגיה של אדם שלא משאיר בעיה בלי תשובה.",
+    finalTitle:"זיכרון חי",
+    finalText:"ברי היה אב אוהב, מנטור נדיב ואדם רחב אופקים. הקרן ממשיכה את הרוח הזו — לתת לאנשים הזדמנות, ולגדל ממנה שינוי שנשאר.",
+    partnersEyebrow:"שותפויות",
+    partnersTitle:"הארגונים שאיתם אנו פועלים",
+    partnersLead:"אנו פועלים בשותפות — עם עמותות, קהילות, שותפים פילנתרופיים, מדינה ומובילי דעה ברחבי הארץ.",
+    quote:"מחווה קטנה יכולה לשנות מסלול חיים שלם. את זה ברי חווה על בשרו — וזה מה שמנחה אותנו עד היום.",
+    quoteCite:"— מתוך רוח הקרן",
+    footerName:"קרן משפחת ברלוביץ׳",
+    footerTag:"מצמיחים השפעה לדורות · לזכר ברי ברלוביץ׳ ז״ל",
+    footerNav:"ניווט",
+    footerContact:"יצירת קשר",
+    loginLink:"כניסה למורשים",
+    copyright:"© 2026 קרן משפחת ברלוביץ׳. כל הזכויות שמורות",
+    loginTitle:"כניסה למורשים",
+    loginHint:"גישה למאגר העמותות ומדידת האימפקט — לחברי דירקטוריון וצוות הקרן",
+    idLabel:"תעודת זהות",
+    loginBtn:"כניסה למערכת",
+    checking:"בודק...",
+    emptyId:"נא להזין תעודת זהות",
+    denied:"תעודת זהות לא מורשית. פני למנהל הקרן.",
+    deniedShort:"תעודת זהות לא מורשית",
+    network:"שגיאת חיבור. נסי שוב."
+  },
+  en: {
+    title:"Berelowitz Family Foundation — Growing Impact for Generations",
+    desc:"A family foundation strengthening people and organizations to create lasting social change, in memory of Beri Berelowitz.",
+    introAria:"Loading the website",
+    brandAria:"Berelowitz Family Foundation — home",
+    menuAria:"Open menu",
+    navAria:"Main navigation",
+    closeAria:"Close",
+    introTag:"Growing <span>impact</span> for generations",
+    tagline:"Growing impact for generations",
+    navStory:"About",
+    navWork:"Our Work",
+    navImpact:"Our Impact",
+    navPartners:"Partners",
+    heroTitle:"Building opportunity<br><span class=\"accent\">Growing lasting</span> change.",
+    heroLead:"Partnering with people and organizations to grow lasting change.",
+    heroBtn:"Our Impact",
+    heroCaption:"Beri Berelowitz, of blessed memory · 1938-2022",
+    heroAlt:"Beri Berelowitz, of blessed memory, founder of the foundation",
+    workEyebrow:"Our Work",
+    workTitle:"Long-term partnership.<br>Meaningful change.",
+    approachTitle:"Our Approach",
+    approachText:"Rooted ideas. Long relationships. Measured progress.",
+    focusTitle:"Our Focus",
+    focusText:"Education. Opportunity. Well-being. Investment in people and communities.",
+    partnersCardTitle:"Our Partners",
+    partnersCardText:"Working alongside nonprofits and people close to the work.",
+    readMore:"Read more",
+    toPartners:"Our partners",
+    impactEyebrow:"Our Impact",
+    impactTitle:"Growing impact for generations",
+    impactLead:"We strengthen people and organizations to create lasting social change through strategic grants, partnerships, learning, and measurement.",
+    metric1:"Strong, professional organizations",
+    metric2:"Graduates and young people who experienced opportunity through the foundation",
+    metric3:"A ten-year vision looking ahead",
+    successTitle:"How we measure success",
+    success1Title:"Change in the lives of people and communities",
+    success1Text:"We look at lasting change in people's lives and in the resilience of communities.",
+    success2Title:"Stronger organizations and infrastructure",
+    success2Text:"We strengthen organizations and infrastructure so they can grow, professionalize, and increase their impact.",
+    success3Title:"Systems-level impact",
+    success3Text:"We support changes in policy, programs, and systems that address the roots of social challenges.",
+    success4Title:"Continuous learning and adaptation",
+    success4Text:"We learn, adapt, and build knowledge to increase the impact of the foundation and its partners.",
+    buildTitle:"What we are building",
+    build1Title:"Infrastructure for initiatives and ideas",
+    build1Text:"Helping small organizations, initiatives, ideas, and people grow.",
+    build2Title:"Infrastructure for nonprofit growth",
+    build2Text:"Growth grants, guidance, and long-term measurement.",
+    build3Title:"Big bets",
+    build3Text:"Two to three strategic projects that can drive systemic change.",
+    lastingTitle:"Impact that lasts",
+    lasting1:"Sustainable solutions",
+    lasting2:"People who lead change",
+    lasting3:"Infrastructure that keeps creating impact",
+    statement:"We invest in people and ideas today so communities can thrive tomorrow and for generations to come.",
+    storyEyebrow:"Our Story",
+    storyTitle:"In memory of Beri Berelowitz",
+    storyLead:"Beri Berelowitz was a passionate philanthropist devoted to many causes, including education, Jewish communal life, and Zionism. His commitment to helping people rise out of poverty was grounded in his own life story.",
+    storyAlt:"Illustration of Beri Berelowitz, of blessed memory",
+    memory1Title:"A spirit of solutions",
+    memory1Text:"L.I.T.B. — Leave It To Beri, with a practical and deeply human approach.",
+    memory2Title:"Active giving",
+    memory2Text:"A deep commitment to education, community, and projects in Israel.",
+    memory3Title:"Personal resilience",
+    memory3Text:"A life story of perseverance, excellence, and an opportunity that changed a path.",
+    storyQuote:"One opportunity can change a path,<br>and then become a responsibility.",
+    time1:"The journey begins in Johannesburg",
+    time2:"A new chapter in Los Angeles",
+    time3:"A spirit of solutions and giving",
+    row1Title:"A beginning that did not give up",
+    row1Text:"Beri was born in Johannesburg to a family of immigrants. After losing his father in childhood and his mother at a young age, he grew up with his sister in the care of an aunt and uncle, learning early the meaning of responsibility, perseverance, and family.",
+    row2Title:"A small gesture, a whole life",
+    row2Text:"At the University of the Witwatersrand, Beri nearly had to leave because he could not afford books. A small scholarship opened a door, and he went on to graduate second in his class in accounting. He never forgot the power of one opportunity.",
+    row3Title:"Excellence with courage",
+    row3Text:"His talent in accounting quickly stood out. He advanced into management partnership, moved to Los Angeles in 1978, worked at one of the largest accounting firms in the United States, and later founded his own firm in San Diego.",
+    row4Title:"Giving close to the ground",
+    row4Text:"Beri supported education, community, and Zionist initiatives, especially projects in Israel. He believed in help that reaches people directly and in partnerships that endure.",
+    row5Text:"<em>Leave It To Beri</em>. That is how he is remembered: sharp, curious, solution-oriented, with humor and the energy of someone who would not leave a problem unanswered.",
+    finalTitle:"A living memory",
+    finalText:"Beri was a loving father, a generous mentor, and a person of wide horizons. The foundation carries that spirit forward: giving people an opportunity, and growing from it change that lasts.",
+    partnersEyebrow:"Partnerships",
+    partnersTitle:"Organizations we work with",
+    partnersLead:"We work in partnership with nonprofits, communities, philanthropic partners, government, and thought leaders across Israel.",
+    quote:"A small gesture can change the course of an entire life. Beri experienced that himself, and it continues to guide us today.",
+    quoteCite:"— From the spirit of the foundation",
+    footerName:"Berelowitz Family Foundation",
+    footerTag:"Growing impact for generations · In memory of Beri Berelowitz",
+    footerNav:"Navigation",
+    footerContact:"Contact",
+    loginLink:"Authorized access",
+    copyright:"© 2026 Berelowitz Family Foundation. All rights reserved",
+    loginTitle:"Authorized access",
+    loginHint:"Access to the partner database and impact measurement tools for board members and foundation staff.",
+    idLabel:"ID number",
+    loginBtn:"Enter",
+    checking:"Checking...",
+    emptyId:"Please enter an ID number",
+    denied:"This ID number is not authorized. Please contact the foundation administrator.",
+    deniedShort:"This ID number is not authorized",
+    network:"Connection error. Please try again."
+  }
+};
+
+var BINDINGS = [
+  [".intro-loader","introAria","aria-label"],[".brand","brandAria","aria-label"],[".burger","menuAria","aria-label"],[".nav","navAria","aria-label"],[".lg-close","closeAria","aria-label"],
+  [".intro-tag","introTag","html"],[".hdr-tagline","tagline"],[".nav a:nth-child(1)","navStory"],[".nav a:nth-child(2)","navImpact"],[".nav a:nth-child(3)","navPartners"],
+  [".hero h1","heroTitle","html"],[".hero .lead","heroLead"],[".hero-cta .btn","heroBtn","contents"],[".hero-media img","heroAlt","alt"],[".hero-media figcaption","heroCaption"],
+  [".focus-head .eyebrow","workEyebrow"],[".focus-head h2","workTitle","html"],
+  [".focus-item:nth-child(1) h3","approachTitle"],[".focus-item:nth-child(1) p","approachText"],[".focus-item:nth-child(1) .tlink","readMore","contents"],
+  [".focus-item:nth-child(2) h3","focusTitle"],[".focus-item:nth-child(2) p","focusText"],[".focus-item:nth-child(2) .tlink","readMore","contents"],
+  [".focus-item:nth-child(3) h3","partnersCardTitle"],[".focus-item:nth-child(3) p","partnersCardText"],[".focus-item:nth-child(3) .tlink","toPartners","contents"],
+  [".work-intro .eyebrow","impactEyebrow"],[".work-intro h2","impactTitle"],[".work-intro .lead","impactLead"],
+  [".work-metric:nth-child(1) span","metric1"],[".work-metric:nth-child(2) span","metric2"],[".work-metric:nth-child(3) span","metric3"],
+  [".success-flow h3","successTitle"],[".success-row:nth-child(1) h4","success1Title"],[".success-row:nth-child(1) p","success1Text"],[".success-row:nth-child(2) h4","success2Title"],[".success-row:nth-child(2) p","success2Text"],[".success-row:nth-child(3) h4","success3Title"],[".success-row:nth-child(3) p","success3Text"],[".success-row:nth-child(4) h4","success4Title"],[".success-row:nth-child(4) p","success4Text"],
+  [".build-title","buildTitle"],[".build-card:nth-child(1) h4","build1Title"],[".build-card:nth-child(1) p","build1Text"],[".build-card:nth-child(2) h4","build2Title"],[".build-card:nth-child(2) p","build2Text"],[".build-card:nth-child(3) h4","build3Title"],[".build-card:nth-child(3) p","build3Text"],
+  [".lasting-title","lastingTitle"],[".lasting-list span:nth-child(1)","lasting1"],[".lasting-list span:nth-child(2)","lasting2"],[".lasting-list span:nth-child(3)","lasting3"],
+  [".impact-text","statement"],[".story-photo img","storyAlt","alt"],[".story-hero-copy .eyebrow","storyEyebrow"],[".story-hero-copy h2","storyTitle"],[".story-hero-copy p","storyLead"],
+  [".memory-mini:nth-child(1) h3","memory1Title"],[".memory-mini:nth-child(1) p","memory1Text"],[".memory-mini:nth-child(2) h3","memory2Title"],[".memory-mini:nth-child(2) p","memory2Text"],[".memory-mini:nth-child(3) h3","memory3Title"],[".memory-mini:nth-child(3) p","memory3Text"],
+  [".story-quote-main","storyQuote","html"],[".timepoint:nth-child(1) span","time1"],[".timepoint:nth-child(2) span","time2"],[".timepoint:nth-child(3) span","time3"],
+  [".story-row:nth-child(1) h3","row1Title"],[".story-row:nth-child(1) p","row1Text"],[".story-row:nth-child(2) h3","row2Title"],[".story-row:nth-child(2) p","row2Text"],[".story-row:nth-child(3) h3","row3Title"],[".story-row:nth-child(3) p","row3Text"],[".story-row:nth-child(4) h3","row4Title"],[".story-row:nth-child(4) p","row4Text"],[".story-row:nth-child(5) p","row5Text","html"],
+  [".story-final h3","finalTitle"],[".story-final p","finalText"],[".partners-head .eyebrow","partnersEyebrow"],[".partners-head h2","partnersTitle"],[".partners-head .lead","partnersLead"],
+  [".quote blockquote","quote"],[".quote cite","quoteCite"],[".fb-name","footerName"],[".fb-tag","footerTag"],[".ftr-col:nth-child(2) h4","footerNav"],[".ftr-col:nth-child(2) a:nth-child(2)","navStory"],[".ftr-col:nth-child(2) a:nth-child(3)","navImpact"],[".ftr-col:nth-child(2) a:nth-child(4)","navPartners"],[".ftr-col:nth-child(3) h4","footerContact"],[".ftr-col:nth-child(3) a:nth-child(3)","loginLink"],[".ftr-bottom span:nth-child(1)","copyright"],[".ftr-bottom span:nth-child(2)","tagline"],
+  [".login h2","loginTitle"],[".lg-hint","loginHint"],[".lg-field label","idLabel"],[".lg-btn","loginBtn"]
+];
+
+function setText(selector,key,mode){
+  var el=document.querySelector(selector); if(!el) return;
+  var val=TEXT[currentLang][key];
+  if(mode==="html") el.innerHTML=val;
+  else if(mode==="alt") el.setAttribute("alt",val);
+  else if(mode==="aria-label") el.setAttribute("aria-label",val);
+  else if(mode==="contents"){
+    var done=false;
+    Array.prototype.slice.call(el.childNodes).forEach(function(n){
+      if(n.nodeType===3){ n.nodeValue=done ? "" : val + " "; done=true; }
+    });
+  } else el.textContent=val;
+}
+function applyLang(lang){
+  currentLang=lang || currentLang;
+  var t=TEXT[currentLang];
+  document.documentElement.lang=currentLang;
+  document.documentElement.dir=currentLang==="he"?"rtl":"ltr";
+  document.body.classList.toggle("lang-en",currentLang==="en");
+  document.title=t.title;
+  var meta=document.querySelector('meta[name="description"]'); if(meta) meta.setAttribute("content",t.desc);
+  BINDINGS.forEach(function(b){ setText(b[0],b[1],b[2]); });
+  var btn=document.querySelector(".lang-toggle");
+  if(btn) btn.setAttribute("aria-label",currentLang==="he"?"Switch language to English":"החלפת שפה לעברית");
+}
+function toggleLang(){ applyLang(currentLang==="he"?"en":"he"); closeNav(); }
 
 function hash(s){var x=0;for(var i=0;i<s.length;i++){x=((x<<5)-x+s.charCodeAt(i))|0}return x}
+applyLang(currentLang);
+
+/* ---- intro loader ---- */
+window.addEventListener("load",function(){
+  window.setTimeout(function(){
+    document.body.classList.remove("loading");
+    var intro=document.getElementById("introLoader");
+    if(intro) intro.setAttribute("aria-hidden","true");
+    if(location.hash){
+      history.replaceState(null,"",location.pathname + location.search);
+    }
+    window.scrollTo({top:0,left:0,behavior:"auto"});
+    onScroll();
+  },4200);
+});
 
 /* ---- nav ---- */
 function toggleNav(btn){
@@ -494,6 +1487,19 @@ window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
   document.querySelectorAll(".fu").forEach(function(e){io.observe(e)});
 })();
 
+/* ---- partner logo roll ---- */
+(function(){
+  var wall=document.querySelector(".logo-wall");
+  if(!wall || wall.dataset.rolled) return;
+  wall.dataset.rolled="1";
+  Array.prototype.slice.call(wall.children).forEach(function(item){
+    var clone=item.cloneNode(true);
+    clone.setAttribute("aria-hidden","true");
+    clone.tabIndex=-1;
+    wall.appendChild(clone);
+  });
+})();
+
 /* ---- login ---- */
 function openLogin(){ document.getElementById("loginOverlay").classList.add("open");
   setTimeout(function(){ var i=document.getElementById("pw"); if(i) i.focus(); },100); }
@@ -501,23 +1507,23 @@ function closeLogin(){ document.getElementById("loginOverlay").classList.remove(
 function enter(){ try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(e){} window.location.href=TARGET; }
 function fail(msg){
   var err=document.getElementById("lgErr"), box=document.getElementById("loginBox");
-  err.textContent=msg||"תעודת זהות לא מורשית"; err.classList.add("show");
+  err.textContent=msg||TEXT[currentLang].deniedShort; err.classList.add("show");
   box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
   var i=document.getElementById("pw"); i.value=""; i.focus();
 }
 window.doLogin=function(ev){
   ev.preventDefault();
   var val=(document.getElementById("pw").value||"").replace(/\D/g,"");
-  if(!val){ fail("נא להזין תעודת זהות"); return false; }
+  if(!val){ fail(TEXT[currentLang].emptyId); return false; }
   if(hash(val)===OWNER_HASH){ enter(); return false; }
-  var btn=document.getElementById("lgBtn"); btn.disabled=true; btn.textContent="בודק...";
+  var btn=document.getElementById("lgBtn"); btn.disabled=true; btn.textContent=TEXT[currentLang].checking;
   fetch(API + "?action=auth&id=" + encodeURIComponent(val) + "&t=" + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(d){
-      btn.disabled=false; btn.textContent="כניסה למערכת";
-      if(d && d.ok && d.allowed){ enter(); } else fail("תעודת זהות לא מורשית. פני למנהל הקרן.");
+      btn.disabled=false; btn.textContent=TEXT[currentLang].loginBtn;
+      if(d && d.ok && d.allowed){ enter(); } else fail(TEXT[currentLang].denied);
     })
-    .catch(function(){ btn.disabled=false; btn.textContent="כניסה למערכת"; fail("שגיאת חיבור. נסי שוב."); });
+    .catch(function(){ btn.disabled=false; btn.textContent=TEXT[currentLang].loginBtn; fail(TEXT[currentLang].network); });
   return false;
 };
 document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeLogin(); });
