@@ -166,6 +166,10 @@ function doGet(e){
 
 /* ---------- authorized IDs (ת.ז מורשות) ---------- */
 var AUTH_TAB = 'authorized';
+// נרמול ת.ז להשוואה: ספרות בלבד, בלי אפסים מובילים.
+// הגיליון שומר ת.ז כמספר ומוחק את האפס המוביל, אז השוואה טקסטואלית ישירה נכשלת
+// (058868290 בקלט מול 58868290 בגיליון). הנרמול פותר גם הקלדה בלי האפס.
+function _normId(s){ return String(s).replace(/\D/g,'').replace(/^0+/,''); }
 function _authSheet(create){
   var ss = _ss();
   var a = ss.getSheetByName(AUTH_TAB);
@@ -189,10 +193,10 @@ function _readAuthorized(){
   return out;
 }
 function _isAuthorized(id){
-  id = String(id).replace(/\D/g,'');
+  id = _normId(id);
   if (!id) return false;
   var list = _readAuthorized();
-  for (var i=0;i<list.length;i++){ if (list[i].id === id) return true; }
+  for (var i=0;i<list.length;i++){ if (_normId(list[i].id) === id) return true; }
   return false;
 }
 
@@ -333,21 +337,24 @@ function doPost(e){
   // ---- authorized IDs: הוספה/מחיקה של ת.ז מורשית ----
   if (action === 'auth_add'){
     var aid = String(body.id||'').replace(/\D/g,'');
-    if (!aid) return _json({ ok:false, error:'no id' });
+    if (!_normId(aid)) return _json({ ok:false, error:'no id' });
     var as = _authSheet(true);
-    // מנע כפילות
+    // מנע כפילות (בהשוואה מנורמלת)
     var existing = _readAuthorized();
-    for (var k=0;k<existing.length;k++){ if (existing[k].id===aid) return _json({ ok:true, dup:true }); }
+    for (var k=0;k<existing.length;k++){ if (_normId(existing[k].id)===_normId(aid)) return _json({ ok:true, dup:true }); }
     as.appendRow([aid, body.name||'', body.role||'']);
+    // שמירת הת.ז כטקסט כדי לא לאבד אפס מוביל בתצוגה
+    var lastRow = as.getLastRow();
+    as.getRange(lastRow,1).setNumberFormat('@').setValue(aid);
     _log('auth_add', aid, body.name||'');
     return _json({ ok:true });
   }
   if (action === 'auth_delete'){
-    var did = String(body.id||'').replace(/\D/g,'');
+    var did = _normId(body.id||'');
     var as2 = _authSheet(true);
     var v2 = as2.getDataRange().getValues();
     for (var m=v2.length-1;m>=1;m--){
-      if (String(v2[m][0]).replace(/\D/g,'') === did){ as2.deleteRow(m+1); }
+      if (_normId(v2[m][0]) === did){ as2.deleteRow(m+1); }
     }
     _log('auth_delete', did, '');
     return _json({ ok:true });
