@@ -68,7 +68,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 .tlink:hover svg{transform:translateX(-4px)}
 
 /* ---------- Monogram graphic (reusable) ---------- */
-.monogram{position:absolute;background:url("logo-berelovitz-new.png") no-repeat center/contain;pointer-events:none;z-index:0}
+.monogram{position:absolute;background:url("monogram-only.png") no-repeat center/contain;pointer-events:none;z-index:0}
 
 /* ---------- BrandLine ---------- */
 .brand-line{display:block;width:100%;overflow:visible}
@@ -113,27 +113,31 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 
 /* ---------- Hero ---------- */
 .hero{padding-block:clamp(48px,7vw,96px) 0;position:relative;overflow:hidden}
-.hero-grid{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);
-  display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
-.hero-copy{position:relative;z-index:3}
-.hero h1{font-size:clamp(48px,6vw,96px);line-height:.98;font-weight:400;letter-spacing:-.03em}
+.hero-grid{max-width:1400px;margin:0 auto;padding-inline:0 var(--gutter);
+  display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(28px,4vw,56px);align-items:center;min-height:clamp(480px,58vw,640px)}
+.hero-copy{position:relative;z-index:3;padding-inline-start:var(--gutter)}
+.hero h1{font-size:clamp(46px,5.6vw,88px);line-height:.98;font-weight:400;letter-spacing:-.03em}
 .hero h1 .accent{font-style:italic;font-weight:400}
 .hero .lead{margin-top:26px}
 .hero-cta{margin-top:38px}
-.hero-media{position:relative;z-index:2}
-.hero-media figure{position:relative;border-radius:4px 4px 4px 120px;overflow:hidden;background:var(--purple-08)}
-.hero-media img{width:100%;height:clamp(360px,44vw,520px);object-fit:cover;filter:grayscale(1) contrast(1.02)}
-.hero-media figcaption{margin-top:14px;font-family:var(--sans);font-size:13px;color:var(--purple-60);text-align:center;letter-spacing:.02em}
+/* large edge-to-edge image panel with concave curved edge (like the mockup) */
+.hero-media{position:relative;z-index:2;align-self:stretch}
+.hero-media figure{position:absolute;inset:0;overflow:hidden;background:var(--purple-08);
+  border-radius:0 0 0 clamp(120px,20vw,280px)}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.hero-media figcaption{position:absolute;bottom:14px;inset-inline-start:24px;z-index:3;
+  font-family:var(--sans);font-size:12px;color:rgba(243,240,232,.9);letter-spacing:.02em;
+  text-shadow:0 1px 4px rgba(0,0,0,.4)}
 /* connecting brand line between text and image */
 .hero-connect{position:absolute;inset:0;z-index:1;pointer-events:none}
 /* large cropped monogram bleeding off the left edge */
 .hero .monogram{width:min(620px,52vw);height:min(620px,52vw);left:-160px;top:40px;opacity:.05;transform:rotate(-4deg)}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:30px}
-  .hero-copy{order:1}.hero-media{order:2}
+  .hero-grid{grid-template-columns:1fr;gap:28px;min-height:0;padding-inline:0}
+  .hero-copy{order:1;padding-inline:var(--gutter)}.hero-media{order:2;align-self:auto;height:340px}
   .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;word-break:normal;overflow-wrap:break-word}
-  .hero-media figure{border-radius:4px 4px 4px 80px}
-  .hero-media img{height:320px}
+  .hero-media figure{position:relative;inset:auto;height:340px;border-radius:0 90px 0 90px;margin-inline-start:var(--gutter)}
+  .hero-media figcaption{color:rgba(243,240,232,.95)}
   .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
 }
 @media(max-width:420px){
@@ -170,7 +174,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 .story-grid{display:grid;grid-template-columns:340px 1fr;gap:clamp(36px,5vw,72px);align-items:start;position:relative;z-index:2}
 .story-aside{position:sticky;top:120px}
 .story-aside figure{border-radius:4px 4px 4px 90px;overflow:hidden;background:var(--purple-08)}
-.story-aside img{width:100%;filter:grayscale(1) contrast(1.02)}
+.story-aside img{width:100%}
 .story-name{font-family:var(--serif);font-size:24px;font-weight:600;margin-top:20px}
 .story-years{font-size:13px;letter-spacing:.14em;color:var(--purple-60);margin-top:4px}
 .story-quote{margin-top:22px;padding-top:22px;border-top:1px solid var(--purple-15);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--purple)}
@@ -210,7 +214,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 /* ---------- Footer ---------- */
 .ftr{background:var(--purple);color:var(--ivory);padding-block:clamp(56px,7vw,88px);position:relative;overflow:hidden}
 .ftr .monogram{width:300px;height:300px;left:-60px;bottom:-90px;opacity:.08;
-  background-image:url("logo-berelovitz-new.png");filter:brightness(0) invert(1)}
+  background-image:url("monogram-only.png");filter:brightness(0) invert(1)}
 .ftr-in{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);position:relative;z-index:2;
   display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
 .ftr-brand .fb-name{font-family:var(--serif);font-size:22px;font-weight:600}
@@ -258,7 +262,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 <header class="hdr" id="hdr">
   <div class="hdr-in">
     <a href="#top" class="brand" aria-label="קרן משפחת ברלוביץ׳ — לעמוד הבית">
-      <img class="brand-mark" src="logo-berelovitz-new.png" alt="לוגו קרן משפחת ברלוביץ׳">
+      <img class="brand-mark" src="monogram-only.png" alt="לוגו קרן משפחת ברלוביץ׳">
       <span class="brand-txt">קרן משפחת ברלוביץ׳<small>Berelowitz Family Foundation</small></span>
     </a>
     <button class="burger" aria-label="פתיחת תפריט" aria-expanded="false" onclick="toggleNav(this)">
@@ -291,7 +295,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
     </div>
     <div class="hero-media fu">
       <figure>
-        <img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
+        <img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
       </figure>
       <figcaption>ברי ברלוביץ׳ ז״ל · 1938–2022</figcaption>
     </div>
@@ -357,7 +361,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
   <div class="wrap">
     <div class="story-grid">
       <aside class="story-aside fu">
-        <figure><img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל"></figure>
+        <figure><img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל"></figure>
         <div class="story-name">ברי ברלוביץ׳ ז״ל</div>
         <div class="story-years">1938 — 2022</div>
         <div class="story-quote">״L.I.T.B.<span>Leave It To Beri — תשאירו את זה לברי!</span>״</div>
@@ -461,7 +465,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 <div class="overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
   <form class="login" id="loginBox" autocomplete="off" onsubmit="return doLogin(event)">
     <button type="button" class="lg-close" aria-label="סגירה" onclick="closeLogin()">×</button>
-    <div class="lg-logo"><img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳" style="width:100%;height:100%;object-fit:contain"></div>
+    <div class="lg-logo"><img src="logo-name-transparent.png" alt="קרן ברלוביץ׳" style="width:100%;height:100%;object-fit:contain"></div>
     <h2>כניסה למורשים</h2>
     <div class="lg-hint">גישה למאגר העמותות ומדידת האימפקט — לחברי דירקטוריון וצוות הקרן</div>
     <div class="lg-field">
