@@ -202,6 +202,7 @@ table.data tr:hover td{background:#f9f7f4}
   <button class="tab" data-tab="list" onclick="switchTab('list')">📋 רשימת עמותות <span class="badge" id="tabCount">–</span></button>
   <button class="tab" data-tab="contacts" onclick="switchTab('contacts')">👥 אנשי קשר</button>
   <button class="tab" data-tab="tracks" onclick="switchTab('tracks')">🏷️ מסלולים</button>
+  <button class="tab" data-tab="access" onclick="switchTab('access')">🔑 מורשים</button>
   <button class="tab" data-tab="admin" onclick="switchTab('admin')">⚙️ ניהול</button>
 </div>
 
@@ -268,6 +269,20 @@ table.data tr:hover td{background:#f9f7f4}
   <div class="table-wrap"><table class="data" id="tracksTable"></table></div>
 </div>
 
+<!-- Access (מורשים) -->
+<div id="tab-access" class="page tab-page hidden">
+  <div class="page-title">ניהול מורשי כניסה</div>
+  <div class="page-sub">מי יכול להיכנס למערכת. הכניסה נעשית עם תעודת זהות מהרשימה הזו.</div>
+  <div class="notice" style="border-right-color:var(--warm)">
+    <p style="margin:0"><b>איך זה עובד:</b> כל מי שהת.ז שלו ברשימה יכול להיכנס למערכת דרך עמוד הבית. את (המנהלת) תמיד מורשית. הוסיפי ת.ז של חבר דירקטוריון או צוות כדי לתת לו גישה.</p>
+  </div>
+  <div class="controls">
+    <button class="btn-primary" onclick="openAccessForm()">➕ הוספת מורשה</button>
+    <div class="count-badge" id="accessCount"></div>
+  </div>
+  <div class="table-wrap"><table class="data" id="accessTable"></table></div>
+</div>
+
 <!-- Admin -->
 <div id="tab-admin" class="page tab-page hidden">
   <div class="page-title">ניהול המערכת</div>
@@ -285,6 +300,10 @@ table.data tr:hover td{background:#f9f7f4}
       <div class="ac-icon">🏷️</div><div class="ac-title">ניהול מסלולים</div>
       <div class="ac-desc">הוספה, עריכה ומחיקה של מסלולים</div>
     </div>
+    <div class="admin-card" onclick="switchTab('access')">
+      <div class="ac-icon">🔑</div><div class="ac-title">ניהול מורשים</div>
+      <div class="ac-desc">מי יכול להיכנס למערכת (רשימת ת.ז)</div>
+    </div>
     <div class="admin-card" onclick="exportCSV()">
       <div class="ac-icon">⬇️</div><div class="ac-title">ייצוא לאקסל</div>
       <div class="ac-desc">הורדת כל המאגר כקובץ CSV</div>
@@ -292,6 +311,10 @@ table.data tr:hover td{background:#f9f7f4}
     <div class="admin-card" onclick="switchTab('list')">
       <div class="ac-icon">✏️</div><div class="ac-title">עריכת עמותה</div>
       <div class="ac-desc">לחיצה על כרטיס ברשימה ← עריכה</div>
+    </div>
+    <div class="admin-card" onclick="goHome()">
+      <div class="ac-icon">🏠</div><div class="ac-title">הום פייג (עמוד הבית)</div>
+      <div class="ac-desc">מעבר לאתר התדמית של הקרן</div>
     </div>
     <div class="admin-card" onclick="openSheet()">
       <div class="ac-icon">📄</div><div class="ac-title">פתיחת הגיליון</div>
@@ -328,6 +351,7 @@ var USD_RATE = 3.7; // הערכה; ניתן לעדכן
 var DATA = [];
 var STATS = null;
 var TRACKS = [];
+var AUTHORIZED = [];
 var activeFilter = "all";
 var currentTab = "dashboard";
 
@@ -388,6 +412,67 @@ function renderAll(){
   renderAdmin();
   document.getElementById("tabCount").textContent = DATA.length;
   buildFilters();
+  loadAuthorized();
+}
+
+/* ============ authorized users (מורשים) ============ */
+function loadAuthorized(){
+  fetch(API + "?action=authorized&t=" + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){ if(d&&d.ok){ AUTHORIZED = d.authorized||[]; renderAccess(); } })
+    .catch(function(){});
+}
+function renderAccess(){
+  document.getElementById("accessCount").textContent = AUTHORIZED.length + " מורשים";
+  var html = '<thead><tr><th>תעודת זהות</th><th>שם</th><th>תפקיד</th><th>פעולות</th></tr></thead><tbody>';
+  if(!AUTHORIZED.length){
+    html += '<tr><td colspan="4" style="text-align:center;color:#999;padding:24px">אין מורשים ברשימה עדיין. את (המנהלת) מורשית תמיד. הוסיפי מורשים כדי לתת גישה לאחרים.</td></tr>';
+  } else {
+    html += AUTHORIZED.map(function(a){
+      var idSafe = esc(a.id).replace(/'/g,"\\'");
+      return '<tr><td class="td-org" style="direction:ltr;text-align:right">'+esc(a.id)+'</td>'+
+        '<td>'+esc(a.name||"—")+'</td>'+
+        '<td>'+esc(a.role||"—")+'</td>'+
+        '<td><button class="btn-danger" style="padding:5px 12px;font-size:12px" onclick="deleteAccess(\''+idSafe+'\')">הסר גישה</button></td></tr>';
+    }).join("");
+  }
+  html += '</tbody>';
+  document.getElementById("accessTable").innerHTML = html;
+}
+function openAccessForm(){
+  document.getElementById("modalTitle").textContent = "הוספת מורשה כניסה";
+  var html = '<form onsubmit="return submitAccess(event)">'+
+    '<div class="form-row"><label>תעודת זהות</label><input name="id" inputmode="numeric" placeholder="9 ספרות" required style="direction:ltr"></div>'+
+    '<div class="form-grid">'+
+    '<div class="form-row"><label>שם</label><input name="name" placeholder="שם מלא"></div>'+
+    '<div class="form-row"><label>תפקיד</label><input name="role" placeholder="למשל: דירקטוריון / צוות"></div>'+
+    '</div>'+
+    '<div class="form-actions"><button type="submit" class="btn-primary">💾 הוסף מורשה</button>'+
+    '<button type="button" class="btn-secondary" onclick="closeModal()">ביטול</button></div></form>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
+}
+function submitAccess(ev){
+  ev.preventDefault();
+  var f=ev.target, row={};
+  Array.prototype.forEach.call(f.elements,function(el){ if(el.name) row[el.name]=el.value; });
+  var id=(row.id||"").replace(/\D/g,"");
+  if(!id){ toast("נא להזין תעודת זהות","err"); return false; }
+  toast("שומר...");
+  fetch(API,{method:"POST",body:JSON.stringify({action:"auth_add",id:id,name:row.name,role:row.role})})
+    .then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){ toast(d.dup?"כבר קיים ברשימה":"נוסף מורשה ✓","ok"); closeModal(); setTimeout(loadAuthorized,600);} else throw new Error(d&&d.error||"שגיאה"); })
+    .catch(function(e){ toast("שגיאה: "+e.message,"err"); });
+  return false;
+}
+function deleteAccess(id){
+  var a = AUTHORIZED.filter(function(x){return x.id===id;})[0];
+  if(!confirm('להסיר גישה ל'+(a&&a.name?' "'+a.name+'"':' ת.ז '+id)+'?')) return;
+  toast("מסיר...");
+  fetch(API,{method:"POST",body:JSON.stringify({action:"auth_delete",id:id})})
+    .then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){ toast("הוסר ✓","ok"); setTimeout(loadAuthorized,600);} else throw new Error(d&&d.error||"שגיאה"); })
+    .catch(function(e){ toast("שגיאה: "+e.message,"err"); });
 }
 
 /* ============ tracks (מסלולים) ============ */

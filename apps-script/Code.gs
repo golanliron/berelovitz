@@ -138,6 +138,18 @@ function _stats(rows){
 
 function doGet(e){
   var action = (e && e.parameter && e.parameter.action) || 'list';
+
+  // ---- auth: בדיקה אם ת.ז מורשית להיכנס ----
+  if (action === 'auth'){
+    var id = String((e.parameter.id || '')).replace(/\D/g,'');
+    var allowed = _isAuthorized(id);
+    return _json({ ok:true, allowed: allowed });
+  }
+  // ---- authorized list (לניהול מהאדמין) ----
+  if (action === 'authorized'){
+    return _json({ ok:true, authorized: _readAuthorized() });
+  }
+
   var data = _readAll();
   if (action === 'meta'){
     return _json({ ok:true, stats: _stats(data.rows) });
@@ -150,6 +162,38 @@ function doGet(e){
     stats: _stats(data.rows),
     tracks: _readTracks(data.rows)
   });
+}
+
+/* ---------- authorized IDs (ת.ז מורשות) ---------- */
+var AUTH_TAB = 'authorized';
+function _authSheet(create){
+  var ss = _ss();
+  var a = ss.getSheetByName(AUTH_TAB);
+  if (!a && create){
+    a = ss.insertSheet(AUTH_TAB);
+    a.appendRow(['id','name','role']);
+  }
+  return a;
+}
+function _readAuthorized(){
+  var a = _authSheet(false);
+  var out = [];
+  if (a){
+    var v = a.getDataRange().getValues();
+    for (var i=1;i<v.length;i++){
+      var id = String(v[i][0]).replace(/\D/g,'');
+      if (!id) continue;
+      out.push({ id:id, name:v[i][1]||'', role:v[i][2]||'', _rowIndex:i+1 });
+    }
+  }
+  return out;
+}
+function _isAuthorized(id){
+  id = String(id).replace(/\D/g,'');
+  if (!id) return false;
+  var list = _readAuthorized();
+  for (var i=0;i<list.length;i++){ if (list[i].id === id) return true; }
+  return false;
 }
 
 /* ---------- tracks (מסלולים) ---------- */
@@ -283,6 +327,29 @@ function doPost(e){
       if (String(v3[j][0]).trim() === String(body.name).trim()){ t3.deleteRow(j+1); }
     }
     _log('track_delete', body.name||'', '');
+    return _json({ ok:true });
+  }
+
+  // ---- authorized IDs: הוספה/מחיקה של ת.ז מורשית ----
+  if (action === 'auth_add'){
+    var aid = String(body.id||'').replace(/\D/g,'');
+    if (!aid) return _json({ ok:false, error:'no id' });
+    var as = _authSheet(true);
+    // מנע כפילות
+    var existing = _readAuthorized();
+    for (var k=0;k<existing.length;k++){ if (existing[k].id===aid) return _json({ ok:true, dup:true }); }
+    as.appendRow([aid, body.name||'', body.role||'']);
+    _log('auth_add', aid, body.name||'');
+    return _json({ ok:true });
+  }
+  if (action === 'auth_delete'){
+    var did = String(body.id||'').replace(/\D/g,'');
+    var as2 = _authSheet(true);
+    var v2 = as2.getDataRange().getValues();
+    for (var m=v2.length-1;m>=1;m--){
+      if (String(v2[m][0]).replace(/\D/g,'') === did){ as2.deleteRow(m+1); }
+    }
+    _log('auth_delete', did, '');
     return _json({ ok:true });
   }
 
