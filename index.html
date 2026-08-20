@@ -3,464 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>קרן משפחת ברלוביץ׳ — מצמיחים השפעה לדורות</title>
-<meta name="description" content="קרן משפחתית פילנתרופית לחיזוק אנשים וארגונים ליצירת שינוי חברתי שנשאר לאורך זמן. לזכר ברי ברלוביץ׳ ז״ל.">
+<title>קרן משפחת ברלוביץ׳ | כניסה למורשים</title>
+<meta name="description" content="כניסה למערכת הניהול של קרן משפחת ברלוביץ׳, לחברי דירקטוריון וצוות הקרן.">
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   Berelowitz Family Foundation — brand design system
+   Berelowitz Family Foundation — login gate
+   brand design system: docs/DESIGN-TOKENS.css
    ============================================================ */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* base */
   --purple:#352D4A; --ivory:#F3F0E8;
-  /* accents (touches only) */
   --sage:#AAB19A; --terracotta:#C68E74; --mustard:#B79B67;
-  /* purple alphas */
   --purple-08:rgba(53,45,74,.08);
   --purple-15:rgba(53,45,74,.15);
   --purple-35:rgba(53,45,74,.35);
   --purple-60:rgba(53,45,74,.60);
   --purple-75:rgba(53,45,74,.75);
-  /* type */
   --serif:'Frank Ruhl Libre',Georgia,serif;
-  --sans:'Heebo','Inter',system-ui,sans-serif;
-  --gutter:clamp(22px,5vw,80px);
+  --sans:'Heebo',system-ui,sans-serif;
 }
-html{scroll-behavior:smooth}
-html{overflow-x:clip}
+html,body{height:100%}
 body{
   font-family:var(--sans);background:var(--ivory);color:var(--purple);
-  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip;position:relative;width:100%;max-width:100%;
+  line-height:1.7;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px 22px;position:relative;overflow-x:clip;
 }
-/* paper grain — barely-there noise overlay */
+/* paper grain */
 body::before{
   content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* monogram watermark */
+.watermark{
+  position:fixed;bottom:-8vh;left:-4vw;width:min(46vw,420px);opacity:.05;
+  pointer-events:none;user-select:none;
+}
 img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
 ::selection{background:var(--purple);color:var(--ivory)}
 :focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
 
-.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gutter)}
-section{padding-block:clamp(72px,10vw,140px);position:relative;overflow-x:clip}
-
-/* ---------- Typography ---------- */
-h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spacing:-.01em}
-.eyebrow{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-60)}
-.eyebrow.mustard{color:var(--mustard)}
-.lead{font-size:18px;line-height:1.7;max-width:620px;color:var(--purple-75)}
-
-/* ---------- Buttons ---------- */
-.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:15px;font-weight:600;
-  padding:16px 30px;border-radius:2px;border:1px solid var(--purple);cursor:pointer;transition:background .3s ease,color .3s ease;letter-spacing:.01em}
-.btn-primary{background:var(--purple);color:var(--ivory)}
-.btn-primary:hover{background:var(--ivory);color:var(--purple)}
-.btn-secondary{background:transparent;color:var(--purple)}
-.btn-secondary:hover{background:var(--purple);color:var(--ivory)}
-.tlink{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--purple);padding-bottom:3px;position:relative}
-.tlink::after{content:"";position:absolute;bottom:0;right:0;height:1px;width:100%;background:var(--purple);transform-origin:right;transition:transform .35s ease}
-.tlink:hover::after{transform:scaleX(1.18)}
-.tlink svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;transition:transform .3s ease}
-.tlink:hover svg{transform:translateX(-4px)}
-
-/* ---------- Monogram graphic (reusable) ---------- */
-.monogram{position:absolute;background:url("monogram-only.png") no-repeat center/contain;pointer-events:none;z-index:0}
-
-/* ---------- BrandLine ---------- */
-.brand-line{display:block;width:100%;overflow:visible}
-.brand-line path{fill:none;stroke:var(--purple);stroke-width:1.5;stroke-linecap:round}
-@media(prefers-reduced-motion:no-preference){
-  .brand-line path{stroke-dasharray:var(--len,1400);stroke-dashoffset:var(--len,1400);animation:draw 2.4s .3s ease forwards}
+.card{
+  width:100%;max-width:420px;background:var(--ivory);
+  border:1px solid var(--purple-15);border-radius:4px;
+  padding:46px 38px 38px;text-align:center;position:relative;z-index:1;
 }
-@keyframes draw{to{stroke-dashoffset:0}}
-
-/* ---------- Header ---------- */
-.hdr{position:sticky;top:0;z-index:200;background:var(--ivory);transition:background .3s,backdrop-filter .3s,box-shadow .3s;border-bottom:1px solid transparent}
-.hdr.stuck{background:rgba(243,240,232,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--purple-08)}
-.hdr-in{max-width:1240px;margin:0 auto;padding:22px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:14px}
-.brand-mark{width:46px;height:46px;object-fit:contain}
-.brand-txt{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;color:var(--purple)}
-.brand-txt small{display:block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple-35);margin-top:2px}
-.nav{display:flex;align-items:center;gap:6px}
-.nav a{font-size:14.5px;font-weight:500;color:var(--purple);padding:9px 15px;border-radius:2px;transition:color .2s,opacity .2s;opacity:.78}
-.nav a:hover{opacity:1}
-.nav a.nav-cta{margin-inline-start:8px;border:1px solid var(--purple-35);opacity:1;display:inline-flex;align-items:center;gap:7px;font-weight:600}
-.nav a.nav-cta:hover{background:var(--purple);color:var(--ivory)}
-.nav a.nav-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8}
-.burger{display:none;background:none;border:none;color:var(--purple);cursor:pointer;padding:6px}
-.burger svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.6}
-@media(max-width:900px){
-  .nav{position:fixed;inset:78px 0 auto 0;flex-direction:column;align-items:stretch;background:var(--ivory);
-    padding:16px var(--gutter) 28px;gap:2px;border-bottom:1px solid var(--purple-08);
-    transform:translateY(-135%);transition:transform .35s ease;box-shadow:0 24px 40px var(--purple-08)}
-  .nav.open{transform:translateY(0)}
-  .nav a{padding:14px 6px;font-size:16px;opacity:1;border-bottom:1px solid var(--purple-08)}
-  .nav a.nav-cta{margin:10px 0 0;justify-content:center;border-radius:2px;padding:14px}
-  .burger{display:block}
-}
-@media(max-width:520px){
-  .hdr-in{padding:16px var(--gutter)}
-  .brand-mark{width:38px;height:38px}
-  .brand-txt{font-size:15px}
-  .brand-txt small{font-size:8px;letter-spacing:.12em}
-}
-@media(max-width:380px){ .brand-txt small{display:none} }
-
-/* ---------- Hero (image bleeds to the edge with an organic curve, like the mockup) ---------- */
-.hero{position:relative;overflow:hidden;min-height:clamp(520px,44vw,680px);display:flex;align-items:center;padding:0}
-.hero-media{position:absolute;top:0;left:0;width:min(55%,880px);height:90%;z-index:2;overflow:hidden;
-  background:var(--purple-08);border-radius:0 clamp(120px,16vw,220px) clamp(260px,34vw,460px) 0}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-inner{position:relative;z-index:3;width:100%;max-width:1240px;margin:0 auto;padding:clamp(56px,7vw,96px) var(--gutter)}
-.hero-copy{width:min(600px,46%)}
-.hero h1{font-size:clamp(44px,5vw,84px);line-height:1.04;font-weight:400;letter-spacing:-.03em}
-.hero .lead{margin-top:24px}
-.hero-cta{margin-top:36px}
-/* hand-drawn line: enters from the right, loops under the button, slips beneath the image */
-.hero-line{position:absolute;left:0;right:0;bottom:clamp(24px,5vw,64px);height:140px;z-index:1;pointer-events:none}
-@media(max-width:900px){
-  .hero{display:block;min-height:0}
-  .hero-inner{padding:clamp(40px,8vw,56px) var(--gutter) 24px}
-  .hero-copy{width:100%}
-  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;overflow-wrap:break-word}
-  .hero-media{position:relative;top:auto;left:auto;width:auto;height:320px;margin:0 var(--gutter) 0 0;
-    border-radius:0 110px 220px 0}
-  .hero-line{position:static;height:90px;margin-top:-30px}
-}
-@media(max-width:420px){
-  .hero h1{font-size:clamp(34px,10.5vw,44px)}
-}
-
-/* ---------- Focus cards strip (single bordered row under hero, like mockup) ---------- */
-.focus{padding-block:clamp(26px,4vw,48px)}
-.focus .wrap{max-width:1400px}
-.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--purple-15)}
-.focus-item{display:flex;align-items:center;gap:18px;padding:28px 26px;color:inherit}
-.focus-item:not(:last-child){border-inline-end:1px solid var(--purple-15)}
-.focus-ic{flex-shrink:0;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.focus-ic svg{width:26px;height:26px;stroke:var(--ivory);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.focus-ic.sage{background:var(--sage)}.focus-ic.terracotta{background:var(--terracotta)}.focus-ic.mustard{background:var(--mustard)}
-.focus-item h3{font-size:21px;font-weight:600;margin-bottom:3px}
-.focus-item p{font-size:14px;color:var(--purple-75);line-height:1.55;max-width:270px}
-.focus-arrow{margin-inline-start:auto;flex-shrink:0;width:22px;height:22px;stroke:var(--purple);fill:none;stroke-width:1.5;transition:transform .25s}
-.focus-item:hover .focus-arrow{transform:translateX(-5px)}
-@media(max-width:820px){
-  .focus-grid{grid-template-columns:1fr}
-  .focus-item:not(:last-child){border-inline-end:none;border-bottom:1px solid var(--purple-15)}
-}
-
-/* ---------- Impact statement (tinted band + gold hand line, like mockup) ---------- */
-.impact{text-align:center;background:#E9E7DB;padding-block:clamp(56px,7vw,92px)}
-.impact .wrap{position:relative;z-index:2}
-.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(23px,2.7vw,38px);line-height:1.45;max-width:840px;margin:18px auto 0;color:var(--purple)}
-.impact-gold{position:absolute;left:-20px;bottom:-8px;width:min(380px,42vw);height:90px;z-index:1;pointer-events:none}
-.impact-gold path{fill:none;stroke:var(--mustard);stroke-width:1.5;stroke-linecap:round}
-
-/* ---------- Story ---------- */
-.story{border-top:1px solid var(--purple-15);position:relative;overflow:hidden}
-.story .monogram{width:min(520px,46vw);height:min(520px,46vw);left:-140px;bottom:-80px;opacity:.05}
-.story-grid{display:grid;grid-template-columns:340px 1fr;gap:clamp(36px,5vw,72px);align-items:start;position:relative;z-index:2}
-.story-aside{position:sticky;top:120px}
-.story-aside figure{border-radius:4px 4px 4px 90px;overflow:hidden;background:var(--purple-08)}
-.story-aside img{width:100%}
-.story-name{font-family:var(--serif);font-size:24px;font-weight:600;margin-top:20px}
-.story-years{font-size:13px;letter-spacing:.14em;color:var(--purple-60);margin-top:4px}
-.story-quote{margin-top:22px;padding-top:22px;border-top:1px solid var(--purple-15);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--purple)}
-.story-quote span{display:block;font-style:normal;font-size:14px;color:var(--purple-60);margin-top:4px}
-.story-body .eyebrow{display:block;margin-bottom:16px}
-.story-body h2{font-size:clamp(36px,3.6vw,58px);line-height:1.06;margin-bottom:28px}
-.story-body p{font-size:17px;line-height:1.75;color:var(--purple-75);max-width:640px;margin-bottom:20px}
-.story-body p.first{font-size:20px;color:var(--purple);line-height:1.6}
-.story-body em{font-style:italic;color:var(--purple)}
-@media(max-width:820px){
-  .story-grid{grid-template-columns:1fr;gap:32px}
-  .story-aside{position:static;max-width:300px}
-}
-
-/* ---------- Partners ---------- */
-.partners{border-top:1px solid var(--purple-15)}
-.partners-head{max-width:620px;margin-bottom:clamp(36px,4vw,56px)}
-.partners-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
-.logo-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  border-top:1px solid var(--purple-15);border-inline-start:1px solid var(--purple-15)}
-.logo-cell{background:#fff;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;padding:22px;
-  border-inline-end:1px solid var(--purple-15);border-bottom:1px solid var(--purple-15);
-  transition:background .25s;cursor:pointer}
-.logo-cell:hover{background:#fbfaf7}
-.logo-cell img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:saturate(.4);transition:filter .3s}
-.logo-cell:hover img{filter:saturate(1)}
-.logo-note{margin-top:22px;font-size:14px;color:var(--purple-60)}
-@media(max-width:560px){.logo-wall{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}.logo-cell{padding:15px}}
-
-/* ---------- Quote / stories ---------- */
-.quote{text-align:center;border-top:1px solid var(--purple-15)}
-.quote-mark{font-family:var(--serif);font-size:90px;line-height:.5;color:var(--purple-35);height:44px;display:block}
-.quote blockquote{font-family:var(--serif);font-size:clamp(24px,3vw,38px);line-height:1.4;max-width:800px;margin:22px auto 0;color:var(--purple);font-weight:400}
-.quote cite{display:block;font-family:var(--sans);font-style:normal;font-size:14px;color:var(--purple-60);margin-top:24px;letter-spacing:.04em}
-.quote .brand-line{max-width:220px;margin:30px auto 0;height:34px}
-
-/* ---------- Footer ---------- */
-.ftr{background:var(--purple);color:var(--ivory);padding-block:clamp(56px,7vw,88px);position:relative;overflow:hidden}
-.ftr .monogram{width:300px;height:300px;left:-60px;bottom:-90px;opacity:.08;
-  background-image:url("monogram-only.png");filter:brightness(0) invert(1)}
-.ftr-in{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);position:relative;z-index:2;
-  display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
-.ftr-brand .fb-name{font-family:var(--serif);font-size:22px;font-weight:600}
-.ftr-brand .fb-sub{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(243,240,232,.5);margin-top:5px}
-.ftr-brand .fb-tag{margin-top:16px;font-size:14px;color:rgba(243,240,232,.75);max-width:300px;line-height:1.6}
-.ftr-col h4{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,240,232,.5);font-weight:600;margin-bottom:14px}
-.ftr-col a,.ftr-col p{display:block;font-size:15px;color:rgba(243,240,232,.85);margin-bottom:9px;transition:color .2s}
-.ftr-col a:hover{color:var(--ivory)}
-.ftr-bottom{max-width:1240px;margin:40px auto 0;padding:22px var(--gutter) 0;border-top:1px solid rgba(243,240,232,.15);
-  position:relative;z-index:2;font-size:13px;color:rgba(243,240,232,.55);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
-
-/* ---------- Login modal ---------- */
-.overlay{position:fixed;inset:0;z-index:1000;background:var(--purple-75);backdrop-filter:blur(4px);
-  display:none;align-items:center;justify-content:center;padding:22px}
-.overlay.open{display:flex}
-.login{background:var(--ivory);border-radius:4px;padding:40px 34px 34px;max-width:400px;width:100%;position:relative;text-align:center;border:1px solid var(--purple-15)}
-.login.shake{animation:shake .4s}
+.card.shake{animation:shake .4s}
 @keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.lg-close{position:absolute;top:14px;left:16px;background:none;border:none;font-size:26px;color:var(--purple-35);cursor:pointer;line-height:1}
-.lg-logo{width:64px;height:64px;margin:0 auto 16px}
-.login h2{font-size:24px;font-weight:600;margin-bottom:8px}
-.lg-hint{font-size:13.5px;color:var(--purple-60);line-height:1.6;margin-bottom:24px}
-.lg-field{text-align:right;margin-bottom:18px}
-.lg-field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--purple)}
-.lg-field input{width:100%;padding:13px 15px;border:1px solid var(--purple-35);border-radius:2px;background:#fff;
-  font-family:var(--sans);font-size:16px;color:var(--purple);text-align:center;letter-spacing:3px}
-.lg-field input:focus{outline:none;border-color:var(--purple)}
-.lg-btn{width:100%;padding:15px;background:var(--purple);color:var(--ivory);border:1px solid var(--purple);border-radius:2px;
-  font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .3s,color .3s}
-.lg-btn:hover{background:var(--ivory);color:var(--purple)}
-.lg-btn:disabled{opacity:.6;cursor:wait}
-.lg-err{margin-top:14px;font-size:13.5px;color:var(--terracotta);min-height:18px;opacity:0;transition:opacity .2s}
-.lg-err.show{opacity:1}
 
-/* ---------- fade-up on scroll ---------- */
-@media(prefers-reduced-motion:no-preference){
-  .fu{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-  .fu.in{opacity:1;transform:none}
+.logo{width:190px;margin:0 auto 26px}
+
+/* hand-drawn brand line with one loop */
+.brandline{display:block;margin:0 auto 26px}
+
+h1{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:-.01em;margin-bottom:8px}
+.hint{font-size:13.5px;color:var(--purple-60);line-height:1.6;margin-bottom:28px}
+
+.field{text-align:right;margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--purple)}
+.field input{width:100%;padding:13px 15px;border:1px solid var(--purple-35);border-radius:2px;background:#fff;
+  font-family:var(--sans);font-size:16px;color:var(--purple);text-align:center;letter-spacing:3px}
+.field input:focus{outline:none;border-color:var(--purple)}
+
+.btn{width:100%;padding:15px;background:var(--purple);color:var(--ivory);border:1px solid var(--purple);border-radius:2px;
+  font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .3s,color .3s;letter-spacing:.01em}
+.btn:hover{background:var(--ivory);color:var(--purple)}
+.btn:disabled{opacity:.6;cursor:wait}
+
+.err{margin-top:14px;font-size:13.5px;color:var(--terracotta);min-height:20px;opacity:0;transition:opacity .2s}
+.err.show{opacity:1}
+
+.foot{margin-top:30px;font-size:12.5px;color:var(--purple-60);text-align:center;position:relative;z-index:1}
+.foot a{color:var(--purple-60);text-decoration:none;border-bottom:1px solid var(--purple-15)}
+.foot a:hover{color:var(--purple)}
+
+@media(max-width:420px){
+  .card{padding:38px 24px 30px}
+  .logo{width:160px}
 }
 </style>
 </head>
 <body>
 
-<!-- ===================== HEADER ===================== -->
-<header class="hdr" id="hdr">
-  <div class="hdr-in">
-    <a href="#top" class="brand" aria-label="קרן משפחת ברלוביץ׳ — לעמוד הבית">
-      <img class="brand-mark" src="monogram-only.png" alt="לוגו קרן משפחת ברלוביץ׳">
-      <span class="brand-txt">קרן משפחת ברלוביץ׳<small>Berelowitz Family Foundation</small></span>
-    </a>
-    <button class="burger" aria-label="פתיחת תפריט" aria-expanded="false" onclick="toggleNav(this)">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-    <nav class="nav" id="nav" aria-label="ניווט ראשי">
-      <a href="#story" onclick="closeNav()">אודות</a>
-      <a href="#work" onclick="closeNav()">הפעילות שלנו</a>
-      <a href="#partners" onclick="closeNav()">שותפים</a>
-      <a href="#stories" onclick="closeNav()">סיפורים</a>
-      <a href="#contact" onclick="closeNav()">צור קשר</a>
-      <a href="#" class="nav-cta" onclick="openLogin();closeNav();return false;">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>כניסה למורשים</a>
-    </nav>
-  </div>
-</header>
+<img class="watermark" src="monogram-only.png" alt="">
 
-<!-- ===================== HERO ===================== -->
-<header class="hero" id="top">
-  <div class="hero-media fu">
-    <img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
-  </div>
-  <div class="hero-inner">
-    <div class="hero-copy fu">
-      <h1>בונים הזדמנות.<br>מצמיחים שינוי שנשאר.</h1>
-      <p class="lead">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#work">הפעילות שלנו</a>
-      </div>
-    </div>
-  </div>
-  <svg class="hero-line brand-line" style="--len:1900" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M1440,88 C1330,56 1240,118 1120,98 C1084,92 1052,64 1072,46 C1090,30 1118,50 1094,70 C1058,98 970,106 870,98 C690,84 520,118 330,102 C190,90 70,106 0,74"/>
+<form class="card" id="loginBox" autocomplete="off" onsubmit="return doLogin(event)">
+  <div class="logo"><img src="logo-name-transparent.png" alt="קרן משפחת ברלוביץ׳, Berelowitz Family Foundation"></div>
+  <svg class="brandline" width="150" height="16" viewBox="0 0 150 16" fill="none" aria-hidden="true">
+    <path d="M4 10 C 34 10, 54 10, 66 9 C 74 8.4, 77 4, 73 3 C 69 2.2, 66 6, 72 8.4 C 78 10.6, 108 10, 146 9.2"
+      stroke="#352D4A" stroke-width="1.5" stroke-linecap="round"/>
   </svg>
-</header>
-
-<!-- ===================== FOCUS AREAS ===================== -->
-<section class="focus" id="work">
-  <div class="wrap">
-    <div class="focus-grid fu">
-      <a class="focus-item" href="#story">
-        <span class="focus-ic sage">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20c-4-1-7-4-7-9a5 5 0 0 1 7-4"/><path d="M11 20c0-6 2-10 8-12"/><path d="M11 20v-6"/></svg>
-        </span>
-        <div class="focus-txt">
-          <h3>הגישה שלנו</h3>
-          <p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית.</p>
-        </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
-      <a class="focus-item" href="#story">
-        <span class="focus-ic terracotta">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
-        </span>
-        <div class="focus-txt">
-          <h3>המיקוד שלנו</h3>
-          <p>חינוך, הזדמנות שווה ורווחה — לטווח הארוך.</p>
-        </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
-      <a class="focus-item" href="#partners">
-        <span class="focus-ic mustard">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-4-6-9a4 4 0 0 1 6-3 4 4 0 0 1 6 3c0 5-6 9-6 9Z"/><path d="M12 9v4"/></svg>
-        </span>
-        <div class="focus-txt">
-          <h3>השותפים שלנו</h3>
-          <p>פועלים לצד עמותות וארגונים קרובים לשטח ולעשייה.</p>
-        </div>
-        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      </a>
-    </div>
+  <h1>כניסה למורשים</h1>
+  <div class="hint">גישה למאגר העמותות ומדידת האימפקט, לחברי דירקטוריון וצוות הקרן</div>
+  <div class="field">
+    <label for="pw">תעודת זהות</label>
+    <input id="pw" name="pw" type="password" inputmode="numeric" autocomplete="off" placeholder="• • • • • • • • •" maxlength="9" autofocus>
   </div>
-</section>
+  <button class="btn" type="submit" id="lgBtn">כניסה למערכת</button>
+  <div class="err" id="lgErr"></div>
+</form>
 
-<!-- ===================== IMPACT STATEMENT ===================== -->
-<section class="impact">
-  <svg class="impact-gold" viewBox="0 0 360 80" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,52 C50,28 96,60 150,44 C182,34 196,10 178,6 C162,2 152,26 178,32 C220,42 280,30 360,24"/>
-  </svg>
-  <div class="wrap">
-    <span class="eyebrow mustard fu">האימפקט שלנו</span>
-    <p class="impact-text fu">אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.</p>
-  </div>
-</section>
-
-<!-- ===================== STORY ===================== -->
-<section class="story" id="story">
-  <div class="monogram" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="story-grid">
-      <aside class="story-aside fu">
-        <figure><img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל"></figure>
-        <div class="story-name">ברי ברלוביץ׳ ז״ל</div>
-        <div class="story-years">1938 — 2022</div>
-        <div class="story-quote">״L.I.T.B.<span>Leave It To Beri — תשאירו את זה לברי!</span>״</div>
-      </aside>
-      <div class="story-body fu">
-        <span class="eyebrow">הסיפור שלנו</span>
-        <h2>לזכר ברי ברלוביץ׳</h2>
-        <p class="first">ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
-        <p>ברי נולד ביוהנסבורג, דרום אפריקה, לסם — מהגר מליטא — ולמרי, שמוצאה ממה שהיום בלארוס. סם נפטר כשברי היה פעוט, ומרי התקשתה לפרנס את שני ילדיה. למרבה הצער היא נפטרה ממחלת לב כשברי היה בן 11, והוא ואחותו הלן גדלו אצל דוד ודודה.</p>
-        <p>ברי הפך לתלמיד מצטיין באוניברסיטת ויטווטרסרנד, אך בשל מיעוט משאבים כספיים לא היה ביכולתו לשלם עבור ספרים — וכמעט נשר מהלימודים. ברגע האחרון הצליח לקבל מלגה קטנה, וסיים את לימודי החשבונאות כתלמיד השני בהצטיינות. הוא מעולם לא שכח את ההשפעה הגדולה שהייתה למחווה קטנה זו על חייו.</p>
-        <p>הגאונות החשבונאית שלו עשתה במהרה רושם במשרד רואי החשבון הנודע פישר הופמן, שם הפך לשותף מנהל בגיל צעיר. בשנת 1978 היגר ללוס אנג׳לס עם אשתו ג׳ואן ושתי בנותיו, היה שותף בקנת לוונטל — אחד ממשרדי ראיית החשבון הגדולים בארה״ב — והפך גם למשקיע נדל״ן. בשנת 1990 הקים את המשרד שלו בסן דייגו.</p>
-        <p>כבר מתחילת חייו הבוגרים תמך ברי במטרות שהאמין בהן, ועזר בנדיבות לאהוביו כדי לשפר את חייהם. הפילנתרופיה שלו התמקדה בעיקר בפרויקטים בישראל, שם תמך ביוזמות חינוך משמעותיות — הן דרך אורט, הארגון היהודי ללא כוונת רווח הגדול ביותר לחינוך, והן בסיוע למטרות שונות, בהן רעב בקרב ילדים. לאורך הקריירה שלו שימש בנדיבות כמנטור לאנשי מקצוע צעירים רבים, כשהוא מציע את ניסיונו וחוסנו כדוגמה.</p>
-        <p>ברי היה אב נלהב ואוהב, ידוע בחוש ההומור שלו ובתחומי העניין האינטלקטואליים הרחבים שלו. תחביביו האהובים כללו משחק שחמט ושמירה על כושר, והוא נהנה לפתור כל בעיה שנקרתה בדרכו — עד שטבע את הביטוי <em>L.I.T.B. — תשאירו את זה לברי!</em></p>
-        <p>בשנת 2010 נישא לאשתו השנייה, מרלין הייד. זוכרים את ברי באהבה — בנותיו, נכדו, ילדיו החורגים ונכדיו החורגים.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== PARTNERS ===================== -->
-<section class="partners" id="partners">
-  <div class="wrap">
-    <div class="partners-head fu">
-      <span class="eyebrow">שותפויות</span>
-      <h2>הארגונים שאיתם אנו בדרך</h2>
-      <p class="lead" style="margin-top:16px">אנו פועלים בשותפות — עם עמותות, קהילות, שותפים פילנתרופיים, מדינה ומובילי דעה ברחבי הארץ.</p>
-    </div>
-    <div class="logo-wall fu">
-      <a class="logo-cell" href="https://www.120plus1.org.il/" target="_blank" rel="noopener" title="עמותת 121 מנוע לשינוי חברתי"><img src="partners/121-engine.jpg" alt="עמותת 121 מנוע לשינוי חברתי" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.aluma.org.il/" target="_blank" rel="noopener" title="אלומה — עושות חיל"><img src="partners/aluma.png" alt="אלומה — עושות חיל" loading="lazy"></a>
-      <a class="logo-cell" href="https://basecamp.org.il/" target="_blank" rel="noopener" title="בייסקאמפ"><img src="partners/basecamp.png" alt="בייסקאמפ" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.bly.org.il/" target="_blank" rel="noopener" title="בית לחם יהודה"><img src="partners/beit-lechem-yehuda.png" alt="בית לחם יהודה" loading="lazy"></a>
-      <a class="logo-cell" href="https://bnai-zion.co.il/" target="_blank" rel="noopener" title="אגודת הידידים בני ציון"><img src="partners/bnai-zion.svg" alt="אגודת הידידים בני ציון" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.boomerang.org.il/" target="_blank" rel="noopener" title="בומרנג"><img src="partners/boomerang.png" alt="בומרנג" loading="lazy"></a>
-      <a class="logo-cell" href="https://galil-leadership.org/he/" target="_blank" rel="noopener" title="המדרשה למנהיגות — מכינת גליל עליון"><img src="partners/galil-leadership.png" alt="המדרשה למנהיגות — מכינת גליל עליון" loading="lazy"></a>
-      <a class="logo-cell" href="https://neurim.org.il/" target="_blank" rel="noopener" title="כפר הנוער הדסה נעורים"><img src="partners/hadassah-neurim.svg" alt="כפר הנוער הדסה נעורים" loading="lazy"></a>
-      <a class="logo-cell" href="https://keshev.org/" target="_blank" rel="noopener" title="עמותת קווים ומחשבות"><img src="partners/kavim-umachshavot.png" alt="עמותת קווים ומחשבות" loading="lazy"></a>
-      <a class="logo-cell" href="https://kibbutz.org.il/" target="_blank" rel="noopener" title="ברית התנועה הקיבוצית"><img src="partners/kibbutz-movement.png" alt="ברית התנועה הקיבוצית" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.lodfoundation.org/" target="_blank" rel="noopener" title="הקרן לפיתוח לוד"><img src="partners/lod-foundation.jpg" alt="הקרן לפיתוח לוד" loading="lazy"></a>
-      <a class="logo-cell" href="https://magenmishpacha.com/he/" target="_blank" rel="noopener" title="מגן המשפחה"><img src="partners/magen-hamishpacha.png" alt="מגן המשפחה" loading="lazy"></a>
-      <a class="logo-cell" href="https://matzmichim.org.il/" target="_blank" rel="noopener" title="אקדמיית מצמיחים"><img src="partners/matzmichim.png" alt="אקדמיית מצמיחים" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.nir.org.il/" target="_blank" rel="noopener" title="קיבוץ ניר יצחק"><img src="partners/nir-yitzhak.jpg" alt="קיבוץ ניר יצחק" loading="lazy"></a>
-      <a class="logo-cell" href="https://nirim.org/" target="_blank" rel="noopener" title="נירים"><img src="partners/nirim.png" alt="נירים" loading="lazy"></a>
-      <a class="logo-cell" href="https://patriziopaoletti.co.il/" target="_blank" rel="noopener" title="עמותת פטריציו פאולטי"><img src="partners/patrizio-paoletti.png" alt="עמותת פטריציו פאולטי" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.peleyoetz.org/" target="_blank" rel="noopener" title="פלא יועץ"><img src="partners/pele-yoetz.png" alt="פלא יועץ" loading="lazy"></a>
-      <a class="logo-cell" href="https://planetherapyglobal.org/" target="_blank" rel="noopener" title="planetherapy"><img src="partners/planetherapy.png" alt="planetherapy" loading="lazy"></a>
-      <a class="logo-cell" href="https://sahar.org.il/" target="_blank" rel="noopener" title="סה״ר — סיוע והקשבה ברשת"><img src="partners/sahar.svg" alt="סה״ר — סיוע והקשבה ברשת" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.shinua.net/" target="_blank" rel="noopener" title="שינוע חברתי"><img src="partners/shinua-chevrati.png" alt="שינוע חברתי" loading="lazy"></a>
-      <a class="logo-cell" href="https://spca.co.il/" target="_blank" rel="noopener" title="אגודת צער בעלי חיים בישראל"><img src="partners/spca.svg" alt="אגודת צער בעלי חיים בישראל" loading="lazy"></a>
-      <a class="logo-cell" href="https://www.tashtit.org/" target="_blank" rel="noopener" title="תשתית — לחיזוק השירות הציבורי"><img src="partners/tashtit.png" alt="תשתית — לחיזוק השירות הציבורי" loading="lazy"></a>
-      <a class="logo-cell" href="https://tvuna.org.il/" target="_blank" rel="noopener" title="תבונה — הדרך לכלכלה נבונה"><img src="partners/tvuna.png" alt="תבונה — הדרך לכלכלה נבונה" loading="lazy"></a>
-      <a class="logo-cell" href="https://vertigo.org.il/" target="_blank" rel="noopener" title="עמותת ורטיגו למחול"><img src="partners/vertigo.png" alt="עמותת ורטיגו למחול" loading="lazy"></a>
-      <a class="logo-cell" href="https://yedidim-il.org/" target="_blank" rel="noopener" title="ידידים — סיוע בדרכים"><img src="partners/yedidim.png" alt="ידידים — סיוע בדרכים" loading="lazy"></a>
-      <a class="logo-cell" href="https://tikunolam.adi-il.org/" target="_blank" rel="noopener" title="יום אחד — תיקון עולם"><img src="partners/yom-echad-tikun-olam.png" alt="יום אחד — תיקון עולם" loading="lazy"></a>
-    </div>
-    <div class="logo-note">ועוד עשרות עמותות ויוזמות ברחבי הארץ.</div>
-  </div>
-</section>
-
-<!-- ===================== QUOTE / STORIES ===================== -->
-<section class="quote" id="stories">
-  <div class="wrap fu">
-    <span class="quote-mark" aria-hidden="true">״</span>
-    <blockquote>מחווה קטנה יכולה לשנות מסלול חיים שלם. את זה ברי חווה על בשרו — וזה מה שמנחה אותנו עד היום.</blockquote>
-    <cite>— מתוך רוח הקרן</cite>
-    <svg class="brand-line" style="--len:260" viewBox="0 0 240 34" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M4,18 C60,4 90,30 130,16 C170,4 200,26 236,14"/>
-    </svg>
-  </div>
-</section>
-
-<!-- ===================== FOOTER ===================== -->
-<footer class="ftr" id="contact">
-  <div class="monogram" aria-hidden="true"></div>
-  <div class="ftr-in">
-    <div class="ftr-brand">
-      <div class="fb-name">קרן משפחת ברלוביץ׳</div>
-      <div class="fb-sub">Berelowitz Family Foundation</div>
-      <div class="fb-tag">מצמיחים השפעה לדורות · לזכר ברי ברלוביץ׳ ז״ל</div>
-    </div>
-    <div class="ftr-col">
-      <h4>ניווט</h4>
-      <a href="#story">אודות</a>
-      <a href="#work">הפעילות שלנו</a>
-      <a href="#partners">שותפים</a>
-      <a href="#stories">סיפורים</a>
-    </div>
-    <div class="ftr-col">
-      <h4>יצירת קשר</h4>
-      <a href="mailto:info@berelovitz.org">info@berelovitz.org</a>
-      <a href="#" onclick="openLogin();return false;">כניסה למורשים</a>
-    </div>
-  </div>
-  <div class="ftr-bottom">
-    <span>© 2026 קרן משפחת ברלוביץ׳. כל הזכויות שמורות.</span>
-    <span>מצמיחים השפעה לדורות</span>
-  </div>
-</footer>
-
-<!-- ===================== LOGIN MODAL ===================== -->
-<div class="overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
-  <form class="login" id="loginBox" autocomplete="off" onsubmit="return doLogin(event)">
-    <button type="button" class="lg-close" aria-label="סגירה" onclick="closeLogin()">×</button>
-    <div class="lg-logo"><img src="logo-name-transparent.png" alt="קרן ברלוביץ׳" style="width:100%;height:100%;object-fit:contain"></div>
-    <h2>כניסה למורשים</h2>
-    <div class="lg-hint">גישה למאגר העמותות ומדידת האימפקט — לחברי דירקטוריון וצוות הקרן</div>
-    <div class="lg-field">
-      <label for="pw">תעודת זהות</label>
-      <input id="pw" name="pw" type="password" inputmode="numeric" autocomplete="off" placeholder="• • • • • • • • •" maxlength="9">
-    </div>
-    <button class="lg-btn" type="submit" id="lgBtn">כניסה למערכת</button>
-    <div class="lg-err" id="lgErr"></div>
-  </form>
+<div class="foot">
+  © 2026 קרן משפחת ברלוביץ׳ &nbsp;·&nbsp; <a href="mailto:info@berelovitz.org">info@berelovitz.org</a>
 </div>
 
 <script>
@@ -472,32 +120,9 @@ var OWNER_HASH = -1637438633;
 
 function hash(s){var x=0;for(var i=0;i<s.length;i++){x=((x<<5)-x+s.charCodeAt(i))|0}return x}
 
-/* ---- nav ---- */
-function toggleNav(btn){
-  var n=document.getElementById("nav"); var open=n.classList.toggle("open");
-  btn.setAttribute("aria-expanded", open?"true":"false");
-}
-function closeNav(){ var n=document.getElementById("nav"); n.classList.remove("open");
-  var b=document.querySelector(".burger"); if(b) b.setAttribute("aria-expanded","false"); }
+/* already authenticated this session: go straight in */
+try{ if(sessionStorage.getItem(SESSION_KEY)==="1"){ window.location.replace(TARGET); } }catch(e){}
 
-/* ---- sticky header shadow after scroll ---- */
-var hdr=document.getElementById("hdr");
-function onScroll(){ if(window.scrollY>40) hdr.classList.add("stuck"); else hdr.classList.remove("stuck"); }
-window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
-
-/* ---- fade-up on scroll ---- */
-(function(){
-  if(!("IntersectionObserver" in window)){ document.querySelectorAll(".fu").forEach(function(e){e.classList.add("in")}); return; }
-  var io=new IntersectionObserver(function(ents){
-    ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
-  },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
-  document.querySelectorAll(".fu").forEach(function(e){io.observe(e)});
-})();
-
-/* ---- login ---- */
-function openLogin(){ document.getElementById("loginOverlay").classList.add("open");
-  setTimeout(function(){ var i=document.getElementById("pw"); if(i) i.focus(); },100); }
-function closeLogin(){ document.getElementById("loginOverlay").classList.remove("open"); }
 function enter(){ try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(e){} window.location.href=TARGET; }
 function fail(msg){
   var err=document.getElementById("lgErr"), box=document.getElementById("loginBox");
@@ -520,7 +145,6 @@ window.doLogin=function(ev){
     .catch(function(){ btn.disabled=false; btn.textContent="כניסה למערכת"; fail("שגיאת חיבור. נסי שוב."); });
   return false;
 };
-document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeLogin(); });
 </script>
 </body>
 </html>
