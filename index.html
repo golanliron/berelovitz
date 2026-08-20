@@ -1182,7 +1182,7 @@ var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0J
 var TARGET = "app.html";
 var SESSION_KEY = "berelovitz_gate_ok";
 var OWNER_HASH = -1637438633;
-var currentLang = localStorage.getItem("berelovitz_lang") || "he";
+var currentLang = "en";
 
 var TEXT = {
   he: {
@@ -1437,7 +1437,6 @@ function applyLang(lang){
   BINDINGS.forEach(function(b){ setText(b[0],b[1],b[2]); });
   var btn=document.querySelector(".lang-toggle");
   if(btn) btn.setAttribute("aria-label",currentLang==="he"?"Switch language to English":"החלפת שפה לעברית");
-  localStorage.setItem("berelovitz_lang",currentLang);
 }
 function toggleLang(){ applyLang(currentLang==="he"?"en":"he"); closeNav(); }
 
