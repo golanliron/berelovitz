@@ -5,393 +5,387 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>קרן משפחת ברלוביץ׳ — מצמיחים השפעה לדורות</title>
 <meta name="description" content="קרן משפחתית פילנתרופית לחיזוק אנשים וארגונים ליצירת שינוי חברתי שנשאר לאורך זמן. לזכר ברי ברלוביץ׳ ז״ל.">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   Berelowitz Family Foundation — brand design system
+   ============================================================ */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* Berelowitz brand palette */
-  --purple:#352D4A; --ivory:#F3F0E8; --sage:#AAB19A; --terracotta:#C68E74; --mustard:#B79B67;
-  /* semantic aliases used across the site */
-  --ink:#352D4A; --ink-2:#463c5f; --warm:#C4B89B; --warm-d:#9A854F;
-  --light:#F0EDED; --lighter:#FAF9F7; --alt:#F7F5F3; --border:#8D8D8D; --white:#fff; --paper:#F3F0E8;
+  /* base */
+  --purple:#352D4A; --ivory:#F3F0E8;
+  /* accents (touches only) */
+  --sage:#AAB19A; --terracotta:#C68E74; --mustard:#B79B67;
+  /* purple alphas */
+  --purple-08:rgba(53,45,74,.08);
+  --purple-15:rgba(53,45,74,.15);
+  --purple-35:rgba(53,45,74,.35);
+  --purple-60:rgba(53,45,74,.60);
+  --purple-75:rgba(53,45,74,.75);
+  /* type */
+  --serif:'Frank Ruhl Libre',Georgia,serif;
+  --sans:'Heebo','Inter',system-ui,sans-serif;
+  --gutter:clamp(22px,5vw,80px);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Heebo','Inter',sans-serif;background:var(--lighter);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
-.font-heading{font-family:'Cormorant Garamond',serif}
+html{overflow-x:clip}
+body{
+  font-family:var(--sans);background:var(--ivory);color:var(--purple);
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip;position:relative;width:100%;max-width:100%;
+}
+/* paper grain — barely-there noise overlay */
+body::before{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
+::selection{background:var(--purple);color:var(--ivory)}
+:focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:2px}
 
-/* ===== Nav ===== */
-.nav{position:sticky;top:0;z-index:100;background:rgba(43,45,66,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(196,184,155,.2)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.nav-brand{display:flex;align-items:center;gap:12px}
-.nav-brand img{height:42px;width:42px;object-fit:contain;background:#fff;border-radius:6px;padding:4px}
-.nav-brand .nb-txt{color:#fff;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;letter-spacing:.5px;line-height:1.2}
-.nav-brand .nb-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{color:rgba(255,255,255,.7);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .2s}
-.nav-links a:hover{color:#fff;background:rgba(255,255,255,.07)}
-.nav-cta{display:inline-flex!important;align-items:center;gap:7px;background:transparent!important;color:var(--warm)!important;font-weight:600!important;border:1px solid rgba(196,184,155,.5)!important}
-.nav-cta:hover{background:var(--warm)!important;color:var(--ink)!important;border-color:var(--warm)!important}
-.nav-cta svg{width:14px;height:14px;stroke:currentColor;flex-shrink:0}
-.nav-toggle{display:none;background:none;border:none;color:#fff;font-size:26px;cursor:pointer}
-@media(max-width:860px){
-  .nav-links{position:fixed;inset:64px 0 auto 0;flex-direction:column;background:var(--ink);padding:16px 32px;gap:4px;align-items:stretch;border-bottom:1px solid rgba(196,184,155,.2);transform:translateY(-140%);transition:transform .3s;box-shadow:0 20px 40px rgba(0,0,0,.4)}
-  .nav-links.open{transform:translateY(0)}
-  .nav-links a{padding:12px}
-  .nav-toggle{display:block}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gutter)}
+section{padding-block:clamp(72px,10vw,140px);position:relative;overflow-x:clip}
+
+/* ---------- Typography ---------- */
+h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spacing:-.01em}
+.eyebrow{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-60)}
+.eyebrow.mustard{color:var(--mustard)}
+.lead{font-size:18px;line-height:1.7;max-width:620px;color:var(--purple-75)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:15px;font-weight:600;
+  padding:16px 30px;border-radius:2px;border:1px solid var(--purple);cursor:pointer;transition:background .3s ease,color .3s ease;letter-spacing:.01em}
+.btn-primary{background:var(--purple);color:var(--ivory)}
+.btn-primary:hover{background:var(--ivory);color:var(--purple)}
+.btn-secondary{background:transparent;color:var(--purple)}
+.btn-secondary:hover{background:var(--purple);color:var(--ivory)}
+.tlink{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--purple);padding-bottom:3px;position:relative}
+.tlink::after{content:"";position:absolute;bottom:0;right:0;height:1px;width:100%;background:var(--purple);transform-origin:right;transition:transform .35s ease}
+.tlink:hover::after{transform:scaleX(1.18)}
+.tlink svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;transition:transform .3s ease}
+.tlink:hover svg{transform:translateX(-4px)}
+
+/* ---------- Monogram graphic (reusable) ---------- */
+.monogram{position:absolute;background:url("logo-berelovitz-new.png") no-repeat center/contain;pointer-events:none;z-index:0}
+
+/* ---------- BrandLine ---------- */
+.brand-line{display:block;width:100%;overflow:visible}
+.brand-line path{fill:none;stroke:var(--purple);stroke-width:1.5;stroke-linecap:round}
+@media(prefers-reduced-motion:no-preference){
+  .brand-line path{stroke-dasharray:var(--len,1400);stroke-dashoffset:var(--len,1400);animation:draw 2.4s .3s ease forwards}
 }
+@keyframes draw{to{stroke-dashoffset:0}}
 
-/* ===== decorative corners ===== */
-.corner{position:absolute;width:70px;height:70px;pointer-events:none;opacity:.4}
-.corner.tl{top:26px;right:26px;border-top:1px solid var(--warm);border-right:1px solid var(--warm)}
-.corner.tr{top:26px;left:26px;border-top:1px solid var(--warm);border-left:1px solid var(--warm)}
-
-/* ===== Hero (light, editorial) ===== */
-.hero{position:relative;overflow:hidden;background:var(--paper);padding:72px 32px 60px}
-.hero::before{content:"";position:absolute;inset:0;background:url("logo-berelovitz-new.png") no-repeat;background-position:left -120px top -60px;background-size:min(760px,62vw);opacity:.05;pointer-events:none;z-index:0}
-.hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative;z-index:2}
-.hero-copy{opacity:0;transform:translateY(18px);animation:rise 1s .1s ease forwards}
-.hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6.4vw,74px);letter-spacing:0;line-height:1.05;color:var(--ink)}
-.hero h1 em{font-style:normal;color:var(--warm-d)}
-.hero .hero-sub{font-size:clamp(16px,2vw,20px);color:#5b5d70;margin-top:22px;font-weight:400;line-height:1.65;max-width:460px}
-.hero-cta{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
-.hero-media{position:relative;min-width:0}
-.hero-media img{width:100%;height:clamp(360px,46vw,540px);object-fit:cover;border-radius:200px 24px 24px 24px;box-shadow:0 30px 70px rgba(43,45,66,.18)}
-.hero-ph{display:none;height:clamp(360px,46vw,540px);align-items:center;justify-content:center;background:radial-gradient(120% 120% at 30% 20%,#f0e9db,#e4d9c4);border-radius:200px 24px 24px 24px;box-shadow:0 30px 70px rgba(43,45,66,.14);text-align:center}
-.hero-ph .hp-mono{font-family:'Cormorant Garamond',serif;font-size:88px;color:var(--warm-d);opacity:.55;line-height:1}
-.hero-ph .hp-txt{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--warm-d);margin-top:10px;letter-spacing:1px}
-/* flowing gold line */
-.flow-line{position:absolute;left:0;right:0;bottom:-30px;height:120px;width:100%;z-index:1;pointer-events:none;overflow:visible}
-.flow-line path{fill:none;stroke:var(--warm);stroke-width:1.4;opacity:.55}
+/* ---------- Header ---------- */
+.hdr{position:sticky;top:0;z-index:200;background:var(--ivory);transition:background .3s,backdrop-filter .3s,box-shadow .3s;border-bottom:1px solid transparent}
+.hdr.stuck{background:rgba(243,240,232,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--purple-08)}
+.hdr-in{max-width:1240px;margin:0 auto;padding:22px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{width:46px;height:46px;object-fit:contain}
+.brand-txt{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;color:var(--purple)}
+.brand-txt small{display:block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple-35);margin-top:2px}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a{font-size:14.5px;font-weight:500;color:var(--purple);padding:9px 15px;border-radius:2px;transition:color .2s,opacity .2s;opacity:.78}
+.nav a:hover{opacity:1}
+.nav a.nav-cta{margin-inline-start:8px;border:1px solid var(--purple-35);opacity:1;display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.nav a.nav-cta:hover{background:var(--purple);color:var(--ivory)}
+.nav a.nav-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8}
+.burger{display:none;background:none;border:none;color:var(--purple);cursor:pointer;padding:6px}
+.burger svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.6}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:34px}
-  .hero-media img,.hero-media.noimg{height:300px;border-radius:120px 20px 20px 20px}
-  .hero::before{background-size:520px;opacity:.045}
+  .nav{position:fixed;inset:78px 0 auto 0;flex-direction:column;align-items:stretch;background:var(--ivory);
+    padding:16px var(--gutter) 28px;gap:2px;border-bottom:1px solid var(--purple-08);
+    transform:translateY(-135%);transition:transform .35s ease;box-shadow:0 24px 40px var(--purple-08)}
+  .nav.open{transform:translateY(0)}
+  .nav a{padding:14px 6px;font-size:16px;opacity:1;border-bottom:1px solid var(--purple-08)}
+  .nav a.nav-cta{margin:10px 0 0;justify-content:center;border-radius:2px;padding:14px}
+  .burger{display:block}
+}
+@media(max-width:520px){
+  .hdr-in{padding:16px var(--gutter)}
+  .brand-mark{width:38px;height:38px}
+  .brand-txt{font-size:15px}
+  .brand-txt small{font-size:8px;letter-spacing:.12em}
+}
+@media(max-width:380px){ .brand-txt small{display:none} }
+
+/* ---------- Hero ---------- */
+.hero{padding-block:clamp(48px,7vw,96px) 0;position:relative;overflow:hidden}
+.hero-grid{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero-copy{position:relative;z-index:3}
+.hero h1{font-size:clamp(48px,6vw,96px);line-height:.98;font-weight:400;letter-spacing:-.03em}
+.hero h1 .accent{font-style:italic;font-weight:400}
+.hero .lead{margin-top:26px}
+.hero-cta{margin-top:38px}
+.hero-media{position:relative;z-index:2}
+.hero-media figure{position:relative;border-radius:4px 4px 4px 120px;overflow:hidden;background:var(--purple-08)}
+.hero-media img{width:100%;height:clamp(360px,44vw,520px);object-fit:cover;filter:grayscale(1) contrast(1.02)}
+.hero-media figcaption{margin-top:14px;font-family:var(--sans);font-size:13px;color:var(--purple-60);text-align:center;letter-spacing:.02em}
+/* connecting brand line between text and image */
+.hero-connect{position:absolute;inset:0;z-index:1;pointer-events:none}
+/* large cropped monogram bleeding off the left edge */
+.hero .monogram{width:min(620px,52vw);height:min(620px,52vw);left:-160px;top:40px;opacity:.05;transform:rotate(-4deg)}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero-copy{order:1}.hero-media{order:2}
+  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;word-break:normal;overflow-wrap:break-word}
+  .hero-media figure{border-radius:4px 4px 4px 80px}
+  .hero-media img{height:320px}
+  .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
+}
+@media(max-width:420px){
+  .hero h1{font-size:clamp(34px,10.5vw,44px)}
 }
 
-.btn{display:inline-block;padding:15px 34px;border-radius:8px;font-family:'Heebo',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s;border:1px solid transparent}
-.btn-gold{background:var(--ink);color:#fff}
-.btn-gold:hover{background:var(--ink-2);transform:translateY(-2px);box-shadow:0 10px 26px rgba(43,45,66,.22)}
-.btn-ghost{background:transparent;color:var(--ink);border-color:rgba(43,45,66,.25)}
-.btn-ghost:hover{background:rgba(43,45,66,.05);border-color:var(--warm-d)}
+/* ---------- Focus areas ---------- */
+.focus{border-top:1px solid var(--purple-15)}
+.focus-head{max-width:620px;margin-bottom:clamp(40px,5vw,64px)}
+.focus-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
+.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--purple-15)}
+.focus-item{padding:40px 34px 40px 0;border-bottom:1px solid var(--purple-15);position:relative}
+.focus-item:not(:last-child){border-inline-end:1px solid var(--purple-15);padding-inline-end:34px}
+.focus-ic{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.focus-ic svg{width:26px;height:26px;stroke:var(--ivory);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.focus-ic.sage{background:var(--sage)}.focus-ic.terracotta{background:var(--terracotta)}.focus-ic.mustard{background:var(--mustard)}
+.focus-item h3{font-size:26px;font-weight:600;margin-bottom:10px}
+.focus-item p{font-size:16px;color:var(--purple-75);line-height:1.65;max-width:340px}
+.focus-item .tlink{margin-top:18px}
+@media(max-width:820px){
+  .focus-grid{grid-template-columns:1fr}
+  .focus-item,.focus-item:not(:last-child){padding:32px 0;border-inline-end:none}
+}
 
-/* ===== Featured cards row (Our approach / focus / partners) ===== */
-.feat-row{max-width:1200px;margin:34px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:2;padding:0 32px}
-.feat{display:flex;align-items:flex-start;gap:16px;background:var(--white);border:1px solid #ece7df;border-radius:14px;padding:22px 22px;transition:all .25s;text-align:right}
-.feat:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(43,45,66,.09);border-color:var(--warm)}
-.feat-ic{flex-shrink:0;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.feat-ic svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.feat-ic.green{background:var(--sage)}.feat-ic.clay{background:var(--terracotta)}.feat-ic.gold{background:var(--mustard)}
-.feat h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:5px}
-.feat p{font-size:14px;color:#6a6c7d;font-weight:300;line-height:1.55}
-@media(max-width:820px){.feat-row{grid-template-columns:1fr;gap:14px}}
+/* ---------- Impact statement ---------- */
+.impact{text-align:center;background:var(--ivory)}
+.impact .wrap{position:relative;z-index:2}
+.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.42;max-width:900px;margin:22px auto 0;color:var(--purple)}
+.impact .brand-line{max-width:280px;margin:40px auto 0;height:40px}
 
-/* ===== Our work (editorial list) ===== */
-.work-sec{position:relative;background:var(--paper);overflow:hidden}
-.work-sec::before{content:"";position:absolute;inset:0;background:url("logo-berelovitz-new.png") no-repeat;background-position:right -160px center;background-size:min(680px,55vw);opacity:.045;pointer-events:none}
-.work-grid{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px 64px;align-items:start}
-.work-head h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,68px);color:var(--ink);line-height:1}
-.work-head .wh-sub{color:#5b5d70;font-size:clamp(15px,1.8vw,19px);margin-top:14px;font-weight:400}
-.work-list{display:flex;flex-direction:column}
-.work-item{padding:26px 0;border-top:1px solid rgba(43,45,66,.16)}
-.work-item:first-child{border-top:none;padding-top:6px}
-.work-item h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--ink)}
-.work-item p{color:#5b5d70;font-size:15px;font-weight:300;line-height:1.6;margin-top:8px;max-width:440px}
-.work-item .wi-link{display:inline-block;margin-top:12px;font-size:14px;font-weight:600;color:var(--warm-d);border-bottom:1px solid var(--warm);padding-bottom:2px;transition:all .2s}
-.work-item .wi-link:hover{color:var(--ink);border-color:var(--ink)}
-@media(max-width:820px){.work-grid{grid-template-columns:1fr;gap:28px}.work-head{margin-bottom:6px}}
+/* ---------- Story ---------- */
+.story{border-top:1px solid var(--purple-15);position:relative;overflow:hidden}
+.story .monogram{width:min(520px,46vw);height:min(520px,46vw);left:-140px;bottom:-80px;opacity:.05}
+.story-grid{display:grid;grid-template-columns:340px 1fr;gap:clamp(36px,5vw,72px);align-items:start;position:relative;z-index:2}
+.story-aside{position:sticky;top:120px}
+.story-aside figure{border-radius:4px 4px 4px 90px;overflow:hidden;background:var(--purple-08)}
+.story-aside img{width:100%;filter:grayscale(1) contrast(1.02)}
+.story-name{font-family:var(--serif);font-size:24px;font-weight:600;margin-top:20px}
+.story-years{font-size:13px;letter-spacing:.14em;color:var(--purple-60);margin-top:4px}
+.story-quote{margin-top:22px;padding-top:22px;border-top:1px solid var(--purple-15);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--purple)}
+.story-quote span{display:block;font-style:normal;font-size:14px;color:var(--purple-60);margin-top:4px}
+.story-body .eyebrow{display:block;margin-bottom:16px}
+.story-body h2{font-size:clamp(36px,3.6vw,58px);line-height:1.06;margin-bottom:28px}
+.story-body p{font-size:17px;line-height:1.75;color:var(--purple-75);max-width:640px;margin-bottom:20px}
+.story-body p.first{font-size:20px;color:var(--purple);line-height:1.6}
+.story-body em{font-style:italic;color:var(--purple)}
+@media(max-width:820px){
+  .story-grid{grid-template-columns:1fr;gap:32px}
+  .story-aside{position:static;max-width:300px}
+}
 
-/* ===== Impact band ===== */
-.impact-band{position:relative;background:#EAE6DC;padding:70px 32px;text-align:center;overflow:hidden}
-.impact-band .ib-tag{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--warm-d);font-weight:700;margin-bottom:18px}
-.impact-band .ib-text{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(22px,3.4vw,34px);line-height:1.4;color:var(--ink);max-width:820px;margin:0 auto}
-.impact-band::before{content:"";position:absolute;bottom:-40px;right:-60px;width:340px;height:200px;background:url("logo-berelovitz-new.png") no-repeat center/contain;opacity:.05}
+/* ---------- Partners ---------- */
+.partners{border-top:1px solid var(--purple-15)}
+.partners-head{max-width:620px;margin-bottom:clamp(36px,4vw,56px)}
+.partners-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
+.logo-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  border-top:1px solid var(--purple-15);border-inline-start:1px solid var(--purple-15)}
+.logo-cell{background:#fff;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;padding:22px;
+  border-inline-end:1px solid var(--purple-15);border-bottom:1px solid var(--purple-15);
+  transition:background .25s;cursor:pointer}
+.logo-cell:hover{background:#fbfaf7}
+.logo-cell img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:saturate(.4);transition:filter .3s}
+.logo-cell:hover img{filter:saturate(1)}
+.logo-note{margin-top:22px;font-size:14px;color:var(--purple-60)}
+@media(max-width:560px){.logo-wall{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}.logo-cell{padding:15px}}
 
-/* ===== Sections ===== */
-section{padding:80px 32px}
-.wrap{max-width:1100px;margin:0 auto}
-.sec-tag{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--warm-d);font-weight:700;text-align:center}
-.sec-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(28px,4.5vw,42px);letter-spacing:1px;text-align:center;margin:10px 0 8px}
-.sec-lead{text-align:center;max-width:680px;margin:0 auto 44px;color:#555;font-size:17px;font-weight:300}
-.sec-divider{width:70px;height:1px;background:var(--warm);margin:16px auto 40px}
-.alt-bg{background:var(--white)}
-.dark-bg{background:linear-gradient(160deg,#25273a,#2B2D42);color:#fff}
-.dark-bg .sec-title{color:#fff}
-.dark-bg .sec-lead{color:rgba(255,255,255,.7)}
+/* ---------- Quote / stories ---------- */
+.quote{text-align:center;border-top:1px solid var(--purple-15)}
+.quote-mark{font-family:var(--serif);font-size:90px;line-height:.5;color:var(--purple-35);height:44px;display:block}
+.quote blockquote{font-family:var(--serif);font-size:clamp(24px,3vw,38px);line-height:1.4;max-width:800px;margin:22px auto 0;color:var(--purple);font-weight:400}
+.quote cite{display:block;font-family:var(--sans);font-style:normal;font-size:14px;color:var(--purple-60);margin-top:24px;letter-spacing:.04em}
+.quote .brand-line{max-width:220px;margin:30px auto 0;height:34px}
 
-/* cards grid */
-.grid{display:grid;gap:20px}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-.icard{background:var(--lighter);border:1px solid #ece7df;border-radius:14px;padding:26px 24px;transition:all .25s;position:relative;overflow:hidden}
-.icard:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(43,45,66,.1);border-color:var(--warm)}
-.icard .ic-icon{font-size:26px;margin-bottom:12px}
-.icard h3{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--ink)}
-.icard p{font-size:14.5px;color:#666;font-weight:300}
-.dark-bg .icard{background:rgba(255,255,255,.05);border-color:rgba(196,184,155,.2)}
-.dark-bg .icard h3{color:#fff}
-.dark-bg .icard p{color:rgba(255,255,255,.65)}
-.icard .ic-svg{width:30px;height:30px;margin-bottom:14px;color:var(--warm-d);stroke:currentColor}
-.dark-bg .icard .ic-svg{color:var(--warm)}
+/* ---------- Footer ---------- */
+.ftr{background:var(--purple);color:var(--ivory);padding-block:clamp(56px,7vw,88px);position:relative;overflow:hidden}
+.ftr .monogram{width:300px;height:300px;left:-60px;bottom:-90px;opacity:.08;
+  background-image:url("logo-berelovitz-new.png");filter:brightness(0) invert(1)}
+.ftr-in{max-width:1240px;margin:0 auto;padding-inline:var(--gutter);position:relative;z-index:2;
+  display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
+.ftr-brand .fb-name{font-family:var(--serif);font-size:22px;font-weight:600}
+.ftr-brand .fb-sub{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(243,240,232,.5);margin-top:5px}
+.ftr-brand .fb-tag{margin-top:16px;font-size:14px;color:rgba(243,240,232,.75);max-width:300px;line-height:1.6}
+.ftr-col h4{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,240,232,.5);font-weight:600;margin-bottom:14px}
+.ftr-col a,.ftr-col p{display:block;font-size:15px;color:rgba(243,240,232,.85);margin-bottom:9px;transition:color .2s}
+.ftr-col a:hover{color:var(--ivory)}
+.ftr-bottom{max-width:1240px;margin:40px auto 0;padding:22px var(--gutter) 0;border-top:1px solid rgba(243,240,232,.15);
+  position:relative;z-index:2;font-size:13px;color:rgba(243,240,232,.55);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 
-/* ===== Partner logo wall ===== */
-.logo-wall-head{text-align:center;margin:56px 0 26px}
-.logo-wall-head .lw-tag{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:700}
-.logo-wall-head .lw-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(22px,3.2vw,30px);color:#fff;margin-top:6px}
-.logo-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;margin-top:8px}
-.logo-cell{background:#fff;border-radius:12px;aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;padding:18px;transition:transform .22s,box-shadow .22s;border:1px solid rgba(255,255,255,.06);cursor:pointer}
-.logo-cell:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.28)}
-.logo-cell img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:none}
-.logo-note{text-align:center;margin-top:22px;color:rgba(255,255,255,.5);font-size:13px;font-weight:300}
-@media(max-width:560px){.logo-wall{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}.logo-cell{padding:13px}}
-
-/* biography layout */
-.bio{display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start}
-@media(max-width:820px){.bio{grid-template-columns:1fr;gap:32px}}
-.bio-aside{position:sticky;top:96px;text-align:center}
-@media(max-width:820px){.bio-aside{position:static}}
-.bio-aside img{width:100%;max-width:260px;aspect-ratio:1/1;object-fit:cover;border-radius:14px;margin:0 auto;filter:grayscale(.08);border:1px solid var(--warm);box-shadow:0 16px 40px rgba(43,45,66,.15)}
-.bio-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--ink);margin-top:18px}
-.bio-years{font-size:13px;letter-spacing:3px;color:var(--warm-d);margin-top:2px}
-.bio-quote{margin-top:20px;padding:16px;background:var(--lighter);border:1px solid #ece7df;border-radius:12px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--ink);line-height:1.4}
-.bio-quote span{font-size:14px;color:var(--warm-d)}
-.bio-text{max-width:680px}
-.bio-lead{font-size:19px;font-weight:400;color:var(--ink);line-height:1.8;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--light)}
-.bio-text p{font-size:16px;color:#4a4a4a;font-weight:300;line-height:1.9;margin-bottom:18px}
-.bio-text em{font-style:italic;color:var(--warm-d);font-weight:400}
-
-/* story two-col (legacy) */
-.story-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
-@media(max-width:820px){.story-cols{grid-template-columns:1fr;gap:30px}}
-.story-block h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--warm-d);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--light)}
-.story-list{list-style:none}
-.story-list li{padding:9px 0 9px 0;padding-right:26px;position:relative;font-size:15.5px;color:#444}
-.story-list li::before{content:'';position:absolute;right:4px;top:17px;width:7px;height:7px;border-radius:50%;background:var(--warm)}
-
-/* vision stats */
-.vstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:50px}
-.vstat{text-align:center;padding:28px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(196,184,155,.25);border-radius:14px}
-.vstat .vs-num{font-family:'Heebo',sans-serif;font-size:44px;font-weight:800;color:var(--warm);line-height:1}
-.vstat .vs-label{font-size:14px;color:rgba(255,255,255,.7);margin-top:10px;font-weight:300}
-
-/* tree */
-.tree-wrap{background:var(--white);border:1px solid #ece7df;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(0,0,0,.06);overflow:hidden}
-.tree-wrap img{border-radius:8px;margin:0 auto}
-.tree-cap{text-align:center;color:#888;font-size:13px;margin-top:14px}
-
-/* memorial section */
-.mem{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;background:var(--white);border:1px solid #ece7df;border-radius:16px;padding:40px;box-shadow:0 8px 30px rgba(0,0,0,.05)}
-@media(max-width:700px){.mem{grid-template-columns:1fr;text-align:center;gap:24px}}
-.mem img{width:200px;height:200px;object-fit:cover;border-radius:12px;margin:0 auto;filter:grayscale(.1);border:1px solid var(--warm)}
-.mem h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;margin-bottom:4px}
-.mem .mem-role{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-d);margin-bottom:16px}
-.mem p{color:#555;font-size:16px;font-weight:300}
-
-/* contact */
-.contact-card{max-width:640px;margin:0 auto;background:var(--white);border:1px solid #ece7df;border-radius:16px;padding:40px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.05)}
-.contact-card .cc-mail{font-size:20px;color:var(--ink);font-weight:600;margin:14px 0;direction:ltr}
-.contact-card .cc-mail a{color:var(--warm-d)}
-
-/* footer */
-footer{background:var(--ink);color:rgba(255,255,255,.6);text-align:center;padding:44px 32px;font-size:13px}
-footer .f-logo{width:54px;margin:0 auto 16px;background:#fff;border-radius:6px;padding:6px}
-footer .f-rule{width:60px;height:1px;background:var(--warm);margin:18px auto;opacity:.6}
-footer a{color:var(--warm)}
-
-/* ===== Login modal ===== */
-.overlay{position:fixed;inset:0;background:rgba(20,21,32,.75);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+/* ---------- Login modal ---------- */
+.overlay{position:fixed;inset:0;z-index:1000;background:var(--purple-75);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:22px}
 .overlay.open{display:flex}
-.login{position:relative;width:100%;max-width:420px;background:linear-gradient(160deg,#2f3145,#2B2D42);border:1px solid rgba(196,184,155,.3);border-radius:16px;padding:40px 34px 34px;box-shadow:0 30px 70px rgba(0,0,0,.5);text-align:center}
-.login .lg-logo{width:76px;height:76px;margin:0 auto 20px;background:#fff;border-radius:10px;padding:9px}
-.login h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:24px;color:#fff;letter-spacing:1px}
-.login .lg-hint{font-size:13px;color:rgba(255,255,255,.5);margin-top:8px}
-.login .lg-field{margin-top:24px;text-align:right}
-.login label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--warm);margin-bottom:9px;font-weight:600}
-.login input{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:9px;color:#fff;font-family:'Heebo',sans-serif;font-size:17px;letter-spacing:3px;text-align:center;direction:ltr;transition:all .25s}
-.login input:focus{outline:none;border-color:var(--warm);background:rgba(196,184,155,.1);box-shadow:0 0 0 3px rgba(196,184,155,.15)}
-.login .lg-btn{width:100%;margin-top:20px;padding:15px;border:none;border-radius:9px;background:var(--warm);color:var(--ink);font-family:'Heebo',sans-serif;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;transition:all .25s}
-.login .lg-btn:hover{background:#d3c8ae}
-.login .lg-btn:disabled{opacity:.6;cursor:wait}
-.login .lg-err{margin-top:14px;font-size:13px;color:#e8a5a5;min-height:18px;opacity:0;transition:opacity .3s}
-.login .lg-err.show{opacity:1}
-.login .lg-close{position:absolute;top:16px;left:16px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;font-size:19px;cursor:pointer}
-.login .lg-close:hover{background:rgba(255,255,255,.1)}
-.login.shake{animation:shake .45s}
-@keyframes rise{to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){.hero-copy{animation:none;opacity:1;transform:none}}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.login{background:var(--ivory);border-radius:4px;padding:40px 34px 34px;max-width:400px;width:100%;position:relative;text-align:center;border:1px solid var(--purple-15)}
+.login.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.lg-close{position:absolute;top:14px;left:16px;background:none;border:none;font-size:26px;color:var(--purple-35);cursor:pointer;line-height:1}
+.lg-logo{width:64px;height:64px;margin:0 auto 16px}
+.login h2{font-size:24px;font-weight:600;margin-bottom:8px}
+.lg-hint{font-size:13.5px;color:var(--purple-60);line-height:1.6;margin-bottom:24px}
+.lg-field{text-align:right;margin-bottom:18px}
+.lg-field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--purple)}
+.lg-field input{width:100%;padding:13px 15px;border:1px solid var(--purple-35);border-radius:2px;background:#fff;
+  font-family:var(--sans);font-size:16px;color:var(--purple);text-align:center;letter-spacing:3px}
+.lg-field input:focus{outline:none;border-color:var(--purple)}
+.lg-btn{width:100%;padding:15px;background:var(--purple);color:var(--ivory);border:1px solid var(--purple);border-radius:2px;
+  font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .3s,color .3s}
+.lg-btn:hover{background:var(--ivory);color:var(--purple)}
+.lg-btn:disabled{opacity:.6;cursor:wait}
+.lg-err{margin-top:14px;font-size:13.5px;color:var(--terracotta);min-height:18px;opacity:0;transition:opacity .2s}
+.lg-err.show{opacity:1}
+
+/* ---------- fade-up on scroll ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .fu{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+  .fu.in{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
 
-<!-- ===== NAV ===== -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="#top" class="nav-brand">
-      <img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳">
-      <div><div class="nb-txt">קרן משפחת ברלוביץ׳</div><div class="nb-sub">Berelowitz Family Foundation</div></div>
+<!-- ===================== HEADER ===================== -->
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a href="#top" class="brand" aria-label="קרן משפחת ברלוביץ׳ — לעמוד הבית">
+      <img class="brand-mark" src="logo-berelovitz-new.png" alt="לוגו קרן משפחת ברלוביץ׳">
+      <span class="brand-txt">קרן משפחת ברלוביץ׳<small>Berelowitz Family Foundation</small></span>
     </a>
-    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="#story" onclick="closeNav()">הסיפור שלנו</a>
+    <button class="burger" aria-label="פתיחת תפריט" aria-expanded="false" onclick="toggleNav(this)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="nav" aria-label="ניווט ראשי">
+      <a href="#story" onclick="closeNav()">אודות</a>
       <a href="#work" onclick="closeNav()">הפעילות שלנו</a>
-      <a href="#partners" onclick="closeNav()">שותפים שלנו</a>
-      <a href="#" class="nav-cta" onclick="openLogin();closeNav();return false;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>כניסה למורשים</a>
-    </div>
+      <a href="#partners" onclick="closeNav()">שותפים</a>
+      <a href="#stories" onclick="closeNav()">סיפורים</a>
+      <a href="#contact" onclick="closeNav()">צור קשר</a>
+      <a href="#" class="nav-cta" onclick="openLogin();closeNav();return false;">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>כניסה למורשים</a>
+    </nav>
   </div>
-</nav>
+</header>
 
-<!-- ===== HERO ===== -->
+<!-- ===================== HERO ===================== -->
 <header class="hero" id="top">
+  <div class="monogram" aria-hidden="true"></div>
   <div class="hero-grid">
-    <div class="hero-copy">
-      <h1>בונים הזדמנות.<br><em>מצמיחים שינוי</em> שנשאר.</h1>
-      <p class="hero-sub">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
+    <div class="hero-copy fu">
+      <h1>בונים הזדמנות.<br><span class="accent">מצמיחים שינוי</span> שנשאר.</h1>
+      <p class="lead">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
       <div class="hero-cta">
-        <a class="btn btn-gold" href="#work">הפעילות שלנו</a>
-        <a class="btn btn-ghost" href="#story">הסיפור שלנו</a>
+        <a class="btn btn-primary" href="#work">הפעילות שלנו
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </a>
       </div>
     </div>
-    <div class="hero-media">
-      <img id="heroImg" src="hero-berelovitz.jpg" alt="קרן משפחת ברלוביץ׳ — מצמיחים השפעה"
-           onerror="this.style.display='none';document.getElementById('heroPh').style.display='flex'">
-      <div class="hero-ph" id="heroPh">
-        <div>
-          <div class="hp-mono">ℬℛ</div>
-          <div class="hp-txt">מצמיחים השפעה לדורות</div>
-        </div>
-      </div>
+    <div class="hero-media fu">
+      <figure>
+        <img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
+      </figure>
+      <figcaption>ברי ברלוביץ׳ ז״ל · 1938–2022</figcaption>
     </div>
   </div>
-  <svg class="flow-line" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,70 C240,20 380,110 620,70 C820,38 900,4 1080,40 C1200,64 1160,120 1260,96 C1340,78 1400,52 1440,60"/>
+  <svg class="brand-line" style="--len:1500;margin-top:-30px;height:120px" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,64 C260,26 420,104 660,66 C860,34 980,6 1140,44 C1250,70 1300,110 1440,72"/>
   </svg>
 </header>
 
-<!-- Featured cards row -->
-<div class="feat-row">
-  <a class="feat" href="#story">
-    <span class="feat-ic green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20c-4-1-7-4-7-9a5 5 0 0 1 7-4"/><path d="M11 20c0-6 2-10 8-12"/><path d="M11 20v-6"/></svg></span>
-    <div><h3>הגישה שלנו</h3><p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית.</p></div>
-  </a>
-  <a class="feat" href="#work">
-    <span class="feat-ic clay"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg></span>
-    <div><h3>המיקוד שלנו</h3><p>חינוך, הזדמנות שווה ורווחה — לטווח הארוך.</p></div>
-  </a>
-  <a class="feat" href="#partners">
-    <span class="feat-ic gold"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-4-6-9a4 4 0 0 1 6-3 4 4 0 0 1 6 3c0 5-6 9-6 9Z"/><path d="M12 9v4"/></svg></span>
-    <div><h3>השותפים שלנו</h3><p>פועלים לצד עמותות וארגונים קרובים לשטח ולעשייה.</p></div>
-  </a>
-</div>
-
-<!-- Impact band -->
-<div class="impact-band">
-  <div class="ib-tag">האימפקט שלנו</div>
-  <div class="ib-text">אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.</div>
-</div>
-
-<!-- ===== STORY ===== -->
-<section id="story" class="alt-bg">
+<!-- ===================== FOCUS AREAS ===================== -->
+<section class="focus" id="work">
   <div class="wrap">
-    <div class="sec-tag">הסיפור שלנו</div>
-    <h2 class="sec-title">לזכרו של ברי ברלוביץ׳</h2>
-    <div class="sec-divider"></div>
+    <div class="focus-head fu">
+      <span class="eyebrow">הפעילות שלנו</span>
+      <h2>שותפות לטווח ארוך.<br>שינוי משמעותי.</h2>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-item fu">
+        <span class="focus-ic sage">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20c-4-1-7-4-7-9a5 5 0 0 1 7-4"/><path d="M11 20c0-6 2-10 8-12"/><path d="M11 20v-6"/></svg>
+        </span>
+        <h3>הגישה שלנו</h3>
+        <p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית לאורך זמן.</p>
+        <a class="tlink" href="#story">קראו עוד
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+      <div class="focus-item fu">
+        <span class="focus-ic terracotta">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+        </span>
+        <h3>המיקוד שלנו</h3>
+        <p>חינוך, הזדמנות שווה ורווחה — עבור אנשים וקהילות, לטווח הארוך.</p>
+        <a class="tlink" href="#work">קראו עוד
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+      <div class="focus-item fu">
+        <span class="focus-ic mustard">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-4-6-9a4 4 0 0 1 6-3 4 4 0 0 1 6 3c0 5-6 9-6 9Z"/><path d="M12 9v4"/></svg>
+        </span>
+        <h3>השותפים שלנו</h3>
+        <p>פועלים לצד עמותות וארגונים קרובים לשטח, לעשייה ולאנשים.</p>
+        <a class="tlink" href="#partners">לשותפים שלנו
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="bio">
-      <aside class="bio-aside">
-        <img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל">
-        <div class="bio-name">ברי ברלוביץ׳</div>
-        <div class="bio-years">1938 — 2022</div>
-        <div class="bio-quote">״L.I.T.B.<br><span>תשאירו את זה לברי!</span>״</div>
+<!-- ===================== IMPACT STATEMENT ===================== -->
+<section class="impact">
+  <div class="wrap">
+    <span class="eyebrow mustard fu">האימפקט שלנו</span>
+    <p class="impact-text fu">אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.</p>
+    <svg class="brand-line" style="--len:320" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M4,22 C70,4 110,36 160,20 C210,6 250,30 296,16"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== STORY ===================== -->
+<section class="story" id="story">
+  <div class="monogram" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="story-grid">
+      <aside class="story-aside fu">
+        <figure><img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל"></figure>
+        <div class="story-name">ברי ברלוביץ׳ ז״ל</div>
+        <div class="story-years">1938 — 2022</div>
+        <div class="story-quote">״L.I.T.B.<span>Leave It To Beri — תשאירו את זה לברי!</span>״</div>
       </aside>
-      <div class="bio-text">
-        <p class="bio-lead">ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
-
+      <div class="story-body fu">
+        <span class="eyebrow">הסיפור שלנו</span>
+        <h2>לזכר ברי ברלוביץ׳</h2>
+        <p class="first">ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
         <p>ברי נולד ביוהנסבורג, דרום אפריקה, לסם — מהגר מליטא — ולמרי, שמוצאה ממה שהיום בלארוס. סם נפטר כשברי היה פעוט, ומרי התקשתה לפרנס את שני ילדיה. למרבה הצער היא נפטרה ממחלת לב כשברי היה בן 11, והוא ואחותו הלן גדלו אצל דוד ודודה.</p>
-
         <p>ברי הפך לתלמיד מצטיין באוניברסיטת ויטווטרסרנד, אך בשל מיעוט משאבים כספיים לא היה ביכולתו לשלם עבור ספרים — וכמעט נשר מהלימודים. ברגע האחרון הצליח לקבל מלגה קטנה, וסיים את לימודי החשבונאות כתלמיד השני בהצטיינות. הוא מעולם לא שכח את ההשפעה הגדולה שהייתה למחווה קטנה זו על חייו.</p>
-
         <p>הגאונות החשבונאית שלו עשתה במהרה רושם במשרד רואי החשבון הנודע פישר הופמן, שם הפך לשותף מנהל בגיל צעיר. בשנת 1978 היגר ללוס אנג׳לס עם אשתו ג׳ואן ושתי בנותיו, היה שותף בקנת לוונטל — אחד ממשרדי ראיית החשבון הגדולים בארה״ב — והפך גם למשקיע נדל״ן. בשנת 1990 הקים את המשרד שלו בסן דייגו.</p>
-
         <p>כבר מתחילת חייו הבוגרים תמך ברי במטרות שהאמין בהן, ועזר בנדיבות לאהוביו כדי לשפר את חייהם. הפילנתרופיה שלו התמקדה בעיקר בפרויקטים בישראל, שם תמך ביוזמות חינוך משמעותיות — הן דרך אורט, הארגון היהודי ללא כוונת רווח הגדול ביותר לחינוך, והן בסיוע למטרות שונות, בהן רעב בקרב ילדים. לאורך הקריירה שלו שימש בנדיבות כמנטור לאנשי מקצוע צעירים רבים, כשהוא מציע את ניסיונו וחוסנו כדוגמה.</p>
-
-        <p>ברי היה אב נלהב ואוהב, ידוע בחוש ההומור שלו ובתחומי העניין האינטלקטואליים הרחבים שלו. תחביביו האהובים כללו משחק שחמט ושמירה על כושר, והוא נהנה לפתור כל בעיה שנקרתה בדרכו — עד שטבע את הביטוי L.I.T.B. — <em>תשאירו את זה לברי!</em></p>
-
+        <p>ברי היה אב נלהב ואוהב, ידוע בחוש ההומור שלו ובתחומי העניין האינטלקטואליים הרחבים שלו. תחביביו האהובים כללו משחק שחמט ושמירה על כושר, והוא נהנה לפתור כל בעיה שנקרתה בדרכו — עד שטבע את הביטוי <em>L.I.T.B. — תשאירו את זה לברי!</em></p>
         <p>בשנת 2010 נישא לאשתו השנייה, מרלין הייד. זוכרים את ברי באהבה — בנותיו, נכדו, ילדיו החורגים ונכדיו החורגים.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== MISSION ===== -->
-<section id="work" class="work-sec">
-  <div class="work-grid">
-    <div class="work-head">
-      <div class="sec-tag" style="text-align:right;color:var(--warm-d)">תחומי הפעילות</div>
-      <h2>הפעילות שלנו</h2>
-      <p class="wh-sub">שותפות לטווח ארוך. שינוי משמעותי.</p>
-    </div>
-    <div class="work-list">
-      <div class="work-item">
-        <h3>חינוך</h3>
-        <p>מקדמים את החינוך העל־יסודי בישראל ותומכים באנשים ובארגונים שמרחיבים גישה לחינוך איכותי.</p>
-        <a class="wi-link" href="#partners">לשותפים שלנו</a>
-      </div>
-      <div class="work-item">
-        <h3>הזדמנות שווה</h3>
-        <p>פותחים דלתות להזדמנות בפריפריה ובקרב אוכלוסיות מוחלשות, כדי שיותר אנשים יוכלו לבנות עתיד יציב ועצמאי.</p>
-        <a class="wi-link" href="#partners">לשותפים שלנו</a>
-      </div>
-      <div class="work-item">
-        <h3>רווחה וצמצום עוני</h3>
-        <p>מחזקים קהילות דרך תמיכה ביוזמות ובעמותות שמצמצמות עוני ומטפחות חוסן חברתי בשטח.</p>
-        <a class="wi-link" href="#partners">לשותפים שלנו</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PARTNERS ===== -->
-<section id="partners" class="dark-bg">
+<!-- ===================== PARTNERS ===================== -->
+<section class="partners" id="partners">
   <div class="wrap">
-    <div class="sec-tag" style="color:var(--warm)">שותפים שלנו</div>
-    <h2 class="sec-title">מי איתנו בדרך</h2>
-    <div class="sec-divider"></div>
-    <p class="sec-lead">אנו פועלים בשותפות — עם ארגונים, קהילות, שותפים פילנתרופיים, מדינה ומובילי דעה.</p>
-
-    <div class="grid grid-3">
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13 5.5 10.5a2.1 2.1 0 0 1 3-3l1.8 1.8 1.4-1.4a2.1 2.1 0 0 1 3 0l3.6 3.6"/><path d="m14 12 2.5 2.5"/><path d="m11.5 14.5 2 2"/><path d="m9 17 2 2"/></svg>
-        <h3>ארגונים חברתיים חזקים</h3><p>עמותות ויוזמות שמובילות שינוי בשטח.</p>
-      </div>
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/></svg>
-        <h3>שותפים פילנתרופיים</h3><p>קרנות ותורמים שמאמינים בדרך ומצטרפים אליה.</p>
-      </div>
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V9l6-4 6 4v12"/><path d="M15 21V11l6 4v6"/><path d="M3 21h18"/><path d="M8 21v-4h3v4"/></svg>
-        <h3>קהילות מקומיות</h3><p>הקהילות שהן מוקד ההשפעה והשינוי.</p>
-      </div>
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10"/><path d="M19 21V10"/><path d="M9 21V10"/><path d="M15 21V10"/><path d="m3 10 9-6 9 6Z"/></svg>
-        <h3>מדינה ורשויות</h3><p>שיתופי פעולה מערכתיים לשינוי בר-קיימא.</p>
-      </div>
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="M4 7v6l8 4 8-4V7"/><path d="M12 11v6"/></svg>
-        <h3>מומחים ומובילי דעה</h3><p>ידע וניסיון שמעצבים את הפעילות.</p>
-      </div>
-      <div class="icard">
-        <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/><path d="M3.5 19a4.5 4.5 0 0 1 9 0"/><path d="M11.5 19a4.5 4.5 0 0 1 9 0"/></svg>
-        <h3>המשפחה</h3><p>הקשבה, המשכיות בין־דורית, למידה משותפת ושיח פתוח ומשמעותי.</p>
-      </div>
+    <div class="partners-head fu">
+      <span class="eyebrow">שותפויות</span>
+      <h2>הארגונים שאיתם אנו בדרך</h2>
+      <p class="lead" style="margin-top:16px">אנו פועלים בשותפות — עם עמותות, קהילות, שותפים פילנתרופיים, מדינה ומובילי דעה ברחבי הארץ.</p>
     </div>
-
-    <div class="logo-wall-head">
-      <div class="lw-tag">הארגונים שנתמכו</div>
-      <div class="lw-title">עמותות ויוזמות מכל רחבי הארץ</div>
-    </div>
-    <div class="logo-wall">
+    <div class="logo-wall fu">
       <a class="logo-cell" href="https://www.120plus1.org.il/" target="_blank" rel="noopener" title="עמותת 121 מנוע לשינוי חברתי"><img src="partners/121-engine.jpg" alt="עמותת 121 מנוע לשינוי חברתי" loading="lazy"></a>
       <a class="logo-cell" href="https://www.aluma.org.il/" target="_blank" rel="noopener" title="אלומה — עושות חיל"><img src="partners/aluma.png" alt="אלומה — עושות חיל" loading="lazy"></a>
       <a class="logo-cell" href="https://basecamp.org.il/" target="_blank" rel="noopener" title="בייסקאמפ"><img src="partners/basecamp.png" alt="בייסקאמפ" loading="lazy"></a>
@@ -416,27 +410,57 @@ footer a{color:var(--warm)}
       <a class="logo-cell" href="https://www.tashtit.org/" target="_blank" rel="noopener" title="תשתית — לחיזוק השירות הציבורי"><img src="partners/tashtit.png" alt="תשתית — לחיזוק השירות הציבורי" loading="lazy"></a>
       <a class="logo-cell" href="https://tvuna.org.il/" target="_blank" rel="noopener" title="תבונה — הדרך לכלכלה נבונה"><img src="partners/tvuna.png" alt="תבונה — הדרך לכלכלה נבונה" loading="lazy"></a>
       <a class="logo-cell" href="https://vertigo.org.il/" target="_blank" rel="noopener" title="עמותת ורטיגו למחול"><img src="partners/vertigo.png" alt="עמותת ורטיגו למחול" loading="lazy"></a>
-      <a class="logo-cell" href="https://yedidim-il.org/" target="_blank" rel="noopener" title="ידידים"><img src="partners/yedidim.png" alt="ידידים" loading="lazy"></a>
+      <a class="logo-cell" href="https://yedidim-il.org/" target="_blank" rel="noopener" title="ידידים — סיוע בדרכים"><img src="partners/yedidim.png" alt="ידידים — סיוע בדרכים" loading="lazy"></a>
       <a class="logo-cell" href="https://tikunolam.adi-il.org/" target="_blank" rel="noopener" title="יום אחד — תיקון עולם"><img src="partners/yom-echad-tikun-olam.png" alt="יום אחד — תיקון עולם" loading="lazy"></a>
     </div>
-    <div class="logo-note">ועוד עשרות עמותות ויוזמות ברחבי הארץ</div>
+    <div class="logo-note">ועוד עשרות עמותות ויוזמות ברחבי הארץ.</div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="f-logo"><img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳"></div>
-  <div class="font-heading" style="font-size:20px;color:#fff;letter-spacing:1px">קרן משפחת ברלוביץ׳</div>
-  <div style="font-size:11px;letter-spacing:2px;color:var(--warm);margin-top:4px">BERELOWITZ FAMILY FOUNDATION</div>
-  <div class="f-rule"></div>
-  <div>מצמיחים השפעה לדורות · לזכר ברי ברלוביץ׳ ז״ל</div>
-  <div style="margin-top:8px;font-size:12px;opacity:.6">גישה למערכת הניהול · <a href="#" onclick="openLogin();return false;">כניסה</a></div>
+<!-- ===================== QUOTE / STORIES ===================== -->
+<section class="quote" id="stories">
+  <div class="wrap fu">
+    <span class="quote-mark" aria-hidden="true">״</span>
+    <blockquote>מחווה קטנה יכולה לשנות מסלול חיים שלם. את זה ברי חווה על בשרו — וזה מה שמנחה אותנו עד היום.</blockquote>
+    <cite>— מתוך רוח הקרן</cite>
+    <svg class="brand-line" style="--len:260" viewBox="0 0 240 34" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M4,18 C60,4 90,30 130,16 C170,4 200,26 236,14"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="ftr" id="contact">
+  <div class="monogram" aria-hidden="true"></div>
+  <div class="ftr-in">
+    <div class="ftr-brand">
+      <div class="fb-name">קרן משפחת ברלוביץ׳</div>
+      <div class="fb-sub">Berelowitz Family Foundation</div>
+      <div class="fb-tag">מצמיחים השפעה לדורות · לזכר ברי ברלוביץ׳ ז״ל</div>
+    </div>
+    <div class="ftr-col">
+      <h4>ניווט</h4>
+      <a href="#story">אודות</a>
+      <a href="#work">הפעילות שלנו</a>
+      <a href="#partners">שותפים</a>
+      <a href="#stories">סיפורים</a>
+    </div>
+    <div class="ftr-col">
+      <h4>יצירת קשר</h4>
+      <a href="mailto:info@berelovitz.org">info@berelovitz.org</a>
+      <a href="#" onclick="openLogin();return false;">כניסה למורשים</a>
+    </div>
+  </div>
+  <div class="ftr-bottom">
+    <span>© 2026 קרן משפחת ברלוביץ׳. כל הזכויות שמורות.</span>
+    <span>מצמיחים השפעה לדורות</span>
+  </div>
 </footer>
 
-<!-- ===== LOGIN MODAL ===== -->
+<!-- ===================== LOGIN MODAL ===================== -->
 <div class="overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
   <form class="login" id="loginBox" autocomplete="off" onsubmit="return doLogin(event)">
-    <button type="button" class="lg-close" onclick="closeLogin()">×</button>
+    <button type="button" class="lg-close" aria-label="סגירה" onclick="closeLogin()">×</button>
     <div class="lg-logo"><img src="logo-berelovitz-new.png" alt="קרן ברלוביץ׳" style="width:100%;height:100%;object-fit:contain"></div>
     <h2>כניסה למורשים</h2>
     <div class="lg-hint">גישה למאגר העמותות ומדידת האימפקט — לחברי דירקטוריון וצוות הקרן</div>
@@ -454,52 +478,56 @@ footer a{color:var(--warm)}
 var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0JGp-JLQ5NQExopmbZ7rT6EfYODfKZmAfnPPj-p0jA/exec";
 var TARGET = "app.html";
 var SESSION_KEY = "berelovitz_gate_ok";
-// ת.ז מייסדת מורשית תמיד (מוצפנת) — כך שגם אם הרשימה בגיליון ריקה, לירון נכנסת.
 var OWNER_HASH = -1637438633;
 
 function hash(s){var x=0;for(var i=0;i<s.length;i++){x=((x<<5)-x+s.charCodeAt(i))|0}return x}
 
-function closeNav(){ document.getElementById("navLinks").classList.remove("open"); }
-function openLogin(){
-  document.getElementById("loginOverlay").classList.add("open");
-  setTimeout(function(){ var i=document.getElementById("pw"); if(i) i.focus(); }, 100);
+/* ---- nav ---- */
+function toggleNav(btn){
+  var n=document.getElementById("nav"); var open=n.classList.toggle("open");
+  btn.setAttribute("aria-expanded", open?"true":"false");
 }
+function closeNav(){ var n=document.getElementById("nav"); n.classList.remove("open");
+  var b=document.querySelector(".burger"); if(b) b.setAttribute("aria-expanded","false"); }
+
+/* ---- sticky header shadow after scroll ---- */
+var hdr=document.getElementById("hdr");
+function onScroll(){ if(window.scrollY>40) hdr.classList.add("stuck"); else hdr.classList.remove("stuck"); }
+window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+/* ---- fade-up on scroll ---- */
+(function(){
+  if(!("IntersectionObserver" in window)){ document.querySelectorAll(".fu").forEach(function(e){e.classList.add("in")}); return; }
+  var io=new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".fu").forEach(function(e){io.observe(e)});
+})();
+
+/* ---- login ---- */
+function openLogin(){ document.getElementById("loginOverlay").classList.add("open");
+  setTimeout(function(){ var i=document.getElementById("pw"); if(i) i.focus(); },100); }
 function closeLogin(){ document.getElementById("loginOverlay").classList.remove("open"); }
-
-// pass straight through if already authenticated this session
-try{ if(sessionStorage.getItem(SESSION_KEY)==="1"){ /* stay on landing; user chose to view */ } }catch(e){}
-
-function enter(){
-  try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(e){}
-  window.location.href = TARGET;
-}
+function enter(){ try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(e){} window.location.href=TARGET; }
 function fail(msg){
   var err=document.getElementById("lgErr"), box=document.getElementById("loginBox");
-  err.textContent = msg || "תעודת זהות לא מורשית";
-  err.classList.add("show");
+  err.textContent=msg||"תעודת זהות לא מורשית"; err.classList.add("show");
   box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
   var i=document.getElementById("pw"); i.value=""; i.focus();
 }
-
 window.doLogin=function(ev){
   ev.preventDefault();
   var val=(document.getElementById("pw").value||"").replace(/\D/g,"");
   if(!val){ fail("נא להזין תעודת זהות"); return false; }
-  // 1) owner always allowed
   if(hash(val)===OWNER_HASH){ enter(); return false; }
-  // 2) check against the authorized list in the sheet (live)
   var btn=document.getElementById("lgBtn"); btn.disabled=true; btn.textContent="בודק...";
   fetch(API + "?action=auth&id=" + encodeURIComponent(val) + "&t=" + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(d){
       btn.disabled=false; btn.textContent="כניסה למערכת";
-      if(d && d.ok && d.allowed){ enter(); }
-      else fail("תעודת זהות לא מורשית. פני למנהל הקרן.");
+      if(d && d.ok && d.allowed){ enter(); } else fail("תעודת זהות לא מורשית. פני למנהל הקרן.");
     })
-    .catch(function(){
-      btn.disabled=false; btn.textContent="כניסה למערכת";
-      fail("שגיאת חיבור. נסי שוב.");
-    });
+    .catch(function(){ btn.disabled=false; btn.textContent="כניסה למערכת"; fail("שגיאת חיבור. נסי שוב."); });
   return false;
 };
 document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeLogin(); });
