@@ -75,6 +75,11 @@ a{color:inherit}
 .track-row .t-bar{flex:1;height:22px;background:var(--light);border-radius:6px;overflow:hidden;position:relative}
 .track-row .t-fill{height:100%;background:linear-gradient(90deg,var(--warm),var(--warm-d));border-radius:6px;display:flex;align-items:center;justify-content:flex-start;padding-right:8px;color:#fff;font-size:11px;font-weight:600;min-width:24px}
 .track-row .t-count{font-size:13px;font-weight:700;color:var(--ink);min-width:26px;text-align:left}
+.track-row.drill{cursor:pointer;border-radius:8px;padding:2px 6px;margin:0 -6px 10px;transition:background .18s}
+.track-row.drill:hover{background:var(--lighter)}
+.track-row.drill:hover .t-fill{background:linear-gradient(90deg,var(--ink),var(--warm-d))}
+.drill-item{padding:12px 14px;border-bottom:1px solid #eee;cursor:pointer;transition:background .18s;border-radius:8px}
+.drill-item:hover{background:var(--lighter)}
 .status-tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .status-tile{background:var(--lighter);border-radius:10px;padding:16px;text-align:center;border:1px solid #eee}
 .status-tile .st-num{font-size:26px;font-weight:800}
@@ -184,6 +189,7 @@ table.data tr:hover td{background:#f9f7f4}
     </div>
   </div>
   <div class="header-actions">
+    <button class="hbtn" onclick="switchTab('dashboard')">🏠 עמוד הבית</button>
     <button class="hbtn" onclick="refreshData()">↻ רענון</button>
     <button class="hbtn" onclick="exportCSV()">⬇ ייצוא CSV</button>
   </div>
@@ -194,6 +200,7 @@ table.data tr:hover td{background:#f9f7f4}
   <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 דשבורד</button>
   <button class="tab" data-tab="list" onclick="switchTab('list')">📋 רשימת עמותות <span class="badge" id="tabCount">–</span></button>
   <button class="tab" data-tab="contacts" onclick="switchTab('contacts')">👥 אנשי קשר</button>
+  <button class="tab" data-tab="tracks" onclick="switchTab('tracks')">🏷️ מסלולים</button>
   <button class="tab" data-tab="admin" onclick="switchTab('admin')">⚙️ ניהול</button>
 </div>
 
@@ -205,16 +212,23 @@ table.data tr:hover td{background:#f9f7f4}
   <div class="page-title">תמונת מצב</div>
   <div class="page-sub">סיכום ההשפעה של הקרן על פני כל המסלולים</div>
   <div class="stat-grid" id="statGrid"></div>
+  <p style="font-size:12px;color:var(--border);margin:-8px 0 18px">💡 לחיצה על כל שורה בפילוח פותחת את רשימת העמותות שבה</p>
   <div class="panels">
     <div class="panel">
       <h3>פילוח לפי מסלול</h3>
-      <div id="trackChart"></div>
+      <div id="bdTrack"></div>
+    </div>
+    <div class="panel">
+      <h3>פילוח לפי סטטוס אישור</h3>
+      <div id="bdApproval"></div>
+    </div>
+    <div class="panel">
+      <h3>פילוח לפי גובה המענק</h3>
+      <div id="bdAmount"></div>
     </div>
     <div class="panel">
       <h3>סטטוס טיפול</h3>
       <div class="status-tiles" id="statusTiles"></div>
-      <h3 style="margin-top:22px">עדכונים אחרונים</h3>
-      <div id="recentLog" style="font-size:13px;color:#666"></div>
     </div>
   </div>
 </div>
@@ -242,28 +256,48 @@ table.data tr:hover td{background:#f9f7f4}
   <div class="table-wrap"><table class="data" id="contactsTable"></table></div>
 </div>
 
+<!-- Tracks (מסלולים) -->
+<div id="tab-tracks" class="page tab-page hidden">
+  <div class="page-title">מסלולים וקולות קוראים</div>
+  <div class="page-sub">ניהול המסלולים שאליהם משויכות העמותות</div>
+  <div class="controls">
+    <button class="btn-primary" onclick="openTrackForm()">➕ מסלול חדש</button>
+    <div class="count-badge" id="tracksCount"></div>
+  </div>
+  <div class="table-wrap"><table class="data" id="tracksTable"></table></div>
+</div>
+
 <!-- Admin -->
 <div id="tab-admin" class="page tab-page hidden">
   <div class="page-title">ניהול המערכת</div>
-  <div class="page-sub">הוספה, עריכה, מחיקה וייצוא של עמותות</div>
+  <div class="page-sub">הוספה, עריכה, מחיקה, ייבוא וייצוא</div>
   <div class="admin-grid">
     <div class="admin-card" onclick="openAddForm()">
       <div class="ac-icon">➕</div><div class="ac-title">הוספת עמותה</div>
       <div class="ac-desc">הוספת עמותה חדשה למאגר</div>
     </div>
-    <div class="admin-card" onclick="switchTab('list')">
-      <div class="ac-icon">✏️</div><div class="ac-title">עריכת עמותה</div>
-      <div class="ac-desc">לחיצה על כרטיס ברשימה ← עריכה</div>
+    <div class="admin-card" onclick="document.getElementById('importFile').click()">
+      <div class="ac-icon">📥</div><div class="ac-title">ייבוא מאקסל</div>
+      <div class="ac-desc">העלאת קובץ Excel/CSV ← הוספת עמותות</div>
+    </div>
+    <div class="admin-card" onclick="switchTab('tracks')">
+      <div class="ac-icon">🏷️</div><div class="ac-title">ניהול מסלולים</div>
+      <div class="ac-desc">הוספה, עריכה ומחיקה של מסלולים</div>
     </div>
     <div class="admin-card" onclick="exportCSV()">
       <div class="ac-icon">⬇️</div><div class="ac-title">ייצוא לאקסל</div>
       <div class="ac-desc">הורדת כל המאגר כקובץ CSV</div>
+    </div>
+    <div class="admin-card" onclick="switchTab('list')">
+      <div class="ac-icon">✏️</div><div class="ac-title">עריכת עמותה</div>
+      <div class="ac-desc">לחיצה על כרטיס ברשימה ← עריכה</div>
     </div>
     <div class="admin-card" onclick="openSheet()">
       <div class="ac-icon">📄</div><div class="ac-title">פתיחת הגיליון</div>
       <div class="ac-desc">עריכה ישירה ב-Google Sheets</div>
     </div>
   </div>
+  <input type="file" id="importFile" accept=".csv,.xlsx,.xls,.tsv" style="display:none" onchange="handleImportFile(event)">
   <div class="panel">
     <h3>סטטוס המערכת</h3>
     <div id="adminStatus" style="font-size:13px;color:#666"></div>
@@ -292,6 +326,7 @@ var USD_RATE = 3.7; // הערכה; ניתן לעדכן
 /* ============ STATE ============ */
 var DATA = [];
 var STATS = null;
+var TRACKS = [];
 var activeFilter = "all";
 var currentTab = "dashboard";
 
@@ -318,6 +353,7 @@ function loadData(){
       if(!d || !d.ok) throw new Error("bad response");
       DATA = d.rows || [];
       STATS = d.stats || null;
+      TRACKS = d.tracks || [];
       clearStatus();
       renderAll();
     })
@@ -347,9 +383,180 @@ function renderAll(){
   renderDashboard();
   renderList();
   renderContacts();
+  renderTracks();
   renderAdmin();
   document.getElementById("tabCount").textContent = DATA.length;
   buildFilters();
+}
+
+/* ============ tracks (מסלולים) ============ */
+function renderTracks(){
+  document.getElementById("tracksCount").textContent = TRACKS.length + " מסלולים";
+  var html = '<thead><tr><th>מסלול</th><th>עמותות</th><th>תאריך</th><th>תקציב</th><th>תיאור</th><th>פעולות</th></tr></thead><tbody>';
+  html += TRACKS.map(function(t){
+    var nameSafe = esc(t.name).replace(/'/g,"\\'");
+    return '<tr>'+
+      '<td class="td-org">'+esc(t.name)+'</td>'+
+      '<td><span class="pill ok" style="cursor:pointer" onclick="setFilter(\''+nameSafe+'\');switchTab(\'list\')">'+(t.orgCount||0)+' עמותות</span></td>'+
+      '<td>'+esc(t.date||"—")+'</td>'+
+      '<td>'+(t.budget?esc(t.budget):"—")+'</td>'+
+      '<td class="td-trunc">'+esc(t.description||"—")+'</td>'+
+      '<td style="white-space:nowrap"><button class="btn-secondary" style="padding:5px 10px;font-size:12px" onclick="openTrackForm(\''+nameSafe+'\')">ערוך</button> '+
+        '<button class="btn-danger" style="padding:5px 10px;font-size:12px" onclick="deleteTrack(\''+nameSafe+'\')">מחק</button></td>'+
+    '</tr>';
+  }).join("");
+  html += '</tbody>';
+  document.getElementById("tracksTable").innerHTML = html;
+}
+
+function openTrackForm(name){
+  var t = TRACKS.filter(function(x){return x.name===name;})[0] || {};
+  var isEdit = !!name;
+  document.getElementById("modalTitle").textContent = isEdit?"עריכת מסלול":"מסלול חדש";
+  var html = '<form onsubmit="return submitTrack(event,'+(isEdit?"'"+esc(name).replace(/'/g,"\\'")+"'":"null")+')">'+
+    '<div class="form-row"><label>שם המסלול</label><input name="name" value="'+esc(t.name||"")+'" required></div>'+
+    '<div class="form-grid">'+
+    '<div class="form-row"><label>תאריך / שנה</label><input name="date" value="'+esc(t.date||"")+'" placeholder="למשל 2026"></div>'+
+    '<div class="form-row"><label>תקציב</label><input name="budget" value="'+esc(t.budget||"")+'" placeholder="למשל 200,000 ₪"></div>'+
+    '</div>'+
+    '<div class="form-row"><label>תיאור</label><textarea name="description">'+esc(t.description||"")+'</textarea></div>'+
+    '<div class="form-actions"><button type="submit" class="btn-primary">💾 שמירה</button>'+
+    '<button type="button" class="btn-secondary" onclick="closeModal()">ביטול</button></div></form>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
+}
+function submitTrack(ev, origName){
+  ev.preventDefault();
+  var f = ev.target, row = {};
+  Array.prototype.forEach.call(f.elements, function(el){ if(el.name) row[el.name]=el.value; });
+  var body = origName ? {action:"track_update", origName:origName, name:row.name, date:row.date, budget:row.budget, description:row.description}
+                      : {action:"track_add", name:row.name, date:row.date, budget:row.budget, description:row.description};
+  toast("שומר...");
+  fetch(API,{method:"POST",body:JSON.stringify(body)}).then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){toast("נשמר ✓","ok");closeModal();setTimeout(loadData,600);} else throw new Error(d&&d.error||"שגיאה"); })
+    .catch(function(e){ toast("שגיאה: "+e.message,"err"); });
+  return false;
+}
+function deleteTrack(name){
+  var t = TRACKS.filter(function(x){return x.name===name;})[0];
+  var cnt = t? t.orgCount : 0;
+  var msg = 'למחוק את המסלול "'+name+'"?';
+  if(cnt>0) msg += '\n\n('+cnt+' עמותות משויכות אליו — הן לא יימחקו, רק המסלול יוסר מהרשימה)';
+  if(!confirm(msg)) return;
+  toast("מוחק...");
+  fetch(API,{method:"POST",body:JSON.stringify({action:"track_delete",name:name})}).then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){toast("נמחק ✓","ok");setTimeout(loadData,600);} else throw new Error(d&&d.error||"שגיאה"); })
+    .catch(function(e){ toast("שגיאה: "+e.message,"err"); });
+}
+
+/* ============ Excel/CSV import ============ */
+function handleImportFile(ev){
+  var file = ev.target.files[0];
+  if(!file) return;
+  ev.target.value = ""; // allow re-selecting same file
+  var name = file.name.toLowerCase();
+  if(name.endsWith(".csv") || name.endsWith(".tsv")){
+    var reader = new FileReader();
+    reader.onload = function(e){ previewImport(parseCSV(e.target.result)); };
+    reader.readAsText(file, "UTF-8");
+  } else if(name.endsWith(".xlsx") || name.endsWith(".xls")){
+    loadSheetJS(function(){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        try{
+          var wb = XLSX.read(new Uint8Array(e.target.result), {type:"array"});
+          var ws = wb.Sheets[wb.SheetNames[0]];
+          var rows = XLSX.utils.sheet_to_json(ws, {defval:""});
+          previewImport(rows);
+        }catch(err){ toast("שגיאה בקריאת האקסל: "+err.message,"err"); }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  } else { toast("פורמט לא נתמך. השתמשי ב-CSV או Excel","err"); }
+}
+function parseCSV(text){
+  text = text.replace(/^﻿/,"");
+  var rows = [], row = [], cur = "", inQ = false;
+  for(var i=0;i<text.length;i++){
+    var c = text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else inQ=false; }
+      else cur+=c;
+    } else {
+      if(c==='"') inQ=true;
+      else if(c===","){ row.push(cur); cur=""; }
+      else if(c==="\n"){ row.push(cur); rows.push(row); row=[]; cur=""; }
+      else if(c==="\r"){}
+      else cur+=c;
+    }
+  }
+  if(cur!==""||row.length){ row.push(cur); rows.push(row); }
+  if(!rows.length) return [];
+  var headers = rows[0].map(function(h){return String(h).trim();});
+  return rows.slice(1).filter(function(r){return r.join("").trim()!=="";}).map(function(r){
+    var o={}; headers.forEach(function(h,i){ o[h]=r[i]!=null?r[i]:""; }); return o;
+  });
+}
+// map arbitrary column headers (Hebrew or English) to our fields
+var IMPORT_MAP = {
+  "org":"org","שם":"org","שם העמותה":"org","עמותה":"org","name":"org","organization":"org",
+  "track":"track","מסלול":"track","קול קורא":"track",
+  "project":"project","פרויקט":"project","פרוייקט":"project",
+  "contact":"contact","איש קשר":"contact","אישקשר":"contact","נציג":"contact",
+  "email":"email","מייל":"email","אימייל":"email","דוא\"ל":"email","דואל":"email","e-mail":"email",
+  "phone":"phone","טלפון":"phone","נייד":"phone","טל":"phone",
+  "amount":"amount","סכום":"amount","מענק":"amount","סכום המענק":"amount","גובה מענק":"amount",
+  "beneficiaries":"beneficiaries","מוטבים":"beneficiaries","נהנים":"beneficiaries",
+  "what_for":"what_for","למה שימש":"what_for","תיאור":"what_for","מטרה":"what_for",
+  "notes":"notes","הערות":"notes"
+};
+function mapRow(raw){
+  var out = {};
+  Object.keys(raw).forEach(function(k){
+    var key = String(k).trim().toLowerCase();
+    var mapped = IMPORT_MAP[String(k).trim()] || IMPORT_MAP[key];
+    if(mapped) out[mapped] = raw[k];
+  });
+  return out;
+}
+function previewImport(rawRows){
+  if(!rawRows.length){ toast("הקובץ ריק","err"); return; }
+  var mapped = rawRows.map(mapRow).filter(function(r){ return String(r.org||"").trim()!==""; });
+  if(!mapped.length){
+    toast("לא נמצאה עמודת \"שם העמותה\" בקובץ","err");
+    return;
+  }
+  window._pendingImport = mapped;
+  document.getElementById("modalTitle").textContent = "ייבוא עמותות מקובץ";
+  var cols = ["org","track","contact","email","phone","amount"];
+  var colLabels = {org:"שם",track:"מסלול",contact:"איש קשר",email:"מייל",phone:"טלפון",amount:"סכום"};
+  var html = '<p style="margin-bottom:14px">נמצאו <b>'+mapped.length+'</b> עמותות בקובץ. תצוגה מקדימה:</p>'+
+    '<div class="table-wrap" style="max-height:340px;overflow:auto"><table class="data"><thead><tr>'+
+    cols.map(function(c){return '<th>'+colLabels[c]+'</th>';}).join("")+'</tr></thead><tbody>'+
+    mapped.slice(0,20).map(function(r){ return '<tr>'+cols.map(function(c){return '<td class="td-trunc">'+esc(r[c]||"")+'</td>';}).join("")+'</tr>'; }).join("")+
+    '</tbody></table></div>'+
+    (mapped.length>20?'<p style="font-size:12px;color:#888;margin-top:8px">...ועוד '+(mapped.length-20)+' עמותות</p>':'')+
+    '<div class="form-actions"><button class="btn-primary" onclick="confirmImport()">➕ הוסף '+mapped.length+' עמותות למאגר</button>'+
+    '<button class="btn-secondary" onclick="closeModal()">ביטול</button></div>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
+}
+function confirmImport(){
+  var rows = window._pendingImport || [];
+  if(!rows.length) return;
+  toast("מייבא "+rows.length+" עמותות...");
+  fetch(API,{method:"POST",body:JSON.stringify({action:"import",rows:rows})}).then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){ toast("נוספו "+d.added+" עמותות ✓","ok"); closeModal(); window._pendingImport=null; setTimeout(loadData,800);} else throw new Error(d&&d.error||"שגיאה"); })
+    .catch(function(e){ toast("שגיאה בייבוא: "+e.message,"err"); });
+}
+var _sheetJSLoaded = false;
+function loadSheetJS(cb){
+  if(_sheetJSLoaded && window.XLSX){ cb(); return; }
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+  s.onload = function(){ _sheetJSLoaded=true; cb(); };
+  s.onerror = function(){ toast("לא הצלחתי לטעון את קורא האקסל. נסי CSV.","err"); };
+  document.head.appendChild(s);
 }
 
 function renderDashboard(){
@@ -358,33 +565,74 @@ function renderDashboard(){
   var usd = total / USD_RATE;
   var grid = document.getElementById("statGrid");
   var avg = (s.count? total/s.count : 0);
+  var benef = s.totalBeneficiaries || 0;
+  var benefN = s.beneficiariesReported || 0;
   grid.innerHTML =
     statCard("עמותות שנתמכו", fmt(s.count||DATA.length), "מ-"+(s.trackCount||0)+" מסלולים", false) +
     statCard("סך התרומות", "₪"+fmt(Math.round(total)), "≈ $"+fmt(Math.round(usd)), false) +
-    statCard("מענק ממוצע", "₪"+fmt(Math.round(avg)), "לעמותה", true) +
-    statCard("קולות קוראים", fmt(s.trackCount||0), "מסלולי תמיכה", true);
+    statCard("מוטבים (לפחות)", fmt(Math.round(benef)), benefN+" עמותות דיווחו מספר", true) +
+    statCard("מענק ממוצע", "₪"+fmt(Math.round(avg)), "לעמותה", true);
 
-  // track chart
-  var tracks = (s.tracks)|| {};
-  var maxC = 0; for(var k in tracks){ if(tracks[k]>maxC) maxC=tracks[k]; }
+  // ==== breakdowns: פילוח לפי כל דבר, לחיצה פותחת את העמותות ====
   var order = ["עם כלביא","שאגת הארי","קול קורא 25","דוח מענק 25","השלמת פרטים"];
-  var keys = Object.keys(tracks).sort(function(a,b){var ia=order.indexOf(a),ib=order.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
-  document.getElementById("trackChart").innerHTML = keys.map(function(k){
-    var c=tracks[k], pct=maxC?Math.round(c/maxC*100):0;
-    return '<div class="track-row"><div class="t-name">'+esc(k)+'</div>'+
-      '<div class="t-bar"><div class="t-fill" style="width:'+pct+'%">'+c+'</div></div>'+
-      '<div class="t-count">'+c+'</div></div>';
-  }).join("") || '<p style="color:#999">אין נתונים</p>';
+  function sortKeys(obj, ord){
+    return Object.keys(obj).sort(function(a,b){
+      if(ord){var ia=ord.indexOf(a),ib=ord.indexOf(b);if(ia>=0||ib>=0)return (ia<0?99:ia)-(ib<0?99:ib);}
+      return obj[b]-obj[a];
+    });
+  }
+  function drawBars(obj, dim, ord){
+    var maxC=0; for(var k in obj){ if(obj[k]>maxC) maxC=obj[k]; }
+    var keys = sortKeys(obj, ord);
+    return keys.map(function(k){
+      var c=obj[k], pct=maxC?Math.round(c/maxC*100):0;
+      var safe = esc(k).replace(/'/g,"\\'");
+      return '<div class="track-row drill" onclick="drillIn(\''+dim+'\',\''+safe+'\')" title="לחצי לצפייה בעמותות">'+
+        '<div class="t-name">'+esc(k)+'</div>'+
+        '<div class="t-bar"><div class="t-fill" style="width:'+pct+'%">'+c+'</div></div>'+
+        '<div class="t-count">›</div></div>';
+    }).join("") || '<p style="color:#999">אין נתונים</p>';
+  }
+
+  document.getElementById("bdTrack").innerHTML  = drawBars(s.tracks||{}, "track", order);
+  document.getElementById("bdApproval").innerHTML = drawBars(s.byApproval||{}, "approval_status", null);
+  document.getElementById("bdAmount").innerHTML = drawBars(s.byAmount||{}, "_amountRange", ["עד ₪10,000","₪10,000–25,000","₪25,000–50,000","₪50,000 ומעלה","לא ידוע"]);
 
   // status tiles
   var st = s.status || {approved:0,sent:0,pending:0};
   document.getElementById("statusTiles").innerHTML =
-    '<div class="status-tile"><div class="st-num green">'+(st.approved||0)+'</div><div class="st-label">אושרו</div></div>'+
-    '<div class="status-tile"><div class="st-num blue">'+(st.sent||0)+'</div><div class="st-label">תרומה נשלחה</div></div>'+
-    '<div class="status-tile"><div class="st-num orange">'+(st.pending||0)+'</div><div class="st-label">ממתינים</div></div>';
+    '<div class="status-tile" onclick="drillIn(\'approval_status\',\'אושר\')" style="cursor:pointer"><div class="st-num green">'+(st.approved||0)+'</div><div class="st-label">אושרו</div></div>'+
+    '<div class="status-tile" onclick="drillIn(\'donation_sent\',\'כן\')" style="cursor:pointer"><div class="st-num blue">'+(st.sent||0)+'</div><div class="st-label">תרומה נשלחה</div></div>'+
+    '<div class="status-tile" onclick="drillIn(\'approval_status\',\'ממתין לאישור\')" style="cursor:pointer"><div class="st-num orange">'+(st.pending||0)+'</div><div class="st-label">ממתינים</div></div>';
+}
 
-  document.getElementById("recentLog").innerHTML =
-    '<p style="color:#aaa">רשומות אחרונות שנוספו/עודכנו יופיעו כאן.</p>';
+// range helper mirroring the server-side buckets (for drill-in filtering)
+function amountRange(a){
+  if (a <= 0) return 'לא ידוע';
+  if (a < 10000) return 'עד ₪10,000';
+  if (a < 25000) return '₪10,000–25,000';
+  if (a < 50000) return '₪25,000–50,000';
+  return '₪50,000 ומעלה';
+}
+// open a modal listing the orgs matching a breakdown cell
+function drillIn(dim, val){
+  var rows = DATA.filter(function(r){
+    if(dim==="_amountRange") return amountRange(num(r.amount))===val;
+    if(dim==="approval_status"){ var v=String(r.approval_status||"").trim()||"ממתין לאישור"; return v===val; }
+    if(dim==="donation_sent") return String(r.donation_sent||"").trim()===val;
+    return String(r[dim]||"")===val;
+  });
+  var dimLabel = {track:"מסלול","approval_status":"סטטוס אישור","_amountRange":"טווח סכום","donation_sent":"תרומה נשלחה"}[dim]||dim;
+  document.getElementById("modalTitle").textContent = dimLabel+": "+val+" ("+rows.length+")";
+  var html = rows.length? rows.map(function(r){
+    return '<div class="drill-item" onclick="openDetail('+r.id+')">'+
+      '<div style="font-weight:700">'+esc(r.org)+'</div>'+
+      '<div style="font-size:12px;color:#888;margin-top:2px">'+
+        (r.track?esc(r.track)+' · ':'')+(num(r.amount)?'₪'+fmt(num(r.amount)):'')+
+        (r.contact?' · '+esc(r.contact):'')+'</div></div>';
+  }).join("") : '<div class="empty"><div class="e-icon">🔍</div>אין עמותות בקטגוריה זו</div>';
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modal").classList.add("open");
 }
 function statCard(label,numv,sub,light){
   return '<div class="stat-card'+(light?' light':'')+'"><div class="sc-label">'+esc(label)+'</div>'+

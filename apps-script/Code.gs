@@ -85,17 +85,35 @@ function _nextId(rows){
   return max + 1;
 }
 
+function _amountRange(a){
+  if (a <= 0) return 'לא ידוע';
+  if (a < 10000) return 'עד ₪10,000';
+  if (a < 25000) return '₪10,000–25,000';
+  if (a < 50000) return '₪25,000–50,000';
+  return '₪50,000 ומעלה';
+}
 function _stats(rows){
-  var total = 0, benef = 0, benefCount = 0, byTrack = {}, statusCounts = {approved:0, sent:0, pending:0};
+  var total = 0, benef = 0, benefCount = 0;
+  var byTrack = {}, byApproval = {}, byAmount = {}, byTeam = {};
+  var statusCounts = {approved:0, sent:0, pending:0};
   rows.forEach(function(r){
     var a = parseFloat(String(r.amount).replace(/[^\d.]/g,''));
-    if (!isNaN(a)) total += a;
-    // beneficiaries is free-text ("כ-1000 צעירים") — sum ONLY when the field is a clean
-    // number (optionally with commas), otherwise it produces garbage (concatenated digits).
-    var braw = String(r.beneficiaries || '').trim().replace(/,/g,'');
-    if (/^\d+(\.\d+)?$/.test(braw)) { benef += parseFloat(braw); benefCount++; }
+    if (isNaN(a)) a = 0;
+    total += a;
+    // beneficiaries is free-text ("כ-1000 צעירים") — extract the FIRST number when present.
+    var braw = String(r.beneficiaries || '').replace(/,/g,'');
+    var bm = braw.match(/\d+/);
+    if (bm) { benef += parseInt(bm[0],10); benefCount++; }
+    // breakdowns
     var t = r.track || 'ללא מסלול';
     byTrack[t] = (byTrack[t] || 0) + 1;
+    var ap = String(r.approval_status || '').trim() || 'ממתין לאישור';
+    byApproval[ap] = (byApproval[ap] || 0) + 1;
+    var ar = _amountRange(a);
+    byAmount[ar] = (byAmount[ar] || 0) + 1;
+    var tm = String(r.team_status || '').trim() || 'ללא סטטוס';
+    byTeam[tm] = (byTeam[tm] || 0) + 1;
+    // status tiles
     var st = String(r.approval_status || '').trim();
     if (st === 'אושר') statusCounts.approved++;
     var ds = String(r.donation_sent || '').trim();
@@ -105,10 +123,13 @@ function _stats(rows){
   return {
     count: rows.length,
     totalAmount: total,
-    totalBeneficiaries: benef,      // sum of ONLY the clean-numeric beneficiary fields
-    beneficiariesReported: benefCount, // how many orgs reported a clean number
+    totalBeneficiaries: benef,       // sum of first-number-in-each-field
+    beneficiariesReported: benefCount, // how many of the orgs reported a countable number
     tracks: byTrack,
     trackCount: Object.keys(byTrack).length,
+    byApproval: byApproval,
+    byAmount: byAmount,
+    byTeam: byTeam,
     status: statusCounts
   };
 }
@@ -121,13 +142,49 @@ function doGet(e){
   if (action === 'meta'){
     return _json({ ok:true, stats: _stats(data.rows) });
   }
-  // ברירת מחדל: list — מחזיר גם את הנתונים וגם סטטיסטיקות
+  // ברירת מחדל: list — מחזיר גם את הנתונים, גם סטטיסטיקות, גם רשימת מסלולים
   return _json({
     ok: true,
     headers: data.headers,
     rows: data.rows,
-    stats: _stats(data.rows)
+    stats: _stats(data.rows),
+    tracks: _readTracks(data.rows)
   });
+}
+
+/* ---------- tracks (מסלולים) ---------- */
+var TRACKS_TAB = 'tracks';
+function _tracksSheet(create){
+  var ss = _ss();
+  var t = ss.getSheetByName(TRACKS_TAB);
+  if (!t && create){
+    t = ss.insertSheet(TRACKS_TAB);
+    t.appendRow(['name','date','budget','description']);
+    // seed with the 5 existing tracks so the list isn't empty
+    ['עם כלביא','שאגת הארי','קול קורא 25','דוח מענק 25','השלמת פרטים'].forEach(function(n){
+      t.appendRow([n,'','','']);
+    });
+  }
+  return t;
+}
+// returns [{name,date,budget,description,orgCount}]
+function _readTracks(orgRows){
+  var counts = {};
+  (orgRows||[]).forEach(function(r){ var t=r.track||''; if(t) counts[t]=(counts[t]||0)+1; });
+  var t = _tracksSheet(false);
+  var defined = [];
+  if (t){
+    var v = t.getDataRange().getValues();
+    for (var i=1;i<v.length;i++){
+      if (String(v[i][0]).trim()==='') continue;
+      defined.push({ name:String(v[i][0]).trim(), date:v[i][1]||'', budget:v[i][2]||'', description:v[i][3]||'', _rowIndex:i+1 });
+    }
+  }
+  var seen = {};
+  var out = defined.map(function(d){ seen[d.name]=true; return {name:d.name,date:d.date,budget:d.budget,description:d.description,orgCount:counts[d.name]||0}; });
+  // include any track that exists on orgs but isn't defined yet
+  Object.keys(counts).forEach(function(n){ if(!seen[n]) out.push({name:n,date:'',budget:'',description:'',orgCount:counts[n]}); });
+  return out;
 }
 
 /* ---------- POST ---------- */
@@ -175,6 +232,57 @@ function doPost(e){
     if (!tgt) return _json({ ok:false, error:'not found' });
     sh.deleteRow(tgt._rowIndex);
     _log('delete', 'org#' + body.id, (tgt.org) || '');
+    return _json({ ok:true });
+  }
+
+  // ---- bulk import: מוסיף מספר עמותות בבת אחת (מאקסל/CSV) ----
+  if (action === 'import'){
+    var items = body.rows || [];
+    var nextId = _nextId(data.rows);
+    var added = 0;
+    items.forEach(function(item){
+      if (!item || !String(item.org||'').trim()) return; // דלג על שורות בלי שם עמותה
+      var rid = nextId++;
+      var newRow = HEADERS.map(function(h){
+        if (h === 'id') return rid;
+        if (h === 'source_timestamp') return item[h] || new Date();
+        return (item[h] != null) ? item[h] : '';
+      });
+      sh.appendRow(newRow);
+      added++;
+    });
+    _log('import', 'orgs', added + ' עמותות');
+    return _json({ ok:true, added: added });
+  }
+
+  // ---- tracks: הוספה/עריכה/מחיקה של מסלול ----
+  if (action === 'track_add'){
+    var t = _tracksSheet(true);
+    t.appendRow([body.name||'', body.date||'', body.budget||'', body.description||'']);
+    _log('track_add', body.name||'', '');
+    return _json({ ok:true });
+  }
+  if (action === 'track_update'){
+    var t2 = _tracksSheet(true);
+    var vv = t2.getDataRange().getValues();
+    for (var i=1;i<vv.length;i++){
+      if (String(vv[i][0]).trim() === String(body.origName||body.name).trim()){
+        t2.getRange(i+1,1,1,4).setValues([[body.name||'', body.date||'', body.budget||'', body.description||'']]);
+        _log('track_update', body.name||'', '');
+        return _json({ ok:true });
+      }
+    }
+    // לא נמצא -> הוסף
+    t2.appendRow([body.name||'', body.date||'', body.budget||'', body.description||'']);
+    return _json({ ok:true });
+  }
+  if (action === 'track_delete'){
+    var t3 = _tracksSheet(true);
+    var v3 = t3.getDataRange().getValues();
+    for (var j=v3.length-1;j>=1;j--){
+      if (String(v3[j][0]).trim() === String(body.name).trim()){ t3.deleteRow(j+1); }
+    }
+    _log('track_delete', body.name||'', '');
     return _json({ ok:true });
   }
 
