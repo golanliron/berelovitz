@@ -88,7 +88,22 @@ section{padding:80px 32px}
 .dark-bg .icard h3{color:#fff}
 .dark-bg .icard p{color:rgba(255,255,255,.65)}
 
-/* story two-col */
+/* biography layout */
+.bio{display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start}
+@media(max-width:820px){.bio{grid-template-columns:1fr;gap:32px}}
+.bio-aside{position:sticky;top:96px;text-align:center}
+@media(max-width:820px){.bio-aside{position:static}}
+.bio-aside img{width:100%;max-width:260px;aspect-ratio:1/1;object-fit:cover;border-radius:14px;margin:0 auto;filter:grayscale(.08);border:1px solid var(--warm);box-shadow:0 16px 40px rgba(43,45,66,.15)}
+.bio-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--ink);margin-top:18px}
+.bio-years{font-size:13px;letter-spacing:3px;color:var(--warm-d);margin-top:2px}
+.bio-quote{margin-top:20px;padding:16px;background:var(--lighter);border:1px solid #ece7df;border-radius:12px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--ink);line-height:1.4}
+.bio-quote span{font-size:14px;color:var(--warm-d)}
+.bio-text{max-width:680px}
+.bio-lead{font-size:19px;font-weight:400;color:var(--ink);line-height:1.8;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--light)}
+.bio-text p{font-size:16px;color:#4a4a4a;font-weight:300;line-height:1.9;margin-bottom:18px}
+.bio-text em{font-style:italic;color:var(--warm-d);font-weight:400}
+
+/* story two-col (legacy) */
 .story-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
 @media(max-width:820px){.story-cols{grid-template-columns:1fr;gap:30px}}
 .story-block h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--warm-d);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--light)}
@@ -179,7 +194,6 @@ footer a{color:var(--warm)}
     <div class="memorial">לזכר ברי ברלוביץ׳ ז״ל</div>
     <div class="hero-rule"></div>
     <div class="hero-cta">
-      <a class="btn btn-gold" onclick="openLogin()">כניסה למערכת האימפקט</a>
       <a class="btn btn-ghost" href="#story">קראו על הקרן</a>
     </div>
   </div>
@@ -189,37 +203,47 @@ footer a{color:var(--warm)}
 <section id="story" class="alt-bg">
   <div class="wrap">
     <div class="sec-tag">הסיפור שלנו</div>
-    <h2 class="sec-title">מה מנחה אותנו</h2>
+    <h2 class="sec-title">לזכרו של ברי ברלוביץ׳</h2>
     <div class="sec-divider"></div>
-    <p class="sec-lead">קרן משפחתית, משפחתנית, משפיעה — עם זהות ברורה, שותפויות חזקות ומורשת תבנית. אנו פועלים למען שינוי חברתי אמיתי שנשאר לאורך זמן.</p>
 
-    <div class="story-cols">
-      <div class="story-block">
-        <h3>נקודת הפתיחה שלנו</h3>
-        <ul class="story-list">
-          <li>צוות מקצועי וקטן, עם תהליכים ברורים</li>
-          <li>ידע עמוק והבנה של השדה, עם יכולת הסתגלות מהירה למצבי קיצון</li>
-          <li>רשת קשרים ענפה ותרבות של למידה</li>
-          <li>בורד ומשפחה מעורבת ומובילה</li>
-        </ul>
-      </div>
-      <div class="story-block">
-        <h3>מה אנחנו עושים</h3>
-        <ul class="story-list">
-          <li>מעניקים מענקים אסטרטגיים</li>
-          <li>מייצרים ידע וכלים לצמיחה</li>
-          <li>בונים תשתיות ארוכות טווח</li>
-          <li>מאפשרים חדשנות וניסיונות</li>
-          <li>מקדמים מדידה ולמידה</li>
-          <li>מחברים בין אנשים</li>
-        </ul>
+    <div class="bio">
+      <aside class="bio-aside">
+        <img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל">
+        <div class="bio-name">ברי ברלוביץ׳</div>
+        <div class="bio-years">1938 — 2022</div>
+        <div class="bio-quote">״L.I.T.B.<br><span>תשאירו את זה לברי!</span>״</div>
+      </aside>
+      <div class="bio-text">
+        <p class="bio-lead">ברי ברלוביץ׳ ז״ל היה פילנתרופ נלהב שהתמסר למטרות רבות — ביניהן חינוך, חיי הקהילה היהודית וציונות. מסירותו לחילוץ אנשים מעוני התבססה על סיפור חייו האישי.</p>
+
+        <p>ברי נולד ביוהנסבורג, דרום אפריקה, לסם — מהגר מליטא — ולמרי, שמוצאה ממה שהיום בלארוס. סם נפטר כשברי היה פעוט, ומרי התקשתה לפרנס את שני ילדיה. למרבה הצער היא נפטרה ממחלת לב כשברי היה בן 11, והוא ואחותו הלן גדלו אצל דוד ודודה.</p>
+
+        <p>ברי הפך לתלמיד מצטיין באוניברסיטת ויטווטרסרנד, אך בשל מיעוט משאבים כספיים לא היה ביכולתו לשלם עבור ספרים — וכמעט נשר מהלימודים. ברגע האחרון הצליח לקבל מלגה קטנה, וסיים את לימודי החשבונאות כתלמיד השני בהצטיינות. הוא מעולם לא שכח את ההשפעה הגדולה שהייתה למחווה קטנה זו על חייו.</p>
+
+        <p>הגאונות החשבונאית שלו עשתה במהרה רושם במשרד רואי החשבון הנודע פישר הופמן, שם הפך לשותף מנהל בגיל צעיר. בשנת 1978 היגר ללוס אנג׳לס עם אשתו ג׳ואן ושתי בנותיו, היה שותף בקנת לוונטל — אחד ממשרדי ראיית החשבון הגדולים בארה״ב — והפך גם למשקיע נדל״ן. בשנת 1990 הקים את המשרד שלו בסן דייגו.</p>
+
+        <p>כבר מתחילת חייו הבוגרים תמך ברי במטרות שהאמין בהן, ועזר בנדיבות לאהוביו כדי לשפר את חייהם. הפילנתרופיה שלו התמקדה בעיקר בפרויקטים בישראל, שם תמך ביוזמות חינוך משמעותיות — הן דרך אורט, הארגון היהודי ללא כוונת רווח הגדול ביותר לחינוך, והן בסיוע למטרות שונות, בהן רעב בקרב ילדים. לאורך הקריירה שלו שימש בנדיבות כמנטור לאנשי מקצוע צעירים רבים, כשהוא מציע את ניסיונו וחוסנו כדוגמה.</p>
+
+        <p>ברי היה אב נלהב ואוהב, ידוע בחוש ההומור שלו ובתחומי העניין האינטלקטואליים הרחבים שלו. תחביביו האהובים כללו משחק שחמט ושמירה על כושר, והוא נהנה לפתור כל בעיה שנקרתה בדרכו — עד שטבע את הביטוי L.I.T.B. — <em>תשאירו את זה לברי!</em></p>
+
+        <p>בשנת 2010 נישא לאשתו השנייה, מרלין הייד. זוכרים את ברי באהבה — בנותיו, נכדו, ילדיו החורגים ונכדיו החורגים.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="grid grid-3" style="margin-top:44px">
-      <div class="icard"><div class="ic-icon">🌱</div><h3>שינוי בחיי אנשים</h3><p>שינויים משמעותיים בחיי אנשים וקהילות בכל רחבי הארץ.</p></div>
-      <div class="icard"><div class="ic-icon">🏛️</div><h3>חיזוק ארגונים</h3><p>חיזוק ארגונים ותשתיות שממשיכים להשפיע לאורך זמן.</p></div>
-      <div class="icard"><div class="ic-icon">📈</div><h3>השפעה מערכתית</h3><p>למידה מתמדת והשפעה רחבה על השדה החברתי.</p></div>
+<!-- ===== MISSION ===== -->
+<section class="dark-bg">
+  <div class="wrap">
+    <div class="sec-tag" style="color:var(--warm)">ייעוד הקרן</div>
+    <h2 class="sec-title">ממשיכים את הדרך</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-lead">קרן משפחת ברלוביץ׳ שמה לעצמה מטרה לקדם את החינוך העל־יסודי בישראל — לצמצם פערים לימודיים ולהגדיל את מתן ההזדמנות השווה בפריפריה ובקרב אוכלוסיות מוחלשות. בנוסף, הקרן מקדמת פרויקטים בתחום צמצום העוני והרווחה.</p>
+
+    <div class="grid grid-3">
+      <div class="icard"><div class="ic-icon">🎓</div><h3>חינוך על־יסודי</h3><p>קידום החינוך העל־יסודי בישראל וצמצום פערים לימודיים.</p></div>
+      <div class="icard"><div class="ic-icon">⚖️</div><h3>הזדמנות שווה</h3><p>הגדלת ההזדמנות השווה בפריפריה ובקרב אוכלוסיות מוחלשות.</p></div>
+      <div class="icard"><div class="ic-icon">🤲</div><h3>צמצום עוני ורווחה</h3><p>קידום פרויקטים בתחום צמצום העוני והרווחה.</p></div>
     </div>
   </div>
 </section>
@@ -280,20 +304,6 @@ footer a{color:var(--warm)}
   </div>
 </section>
 
-<!-- ===== MEMORIAL ===== -->
-<section class="alt-bg">
-  <div class="wrap">
-    <div class="mem">
-      <img src="beri-berelovitz.jpg" alt="ברי ברלוביץ׳ ז״ל">
-      <div>
-        <h3>לזכר ברי ברלוביץ׳ ז״ל</h3>
-        <div class="mem-role">Beri Berelovitz · מייסד הקרן</div>
-        <p>הקרן ממשיכה את מורשתו של ברי ברלוביץ׳ ז״ל — מורשת של חמלה, חינוך והשפעה על הקהילה. אנו נושאים את דמותו ואת סיפור חייו כמצפן לעשייה, ומצמיחים מתוכם השפעה שתימשך לדורות.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== CONTACT ===== -->
 <section id="contact" class="dark-bg">
   <div class="wrap">
@@ -304,9 +314,6 @@ footer a{color:var(--warm)}
       <p style="color:#555">לפניות, שיתופי פעולה ומידע נוסף על פעילות הקרן:</p>
       <div class="cc-mail"><a href="mailto:info@berelovitz.org">info@berelovitz.org</a></div>
       <p style="color:#888;font-size:14px">קרן משפחת ברלוביץ׳ · Berelowitz Family Foundation</p>
-      <div style="margin-top:24px">
-        <a class="btn btn-gold" onclick="openLogin()">כניסה למערכת האימפקט</a>
-      </div>
     </div>
   </div>
 </section>
