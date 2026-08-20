@@ -130,6 +130,8 @@ var API = "https://script.google.com/macros/s/AKfycbwb2wcoYoYyBdr2y0F8BYnevM7n0J
 var TARGET = "app.html";
 var SESSION_KEY = "berelovitz_gate_ok";
 var OWNER_HASH = -1637438633;
+// ת.ז מורשות נוספות (hash בלבד, כמו המייסדת) — נאווה
+var EXTRA_HASHES = [1131585570];
 
 function hash(s){var x=0;for(var i=0;i<s.length;i++){x=((x<<5)-x+s.charCodeAt(i))|0}return x}
 
@@ -147,7 +149,7 @@ window.doLogin=function(ev){
   ev.preventDefault();
   var val=(document.getElementById("pw").value||"").replace(/\D/g,"");
   if(!val){ fail("נא להזין תעודת זהות"); return false; }
-  if(hash(val)===OWNER_HASH){ enter(); return false; }
+  if(hash(val)===OWNER_HASH || EXTRA_HASHES.indexOf(hash(val))!==-1){ enter(); return false; }
   var btn=document.getElementById("lgBtn"); btn.disabled=true; btn.textContent="בודק...";
   fetch(API + "?action=auth&id=" + encodeURIComponent(val) + "&t=" + Date.now())
     .then(function(r){ return r.json(); })
