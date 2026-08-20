@@ -357,10 +357,11 @@ function renderDashboard(){
   var total = s.totalAmount || 0;
   var usd = total / USD_RATE;
   var grid = document.getElementById("statGrid");
+  var avg = (s.count? total/s.count : 0);
   grid.innerHTML =
     statCard("עמותות שנתמכו", fmt(s.count||DATA.length), "מ-"+(s.trackCount||0)+" מסלולים", false) +
     statCard("סך התרומות", "₪"+fmt(Math.round(total)), "≈ $"+fmt(Math.round(usd)), false) +
-    statCard("מוטבים (מוערך)", fmt(Math.round(s.totalBeneficiaries||0)), "נהנים ישירים", true) +
+    statCard("מענק ממוצע", "₪"+fmt(Math.round(avg)), "לעמותה", true) +
     statCard("קולות קוראים", fmt(s.trackCount||0), "מסלולי תמיכה", true);
 
   // track chart

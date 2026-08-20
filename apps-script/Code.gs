@@ -86,12 +86,14 @@ function _nextId(rows){
 }
 
 function _stats(rows){
-  var total = 0, benef = 0, byTrack = {}, statusCounts = {approved:0, sent:0, pending:0};
+  var total = 0, benef = 0, benefCount = 0, byTrack = {}, statusCounts = {approved:0, sent:0, pending:0};
   rows.forEach(function(r){
     var a = parseFloat(String(r.amount).replace(/[^\d.]/g,''));
     if (!isNaN(a)) total += a;
-    var b = parseFloat(String(r.beneficiaries).replace(/[^\d.]/g,''));
-    if (!isNaN(b)) benef += b;
+    // beneficiaries is free-text ("כ-1000 צעירים") — sum ONLY when the field is a clean
+    // number (optionally with commas), otherwise it produces garbage (concatenated digits).
+    var braw = String(r.beneficiaries || '').trim().replace(/,/g,'');
+    if (/^\d+(\.\d+)?$/.test(braw)) { benef += parseFloat(braw); benefCount++; }
     var t = r.track || 'ללא מסלול';
     byTrack[t] = (byTrack[t] || 0) + 1;
     var st = String(r.approval_status || '').trim();
@@ -103,7 +105,8 @@ function _stats(rows){
   return {
     count: rows.length,
     totalAmount: total,
-    totalBeneficiaries: benef,
+    totalBeneficiaries: benef,      // sum of ONLY the clean-numeric beneficiary fields
+    beneficiariesReported: benefCount, // how many orgs reported a clean number
     tracks: byTrack,
     trackCount: Object.keys(byTrack).length,
     status: statusCounts
