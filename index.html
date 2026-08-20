@@ -111,62 +111,55 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 }
 @media(max-width:380px){ .brand-txt small{display:none} }
 
-/* ---------- Hero ---------- */
-.hero{padding-block:clamp(48px,7vw,96px) 0;position:relative;overflow:hidden}
-.hero-grid{max-width:1400px;margin:0 auto;padding-inline:0 var(--gutter);
-  display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(28px,4vw,56px);align-items:center;min-height:clamp(480px,58vw,640px)}
-.hero-copy{position:relative;z-index:3;padding-inline-start:var(--gutter)}
-.hero h1{font-size:clamp(46px,5.6vw,88px);line-height:.98;font-weight:400;letter-spacing:-.03em}
-.hero h1 .accent{font-style:italic;font-weight:400}
-.hero .lead{margin-top:26px}
-.hero-cta{margin-top:38px}
-/* large edge-to-edge image panel with concave curved edge (like the mockup) */
-.hero-media{position:relative;z-index:2;align-self:stretch}
-.hero-media figure{position:absolute;inset:0;overflow:hidden;background:var(--purple-08);
-  border-radius:0 0 0 clamp(120px,20vw,280px)}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-.hero-media figcaption{position:absolute;bottom:14px;inset-inline-start:24px;z-index:3;
-  font-family:var(--sans);font-size:12px;color:rgba(243,240,232,.9);letter-spacing:.02em;
-  text-shadow:0 1px 4px rgba(0,0,0,.4)}
-/* connecting brand line between text and image */
-.hero-connect{position:absolute;inset:0;z-index:1;pointer-events:none}
-/* large cropped monogram bleeding off the left edge */
-.hero .monogram{width:min(620px,52vw);height:min(620px,52vw);left:-160px;top:40px;opacity:.05;transform:rotate(-4deg)}
+/* ---------- Hero (image bleeds to the edge with an organic curve, like the mockup) ---------- */
+.hero{position:relative;overflow:hidden;min-height:clamp(520px,44vw,680px);display:flex;align-items:center;padding:0}
+.hero-media{position:absolute;top:0;left:0;width:min(55%,880px);height:90%;z-index:2;overflow:hidden;
+  background:var(--purple-08);border-radius:0 clamp(120px,16vw,220px) clamp(260px,34vw,460px) 0}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.hero-inner{position:relative;z-index:3;width:100%;max-width:1240px;margin:0 auto;padding:clamp(56px,7vw,96px) var(--gutter)}
+.hero-copy{width:min(600px,46%)}
+.hero h1{font-size:clamp(44px,5vw,84px);line-height:1.04;font-weight:400;letter-spacing:-.03em}
+.hero .lead{margin-top:24px}
+.hero-cta{margin-top:36px}
+/* hand-drawn line: enters from the right, loops under the button, slips beneath the image */
+.hero-line{position:absolute;left:0;right:0;bottom:clamp(24px,5vw,64px);height:140px;z-index:1;pointer-events:none}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:28px;min-height:0;padding-inline:0}
-  .hero-copy{order:1;padding-inline:var(--gutter)}.hero-media{order:2;align-self:auto;height:340px}
-  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;word-break:normal;overflow-wrap:break-word}
-  .hero-media figure{position:relative;inset:auto;height:340px;border-radius:0 90px 0 90px;margin-inline-start:var(--gutter)}
-  .hero-media figcaption{color:rgba(243,240,232,.95)}
-  .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
+  .hero{display:block;min-height:0}
+  .hero-inner{padding:clamp(40px,8vw,56px) var(--gutter) 24px}
+  .hero-copy{width:100%}
+  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:-.02em;overflow-wrap:break-word}
+  .hero-media{position:relative;top:auto;left:auto;width:auto;height:320px;margin:0 var(--gutter) 0 0;
+    border-radius:0 110px 220px 0}
+  .hero-line{position:static;height:90px;margin-top:-30px}
 }
 @media(max-width:420px){
   .hero h1{font-size:clamp(34px,10.5vw,44px)}
 }
 
-/* ---------- Focus areas ---------- */
-.focus{border-top:1px solid var(--purple-15)}
-.focus-head{max-width:620px;margin-bottom:clamp(40px,5vw,64px)}
-.focus-head h2{font-size:clamp(40px,4vw,68px);line-height:1.05;margin-top:14px}
-.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--purple-15)}
-.focus-item{padding:40px 34px 40px 0;border-bottom:1px solid var(--purple-15);position:relative}
-.focus-item:not(:last-child){border-inline-end:1px solid var(--purple-15);padding-inline-end:34px}
-.focus-ic{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+/* ---------- Focus cards strip (single bordered row under hero, like mockup) ---------- */
+.focus{padding-block:clamp(26px,4vw,48px)}
+.focus .wrap{max-width:1400px}
+.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--purple-15)}
+.focus-item{display:flex;align-items:center;gap:18px;padding:28px 26px;color:inherit}
+.focus-item:not(:last-child){border-inline-end:1px solid var(--purple-15)}
+.focus-ic{flex-shrink:0;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .focus-ic svg{width:26px;height:26px;stroke:var(--ivory);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .focus-ic.sage{background:var(--sage)}.focus-ic.terracotta{background:var(--terracotta)}.focus-ic.mustard{background:var(--mustard)}
-.focus-item h3{font-size:26px;font-weight:600;margin-bottom:10px}
-.focus-item p{font-size:16px;color:var(--purple-75);line-height:1.65;max-width:340px}
-.focus-item .tlink{margin-top:18px}
+.focus-item h3{font-size:21px;font-weight:600;margin-bottom:3px}
+.focus-item p{font-size:14px;color:var(--purple-75);line-height:1.55;max-width:270px}
+.focus-arrow{margin-inline-start:auto;flex-shrink:0;width:22px;height:22px;stroke:var(--purple);fill:none;stroke-width:1.5;transition:transform .25s}
+.focus-item:hover .focus-arrow{transform:translateX(-5px)}
 @media(max-width:820px){
   .focus-grid{grid-template-columns:1fr}
-  .focus-item,.focus-item:not(:last-child){padding:32px 0;border-inline-end:none}
+  .focus-item:not(:last-child){border-inline-end:none;border-bottom:1px solid var(--purple-15)}
 }
 
-/* ---------- Impact statement ---------- */
-.impact{text-align:center;background:var(--ivory)}
+/* ---------- Impact statement (tinted band + gold hand line, like mockup) ---------- */
+.impact{text-align:center;background:#E9E7DB;padding-block:clamp(56px,7vw,92px)}
 .impact .wrap{position:relative;z-index:2}
-.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.4vw,44px);line-height:1.42;max-width:900px;margin:22px auto 0;color:var(--purple)}
-.impact .brand-line{max-width:280px;margin:40px auto 0;height:40px}
+.impact .impact-text{font-family:var(--serif);font-weight:400;font-size:clamp(23px,2.7vw,38px);line-height:1.45;max-width:840px;margin:18px auto 0;color:var(--purple)}
+.impact-gold{position:absolute;left:-20px;bottom:-8px;width:min(380px,42vw);height:90px;z-index:1;pointer-events:none}
+.impact-gold path{fill:none;stroke:var(--mustard);stroke-width:1.5;stroke-linecap:round}
 
 /* ---------- Story ---------- */
 .story{border-top:1px solid var(--purple-15);position:relative;overflow:hidden}
@@ -282,76 +275,69 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;color:var(--purple);letter-spa
 
 <!-- ===================== HERO ===================== -->
 <header class="hero" id="top">
-  <div class="monogram" aria-hidden="true"></div>
-  <div class="hero-grid">
+  <div class="hero-media fu">
+    <img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
+  </div>
+  <div class="hero-inner">
     <div class="hero-copy fu">
-      <h1>בונים הזדמנות.<br><span class="accent">מצמיחים שינוי</span> שנשאר.</h1>
+      <h1>בונים הזדמנות.<br>מצמיחים שינוי שנשאר.</h1>
       <p class="lead">אנו שותפים לאנשים ולארגונים שיוצרים השפעה חברתית משמעותית — שנשארת לאורך דורות.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#work">הפעילות שלנו
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        </a>
+        <a class="btn btn-primary" href="#work">הפעילות שלנו</a>
       </div>
     </div>
-    <div class="hero-media fu">
-      <figure>
-        <img src="beri-berelovitz.png" alt="ברי ברלוביץ׳ ז״ל, מייסד הקרן">
-      </figure>
-      <figcaption>ברי ברלוביץ׳ ז״ל · 1938–2022</figcaption>
-    </div>
   </div>
-  <svg class="brand-line" style="--len:1500;margin-top:-30px;height:120px" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,64 C260,26 420,104 660,66 C860,34 980,6 1140,44 C1250,70 1300,110 1440,72"/>
+  <svg class="hero-line brand-line" style="--len:1900" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M1440,88 C1330,56 1240,118 1120,98 C1084,92 1052,64 1072,46 C1090,30 1118,50 1094,70 C1058,98 970,106 870,98 C690,84 520,118 330,102 C190,90 70,106 0,74"/>
   </svg>
 </header>
 
 <!-- ===================== FOCUS AREAS ===================== -->
 <section class="focus" id="work">
   <div class="wrap">
-    <div class="focus-head fu">
-      <span class="eyebrow">הפעילות שלנו</span>
-      <h2>שותפות לטווח ארוך.<br>שינוי משמעותי.</h2>
-    </div>
-    <div class="focus-grid">
-      <div class="focus-item fu">
+    <div class="focus-grid fu">
+      <a class="focus-item" href="#story">
         <span class="focus-ic sage">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20c-4-1-7-4-7-9a5 5 0 0 1 7-4"/><path d="M11 20c0-6 2-10 8-12"/><path d="M11 20v-6"/></svg>
         </span>
-        <h3>הגישה שלנו</h3>
-        <p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית לאורך זמן.</p>
-        <a class="tlink" href="#story">קראו עוד
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
-      </div>
-      <div class="focus-item fu">
+        <div class="focus-txt">
+          <h3>הגישה שלנו</h3>
+          <p>תומכים ברעיונות מושרשים, בשותפויות חזקות ובצמיחה סבלנית.</p>
+        </div>
+        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </a>
+      <a class="focus-item" href="#story">
         <span class="focus-ic terracotta">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
         </span>
-        <h3>המיקוד שלנו</h3>
-        <p>חינוך, הזדמנות שווה ורווחה — עבור אנשים וקהילות, לטווח הארוך.</p>
-        <a class="tlink" href="#work">קראו עוד
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
-      </div>
-      <div class="focus-item fu">
+        <div class="focus-txt">
+          <h3>המיקוד שלנו</h3>
+          <p>חינוך, הזדמנות שווה ורווחה — לטווח הארוך.</p>
+        </div>
+        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </a>
+      <a class="focus-item" href="#partners">
         <span class="focus-ic mustard">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-4-6-9a4 4 0 0 1 6-3 4 4 0 0 1 6 3c0 5-6 9-6 9Z"/><path d="M12 9v4"/></svg>
         </span>
-        <h3>השותפים שלנו</h3>
-        <p>פועלים לצד עמותות וארגונים קרובים לשטח, לעשייה ולאנשים.</p>
-        <a class="tlink" href="#partners">לשותפים שלנו
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
-      </div>
+        <div class="focus-txt">
+          <h3>השותפים שלנו</h3>
+          <p>פועלים לצד עמותות וארגונים קרובים לשטח ולעשייה.</p>
+        </div>
+        <svg class="focus-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </a>
     </div>
   </div>
 </section>
 
 <!-- ===================== IMPACT STATEMENT ===================== -->
 <section class="impact">
+  <svg class="impact-gold" viewBox="0 0 360 80" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,52 C50,28 96,60 150,44 C182,34 196,10 178,6 C162,2 152,26 178,32 C220,42 280,30 360,24"/>
+  </svg>
   <div class="wrap">
     <span class="eyebrow mustard fu">האימפקט שלנו</span>
     <p class="impact-text fu">אנו משקיעים באנשים וברעיונות היום — כדי שקהילות יוכלו לפרוח מחר, ולדורות הבאים.</p>
-    <svg class="brand-line" style="--len:320" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M4,22 C70,4 110,36 160,20 C210,6 250,30 296,16"/>
-    </svg>
   </div>
 </section>
 
