@@ -213,15 +213,17 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
 }
 @media(max-width:760px){
   .hero{min-height:0}
-  .hero-grid{grid-template-columns:1fr;gap:0;min-height:0;padding-inline:0}
-  .hero-copy{order:1;padding:44px var(--gutter) 38px}.hero-copy::after{display:none}.hero-media{order:2;align-self:auto;height:auto}
-  .hero h1{font-size:clamp(38px,9vw,54px);letter-spacing:0;word-break:normal;overflow-wrap:break-word}
-  .hero .lead{font-size:18px}
-  .hero-media figure{position:relative;inset:auto;height:auto;aspect-ratio:4/3;border-radius:0 90px 0 90px;margin-inline:var(--gutter)}
-  .hero-media img{object-position:center center}
+  .hero-grid{grid-template-columns:minmax(0,52%) minmax(0,48%);gap:0;min-height:clamp(420px,112vw,540px);padding-inline:0;direction:ltr}
+  .hero-copy{order:1;padding:34px 12px 34px var(--gutter);text-align:left;direction:ltr;display:flex;flex-direction:column;justify-content:center}
+  .hero-copy::after{display:block;width:clamp(72px,18vw,126px);border-radius:0 0 clamp(120px,26vw,190px) 0}
+  .hero-media{order:2;align-self:stretch;height:auto}
+  .hero h1{font-size:clamp(29px,8.2vw,46px);line-height:1.06;letter-spacing:0;word-break:normal;overflow-wrap:break-word}
+  .hero .lead{font-size:clamp(14px,4vw,18px);line-height:1.5;text-align:left;margin:18px 0 0;max-width:100%}
+  .hero-media figure{position:absolute;inset:0;height:auto;aspect-ratio:auto;border-radius:0;margin-inline:0}
+  .hero-media img{object-position:63% center}
   .hero-media figcaption{color:rgba(243,240,232,.95)}
   .hero .monogram{width:70vw;height:70vw;left:-38vw;top:auto;bottom:-10vw;opacity:.045}
-  .hero>.brand-line{display:none}
+  .hero>.brand-line{display:block;right:40%;bottom:16px;height:96px!important;z-index:4}
 }
 @media(max-width:420px){
   .hero h1{font-size:clamp(34px,10.5vw,44px)}
@@ -611,13 +613,13 @@ body.lang-en .ftr-in,body.lang-en .ftr-bottom{text-align:left}
   .nav{inset:52px 0 auto 0;padding:10px var(--gutter) 20px}
   .nav a{font-size:16px;padding:11px 4px;text-align:right}
 
-  .hero-copy{padding:30px var(--gutter) 28px;text-align:center}
-  .hero h1{font-size:clamp(34px,10vw,45px);line-height:1.08}
-  .hero .lead{font-size:17px;line-height:1.62;margin:18px auto 0;text-align:center}
+  .hero-copy{padding:34px 12px 34px var(--gutter);text-align:left}
+  .hero h1{font-size:clamp(29px,8.2vw,46px);line-height:1.06}
+  .hero .lead{font-size:clamp(14px,4vw,18px);line-height:1.5;margin:18px 0 0;text-align:left}
   .hero-cta{margin-top:24px}
-  .hero-cta .btn{width:100%;justify-content:center;padding:14px 22px}
-  .hero-media figure{margin-inline:0;border-radius:0;aspect-ratio:1.16/1}
-  .hero-media img{object-position:center 34%;filter:grayscale(1) sepia(.08) contrast(.95) brightness(1.05)}
+  .hero-cta .btn{width:auto;justify-content:center;padding:13px 18px;font-size:14px}
+  .hero-media figure{margin-inline:0;border-radius:0;aspect-ratio:auto}
+  .hero-media img{object-position:63% center;filter:grayscale(1) sepia(.08) contrast(.95) brightness(1.05)}
   .hero-media figcaption{right:14px;bottom:14px;font-size:11px}
 
   .focus{padding-block:0}
@@ -1306,7 +1308,7 @@ var TEXT = {
     navWork:"Our Work",
     navImpact:"Our Impact",
     navPartners:"Partners",
-    heroTitle:"Building opportunity.<br><span class=\"accent\">Growing lasting</span> change.",
+    heroTitle:"Building opportunity<br><span class=\"accent\">Growing lasting</span> change.",
     heroLead:"We partner with people and organizations creating meaningful social impact that lasts for generations.",
     heroBtn:"Our Impact",
     heroCaption:"Beri Berelowitz, of blessed memory · 1938-2022",
